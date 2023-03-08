@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Linkive_AOS</string>
+    <string name="app_name">Linkive</string>
 
     <!-- Home -->
     <string name="home_title">홈</string>
