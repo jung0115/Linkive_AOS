@@ -17,5 +17,6 @@
     <color name="dark_gray">#9B9B9B</color>
 
     <!-- 기타 색상 -->
+    <color name="shadow_gray">#ECECEC</color>
 
 </resources>
