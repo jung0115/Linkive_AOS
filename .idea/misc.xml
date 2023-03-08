@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/drawable/ic_launcher_background.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selecor_menu_item_style.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_color.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_folder.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_home.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_item.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_item_style.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_label_color.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_mypage.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_search.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_text_color.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_folder.xml" value="0.25364583333333335" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_home.xml" value="0.25364583333333335" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_my_page.xml" value="0.25364583333333335" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_search.xml" value="0.25364583333333335" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/menu/bottom_navigation_menu.xml" value="0.2388888888888889" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
