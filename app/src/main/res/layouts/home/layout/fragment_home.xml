@@ -41,4 +41,16 @@
 
     </ScrollView>
 
+    <!-- url로 링크 추가 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_add_link_to_url"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="right|bottom"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_add_link_to_url"/>
+
 </FrameLayout>
