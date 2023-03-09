@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
     private fun initRecycler() {
         // 링크 리스트 recyclerview 세팅
         linkListAdapter = LinkListAdapter(
-            requireContext(),
+            requireContext()
         )
         binding.recyclerviewLinkList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerviewLinkList.adapter = linkListAdapter

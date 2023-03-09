@@ -35,7 +35,7 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_link_list_item_source" />
+            android:src="@drawable/ic_link_list_item_source_default" />
 
         <!-- 제목 Text -->
         <TextView
