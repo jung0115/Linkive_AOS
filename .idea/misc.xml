@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/drawable/ic_launcher_background.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/ic_menu_home_unselected.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/selector_menu_text_color.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/shape_menu_item_style.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable-v24/ic_launcher_foreground.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selecor_menu_item_style.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_color.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_folder.xml" value="0.152" />
