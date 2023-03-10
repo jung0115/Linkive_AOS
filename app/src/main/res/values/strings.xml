@@ -1,6 +1,31 @@
 <resources>
     <string name="app_name">Linkive_AOS</string>
 
+    <!-- Login -->
+    <string name="id_hint">아이디를 입력해주세요.</string>
+    <string name="password_hint">비밀번호를 입력해주세요.</string>
+    <string name="login">로그인</string>
+    <string name="find_id">아이디 찾기</string>
+    <string name="find_password">패스워드 찾기</string>
+    <string name="sign_up">회원 가입</string>
+    <string name="social_login">소셜 로그인</string>
+    <string name="id_or_password_error">아이디 혹은 비밀번호가 올바르지 않습니다.</string>
+    <string name="nickname_hint">닉네임을 입력해주세요.</string>
+    <string name="email_hint">이메일을 입력해주세요.</string>
+    <string name="password_check_hint">비밀번호를 한 번 더 입력해주세요.</string>
+    <string name="personal_information_agree">개인정보 제공에 동의합니다.</string>
+    <string name="email_error">이메일을 인증해주세요.</string>
+    <string name="id_error">이미 존재하는 아이디입니다.</string>
+    <string name="password_error">비밀번호는 영어 대소문자, 숫자, 특수문자 조합의 8~16자로 입력해주세요.</string>
+    <string name="password_check_error">비밀번호가 일치하지 않습니다.</string>
+    <string name="certification_number">인증번호</string>
+    <string name="certification_request">인증 요청</string>
+    <string name="certification">인증하기</string>
+    <string name="requst_message">회원님의 아이디가 이메일로 전송되었습니다.</string>
+    <string name="password_to_change_hint">변경할 비밀번호</string>
+    <string name="cancel">취소</string>
+    <string name="check">확인 </string>
+
     <!-- Home -->
     <string name="home_title">홈</string>
 
