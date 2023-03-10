@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/nav_host_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/nav_bottom"/>
+
+    <!-- 그림자 -->
+    <!--<View
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="-7dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/shape_menu_upper_shadow"
+        android:layout_above="@id/nav_bottom"/>-->
+
+    <!-- 하단 메뉴바 -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        app:itemBackground="@drawable/selector_menu_item"
+        app:itemIconSize="25dp"
+        style="@style/BottomNavigationView"
+        app:itemTextColor="@drawable/selector_menu_text_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_navigation_menu"/>
+
+</RelativeLayout>
