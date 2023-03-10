@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 하단 메뉴바 홈 메뉴 선택/미선택 아이콘 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_menu_home_unselected" android:state_checked="false"/>
+    <item android:drawable="@drawable/ic_menu_home_selected" android:state_checked="true"/>
+</selector>

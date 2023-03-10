@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bottom Navigation Label Text Size 지정 -->
+    <style name="BottomNavigationView">
+        <item name="itemTextAppearanceActive">@style/TextAppearance.BottomNavigationView.Active</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.BottomNavigationView.Inactive</item>
+    </style>
+
+    <!-- blank styles for better code readability-->
+    <style name="TextAppearance"/>
+    <style name="TextAppearance.BottomNavigationView"/>
+
+    <!-- inactive tab text style -->
+    <style name="TextAppearance.BottomNavigationView.Inactive">
+        <item name="android:textSize">8sp</item>
+    </style>
+
+    <!-- active tab text style -->
+    <style name="TextAppearance.BottomNavigationView.Active">
+        <item name="android:textSize">8sp</item>
+    </style>
+</resources>

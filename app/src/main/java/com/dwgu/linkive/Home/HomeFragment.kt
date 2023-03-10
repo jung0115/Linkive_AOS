@@ -5,56 +5,61 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dwgu.linkive.R
+import androidx.recyclerview.widget.GridLayoutManager
+import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
+import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
+import com.dwgu.linkive.databinding.FragmentHomeBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    // ViewBinding Setting
+    lateinit var binding: FragmentHomeBinding
+
+    // 링크 리스트 recyclerview adapter
+    private var linkListItems = mutableListOf<LinkListItem>()
+    private lateinit var linkListAdapter: LinkListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(layoutInflater);
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // recyclerview 세팅
+        initRecycler()
+
+        addLinkListItem(LinkListItem("테스트1"))
+        addLinkListItem(LinkListItem("테스트2"))
+        addLinkListItem(LinkListItem("테스트3"))
+        addLinkListItem(LinkListItem("테스트4"))
+        addLinkListItem(LinkListItem("테스트5"))
+        addLinkListItem(LinkListItem("테스트6"))
+        addLinkListItem(LinkListItem("테스트7"))
+        addLinkListItem(LinkListItem("테스트8"))
+    }
+
+    // recyclerview 세팅
+    private fun initRecycler() {
+        // 링크 리스트 recyclerview 세팅
+        linkListAdapter = LinkListAdapter(
+            requireContext()
+        )
+        binding.recyclerviewLinkList.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerviewLinkList.adapter = linkListAdapter
+        linkListAdapter.items = linkListItems
+    }
+
+    // 링크 리스트 아이템 추가
+    private fun addLinkListItem(linkListItem: LinkListItem) {
+        linkListItems.apply {
+            add(linkListItem)
+        }
+        linkListAdapter.notifyDataSetChanged()
     }
 }
