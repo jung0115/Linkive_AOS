@@ -34,14 +34,17 @@ class HomeFragment : Fragment() {
         // recyclerview 세팅
         initRecycler()
 
-        addLinkListItem(LinkListItem("테스트1"))
-        addLinkListItem(LinkListItem("테스트2"))
-        addLinkListItem(LinkListItem("테스트3"))
-        addLinkListItem(LinkListItem("테스트4"))
-        addLinkListItem(LinkListItem("테스트5"))
-        addLinkListItem(LinkListItem("테스트6"))
-        addLinkListItem(LinkListItem("테스트7"))
-        addLinkListItem(LinkListItem("테스트8"))
+        // 테스트 데이터
+        addLinkListItem(LinkListItem("테스트1", "폴더1",
+            "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
+            "instagram", null))
+        addLinkListItem(LinkListItem("테스트2", "폴더2", null, "twitter", null))
+        addLinkListItem(LinkListItem("테스트3", null, null, "naver_blog", null))
+        addLinkListItem(LinkListItem("테스트4", null, null, null, null))
+        addLinkListItem(LinkListItem("테스트5", "폴더5", null, null, null))
+        addLinkListItem(LinkListItem("테스트6", null, null, "twitter", null))
+        addLinkListItem(LinkListItem("테스트7", "폴더7", null, "twitter", null))
+        addLinkListItem(LinkListItem("테스트8", null, null, "twitter", null))
     }
 
     // recyclerview 세팅
