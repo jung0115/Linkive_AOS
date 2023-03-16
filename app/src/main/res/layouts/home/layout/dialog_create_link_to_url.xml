@@ -70,7 +70,7 @@
             android:dropDownWidth="match_parent"
             android:popupBackground="@drawable/selector_spinner_select_folder_popup"
             android:spinnerMode="dropdown"
-            android:dropDownVerticalOffset="0.35dp"/>
+            android:dropDownVerticalOffset="0.39dp"/>
 
     </LinearLayout>
 
