@@ -18,4 +18,9 @@
 
     <!-- No Folder -->
     <string name="folder_null">폴더 없음</string>
+
+    <!-- 정렬 - 최신순, 제목순 -->
+    <string name="spinner_sort_new">최신순</string>
+    <string name="spinner_sort_title">제목순</string>
+
 </resources>

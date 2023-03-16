@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
+import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -18,6 +21,14 @@ class HomeFragment : Fragment() {
     // 링크 리스트 recyclerview adapter
     private var linkListItems = mutableListOf<LinkListItem>()
     private lateinit var linkListAdapter: LinkListAdapter
+
+    // 링크 리스트 정렬 Spinner
+    // 정렬 기준 - 최신순, 제목순
+    private val linkListSortList = mutableListOf<String>()
+    // Spinner 어댑터
+    private var linkListSortAdapter: ArrayAdapter<String>? = null
+    // 선택된 정렬 기준
+    private var selectLinkListSort: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +56,25 @@ class HomeFragment : Fragment() {
         addLinkListItem(LinkListItem("테스트6", null, null, "twitter", null))
         addLinkListItem(LinkListItem("테스트7", "폴더7", null, "twitter", null))
         addLinkListItem(LinkListItem("테스트8", null, null, "twitter", null))
+
+        // 링크 리스트 정렬 Spinner
+        linkListSortList.add(getString(R.string.spinner_sort_new)) // 최신순
+        linkListSortList.add(getString(R.string.spinner_sort_title))   // 제목순
+        linkListSortAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_link_list_sort, linkListSortList)
+        binding.spinnerLinkListSort.adapter = linkListSortAdapter
+
+        // 정렬 Spinner 누르면 정렬 기준 선택 리스트 나타남
+        binding.spinnerLinkListSort.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // 선택된 정렬 기준
+                selectLinkListSort = binding.spinnerLinkListSort.getSelectedItem().toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
     }
 
     // recyclerview 세팅
