@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 링크 리스트 정렬 Spinner - 열었을 때 -->
+<!-- URL로 링크 추가 > 폴더 선택 Spinner - 열었을 때 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
                     <solid android:color="@color/white" />
-                    <stroke android:width="1.2dp" android:color="@color/main_color" />
-                    <corners android:radius="6dp" />
+                    <stroke android:width="1.3dp" android:color="@color/main_color" />
+                    <corners android:radius="10dp" />
                     <padding
                         android:top="9dp"
-                        android:left="12dp"
-                        android:right="9dp" />
+                        android:left="14dp"
+                        android:right="14dp" />
                 </shape>
             </item>
             <item
                 android:drawable="@drawable/ic_spinner_drop_up"
                 android:gravity="top|end"
-                android:width="11dp"
-                android:height="11dp" />
+                android:width="14dp"
+                android:height="14dp" />
         </layer-list>
     </item>
 </selector>

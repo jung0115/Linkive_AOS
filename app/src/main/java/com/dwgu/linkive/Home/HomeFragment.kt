@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
 import com.dwgu.linkive.R
@@ -34,7 +35,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(layoutInflater);
+        binding = FragmentHomeBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -75,6 +76,11 @@ class HomeFragment : Fragment() {
             }
         }
 
+        // Floating 버튼 선택 시 URL로 링크 추가 Dialog 열기
+        binding.btnCreateLinkToUrl.setOnClickListener {
+            val dialog = CreateLinkToUrlDialog(requireContext())
+            dialog.show()
+        }
     }
 
     // recyclerview 세팅
@@ -85,6 +91,7 @@ class HomeFragment : Fragment() {
         )
         binding.recyclerviewLinkList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerviewLinkList.adapter = linkListAdapter
+        binding.recyclerviewLinkList.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
         linkListAdapter.items = linkListItems
     }
 

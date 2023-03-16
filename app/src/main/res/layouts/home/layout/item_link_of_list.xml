@@ -45,7 +45,7 @@
             android:layout_marginLeft="7dp"
             android:text="제목"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -92,7 +92,7 @@
                 android:layout_marginRight="3dp"
                 android:text="@string/folder_null"
                 android:textColor="@color/black"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
 
             <ImageView
                 android:id="@+id/img_link_item_folder"

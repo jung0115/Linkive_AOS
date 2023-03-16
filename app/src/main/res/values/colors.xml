@@ -18,5 +18,6 @@
 
     <!-- 기타 색상 -->
     <color name="shadow_gray">#ECECEC</color>
+    <color name="white_purple">#9799E5</color>
 
 </resources>

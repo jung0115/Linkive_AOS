@@ -7,6 +7,7 @@
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/drawable/ic_launcher_background.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/drawable/ic_spinner_drop_up.xml" value="0.121" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/ic_menu_home_unselected.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/selector_menu_folder.xml" value="0.121" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/selector_menu_text_color.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/shape_menu_item_style.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/layout/activity_main.xml" value="0.25364583333333335" />
@@ -15,6 +16,9 @@
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/ic_spinner_drop_down.xml" value="0.121" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/ic_spinner_drop_up.xml" value="0.121" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selecor_menu_item_style.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/select_spinner_select_folder.xml" value="0.121" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_btn_cancel.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_dialog_edittext_input_url.xml" value="0.4" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_color.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_folder.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_home.xml" value="0.152" />
@@ -26,9 +30,14 @@
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_text_color.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_spinner_link_list_sort.xml" value="0.121" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_spinner_link_list_sort_popup.xml" value="0.12" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_spinner_select_folder.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_spinner_select_folder_popup.xml" value="0.121" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/shape_btn_confirm.xml" value="0.152" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/shape_dialog_create_link_radius.xml" value="0.121" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/shape_link_item_radius.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/shape_menu_upper_shadow.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/dialog_create_link_to_url.xml" value="0.2" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_folder.xml" value="0.25364583333333335" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_home.xml" value="0.152" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_my_page.xml" value="0.25364583333333335" />
@@ -36,6 +45,7 @@
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/item_link_item_form.xml" value="0.25364583333333335" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/item_link_of_list.xml" value="0.264" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/item_spinner_link_list_sort.xml" value="0.536" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/item_spinner_select_folder.xml" value="0.10989583333333333" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/menu/bottom_navigation_menu.xml" value="0.2388888888888889" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.152" />
       </map>
