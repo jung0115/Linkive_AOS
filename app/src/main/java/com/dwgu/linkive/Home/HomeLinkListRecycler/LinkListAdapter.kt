@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dwgu.linkive.ImageLoader.ImageLoader
 import com.dwgu.linkive.R
@@ -81,17 +82,18 @@ class LinkListAdapter(private val context: Context) :
             if(item.linkItemSource == null) {
                 binding.imgLinkItemSource.setImageResource(R.drawable.ic_link_list_item_source_default) // 링크 모를 때 표시하는 아이콘
             }
-            // 링크 출처 플랫폼이 인스타그램인 경우
-            else if(item.linkItemSource == "instagram") {
-                binding.imgLinkItemSource.setImageResource(R.drawable.ic_link_list_item_source_instagram)
+            // 링크 출처 플랫폼이 인스타그램, 트위터, 네이버블로그 중 하나인 경우
+            else {
+                val iconResourceName = "ic_link_list_item_source_" + item.linkItemSource
+                val iconResourceId = context.resources.getIdentifier(iconResourceName, "drawable", context.packageName)
+                binding.imgLinkItemSource.setImageResource(iconResourceId)
             }
-            // 링크 출처 플랫폼이 트위터인 경우
-            else if(item.linkItemSource == "twitter") {
-                binding.imgLinkItemSource.setImageResource(R.drawable.ic_link_list_item_source_twitter)
-            }
-            // 링크 출처 플랫폼이 네이버블로그인 경우
-            else if(item.linkItemSource == "naver_blog") {
-                binding.imgLinkItemSource.setImageResource(R.drawable.ic_link_list_item_source_naver_blog)
+
+            // 링크 기록 내용에 포함된 아이콘 리스트를 보여줄 recyclerview 세팅
+            binding.recyclerviewLinkItemForm.apply {
+                adapter = LinkItemFormAdapter(context).build(item.linkItemForms)
+                layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             }
         }
     }

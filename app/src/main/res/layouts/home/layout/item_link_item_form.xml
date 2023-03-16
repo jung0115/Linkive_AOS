@@ -5,5 +5,6 @@
     android:id="@+id/img_link_item_form"
     android:layout_width="8dp"
     android:layout_height="8dp"
+    android:layout_marginRight="3dp"
     android:scaleType="centerCrop"
     android:src="@drawable/ic_link_item_form_text" />

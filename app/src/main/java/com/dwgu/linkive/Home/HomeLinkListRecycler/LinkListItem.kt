@@ -1,7 +1,5 @@
 package com.dwgu.linkive.Home.HomeLinkListRecycler
 
-import android.graphics.Bitmap
-
 // 링크 리스트 아이템 Data
 data class LinkListItem(
     val linkTitle : String,                 // 제목
