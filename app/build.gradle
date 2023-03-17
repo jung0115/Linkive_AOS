@@ -27,9 +27,10 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
+                    'src/main/res/layouts/login',
                     'src/main/res/layouts/bottom-navi',
                     'src/main/res/layouts/home',
-                    'src/main/res/layouts/login',
+                    'src/main/res/layouts/link-view',
                     'src/main/res/layouts/folder',
                     'src/main/res/layouts/search',
                     'src/main/res/layouts/my-page',

@@ -45,7 +45,7 @@
             android:layout_marginLeft="7dp"
             android:text="제목"
             android:textColor="@color/black"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -66,12 +66,13 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true">
 
-            <ImageView
-                android:id="@+id/img_link_item_form"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_link_item_form_text" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_link_item_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_link_item_form" />
 
         </LinearLayout>
 
@@ -88,10 +89,10 @@
                 android:id="@+id/textview_link_item_folder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="3dp"
                 android:text="@string/folder_null"
                 android:textColor="@color/black"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
 
             <ImageView
                 android:id="@+id/img_link_item_folder"

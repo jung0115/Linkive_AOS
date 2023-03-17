@@ -9,11 +9,11 @@
     <color name="dark_gray">#9B9B9B</color>
 
     <!-- 기타 색상 -->
-    <color name="shadow_gray">#ECECEC</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF8080</color>
+    <color name="shadow_gray">#ECECEC</color>
+    <color name="white_purple">#9799E5</color>
     <color name="very_light_purple">#9799E5</color>
-
 
 </resources>

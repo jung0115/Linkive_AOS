@@ -46,4 +46,19 @@
 
     <!-- No Folder -->
     <string name="folder_null">폴더 없음</string>
+
+    <!-- 정렬 - 최신순, 제목순 -->
+    <string name="spinner_sort_new">최신순</string>
+    <string name="spinner_sort_title">제목순</string>
+
+    <!-- URL로 링크 추가 - hint -->
+    <string name="hint_create_link_to_url">URL을 입력해주세요.</string>
+
+    <!-- URL로 링크 추가 - 폴더 선택 Default -->
+    <string name="default_select_folder">폴더 선택</string>
+
+    <!-- 취소, 확인 -->
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
+
 </resources>
