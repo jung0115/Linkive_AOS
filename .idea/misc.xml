@@ -3,35 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/drawable/ic_add_link_to_url.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/drawable/ic_launcher_background.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/ic_menu_home_unselected.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/selector_menu_text_color.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/drawable/shape_menu_item_style.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/layout/activity_main.xml" value="0.25364583333333335" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/menu/bottom_navigation_menu.xml" value="0.25364583333333335" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable-v24/ic_launcher_foreground.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selecor_menu_item_style.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_color.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_folder.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_home.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_item.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_item_style.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_label_color.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_mypage.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_search.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/selector_menu_text_color.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/shape_link_item_radius.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/drawable/shape_menu_upper_shadow.xml" value="0.152" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/activity_main.xml" value="0.25364583333333335" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_folder.xml" value="0.25364583333333335" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_home.xml" value="0.176" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_my_page.xml" value="0.25364583333333335" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_search.xml" value="0.25364583333333335" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/item_link_item_form.xml" value="0.25364583333333335" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/layout/item_link_of_list.xml" value="0.264" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/home/menu/bottom_navigation_menu.xml" value="0.2388888888888889" />
-        <entry key="..\:/android/Linkive_AOS/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.152" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/drawable/button_outline.xml" value="0.1535" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/drawable/ic_logo.xml" value="0.117" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/home/drawable/shape_link_item_radius.xml" value="0.1075" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/home/layout/activity_main.xml" value="0.2346014492753623" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/home/layout/fragment_folder.xml" value="0.3140625" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/button_light_solid_raduis.xml" value="0.197" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/button_outline.xml" value="0.316" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/button_solid_elipse.xml" value="0.197" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/button_solid_raduis.xml" value="0.1075" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/ic_check.xml" value="0.197" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/ic_google_login_background.xml" value="0.167" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/ic_hide.xml" value="0.1075" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/ic_kakaotalk_login_background.xml" value="0.167" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/ic_naver_login_background.xml" value="0.167" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/drawable/ic_warning.xml" value="0.315" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/layout/fragment_find_id.xml" value="0.3828571428571429" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/layout/fragment_find_password.xml" value="0.3828571428571429" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/layout/fragment_login.xml" value="0.5" />
+        <entry key="..\:/Users/Dowon/Documents/GitHub/Linkive_AOS/app/src/main/res/layouts/login/layout/fragment_sign_up.xml" value="0.25" />
       </map>
     </option>
   </component>
