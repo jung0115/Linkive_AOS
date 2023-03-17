@@ -5,56 +5,63 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dwgu.linkive.R
+import androidx.recyclerview.widget.GridLayoutManager
+import com.dwgu.linkive.Folder.FolderListAdapter.FolderListAdapter
+import com.dwgu.linkive.Folder.FolderListAdapter.FolderListItem
+import com.dwgu.linkive.Folder.SortFolder.SortFolderAdapter
+import com.dwgu.linkive.databinding.FragmentFolderBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FolderFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FolderFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentFolderBinding? = null
+    private val binding get() = _binding!!
+
+    //폴더 리스트
+    private val folderOfList = arrayListOf<FolderListItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_folder, container, false)
+        _binding = FragmentFolderBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FolderFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FolderFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 폴더 정렬 스피너 어댑터 연결
+//        val sortFolderAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.item_sort_folder, android.R.layout.simple_spinner_dropdown_item)
+//        binding.spinnerSortFolder.adapter = sortFolderAdapter
+        val data: ArrayList<String> = arrayListOf()
+        data.add("생성순")
+        data.add("가나다순")
+        val sortFolderAdapter = SortFolderAdapter(requireContext(), data)
+        binding.spinnerSortFolder.adapter = sortFolderAdapter
+
+
+        // 폴더리스트 데이터 추가
+        addFolder("놀이공원")
+        addFolder("제주")
+        addFolder("진주")
+        // 폴더리스트 어댑터 연결
+        binding.recyclerviewFolderList.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerviewFolderList.adapter = FolderListAdapter(folderOfList)
+    }
+
+    //폴더 추가 메소드
+    fun addFolder(name: String){
+        val item = FolderListItem(name)
+        folderOfList.add(item)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

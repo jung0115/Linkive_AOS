@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".Folder.FolderFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:text="@string/folder_title" />
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="14dp">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/img_linkive_logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_linkive_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="33dp" />
+
+        <Spinner
+            android:id="@+id/spinner_sort_folder"
+            android:layout_width="61dp"
+            android:layout_height="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_linkive_logo"
+            android:spinnerMode="dropdown"
+            android:background="@drawable/shape_sort_folder"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="37dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_folder_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_sort_folder"
+            android:layout_marginTop="14dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
