@@ -1,17 +1,15 @@
-package com.dwgu.linkive.Folder.sortFolder
+package com.dwgu.linkive.Folder.SortFolder
 
-import android.R
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
 import com.dwgu.linkive.databinding.ItemSortFolderDropdownBinding
 import com.dwgu.linkive.databinding.ItemSortFolderNormalBinding
 
 
-class sortFolderAdapter(context: Context, var data: List<String>) : BaseAdapter() {
+class SortFolderAdapter(context: Context, var data: List<String>) : BaseAdapter() {
 
 
     //    var context: Context? = null
