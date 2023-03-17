@@ -21,10 +21,13 @@
     <string name="certification_number">인증번호</string>
     <string name="certification_request">인증 요청</string>
     <string name="certification">인증하기</string>
-    <string name="requst_message">회원님의 아이디가 이메일로 전송되었습니다.</string>
+    <string name="email_requst_message">회원님의 아이디가 이메일로 전송되었습니다.</string>
     <string name="password_to_change_hint">변경할 비밀번호</string>
     <string name="cancel">취소</string>
     <string name="check">확인 </string>
+    <string name="kakaotalk_login">카카오로 로그인</string>
+    <string name="naver_login">네이버로 로그인</string>
+    <string name="google_login">구글로 로그인</string>
 
     <!-- Home -->
     <string name="home_title">홈</string>
