@@ -23,7 +23,6 @@
     <string name="certification">인증하기</string>
     <string name="email_requst_message">회원님의 아이디가 이메일로 전송되었습니다.</string>
     <string name="password_to_change_hint">변경할 비밀번호</string>
-    <string name="cancel">취소</string>
     <string name="check">확인 </string>
     <string name="kakaotalk_login">카카오로 로그인</string>
     <string name="naver_login">네이버로 로그인</string>
@@ -40,9 +39,50 @@
 
     <!-- MyPage-->
     <string name="mypage_title">마이페이지</string>
+    <string name="nickname">닉네임</string>
+    <string name="id">1234</string>
+    <string name="page_sheet">Page Sheet</string>
+    <string name="basic">기본</string>
+    <string name="travel">여행</string>
+    <string name="study">공부</string>
+    <string name="dev">개발</string>
+    <string name="diary">일기</string>
+    <string name="check_list">체크\n리스트</string>
+    <string name="custom">커스텀</string>
+    <string name="add">+</string>
+    <string name="customer_service">고객 지원</string>
+    <string name="inquiry">문의하기</string>
+    <string name="logout">로그아웃</string>
+    <string name="quit">회원 탈퇴</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Inquiry -->
+    <string name="inquiry_content">Linkive를 사용해주셔서 감사합니다.\n\n서비스 사용과 관련해서 문의사항 또는 불편한 점이\n있다면 아래 메일로 의견을 보내주시기 바랍니다.</string>
+    <string name="dev_email">Linkive Email</string>
+
+    <!-- Quit -->
+    <string name="quit_content">회원을 탈퇴하시겠습니까?\n\n탈퇴할 경우 현재 아이디는 재사용 및 복구가\n불가능합니다. 탈퇴 후 회원정보 및 개인형\n서비스 이용 기록은 모두 삭제됩니다.\n\n계정 탈퇴를 원하시면 아래 정보를 입력 후\n탈퇴 버튼을 선택해주세요.</string>
+
+    <!-- Edit Profile-->
+    <string name="change_profile">프로필 변경</string>
+
+    <!-- Basic Page Sheet 확인 -->
+    <string-array name="basic_page_sheet_array">
+        <item>여행</item>
+        <item>공부</item>
+        <item>개발</item>
+        <item>일기</item>
+        <item>체크\n리스트</item>
+    </string-array>
+    <string name="place">주소</string>
+    <string name="photo">사진</string>
+    <string name="write">글</string>
+    <string name="link">링크</string>
+    <string name="code">코드</string>
+    <string name="todo">할 일</string>
+
+    <!-- Page Sheet Activity -->
+    <string name="page_sheet_name_hint">Page Sheet 이름 입력</string>
+    <string name="save">저장</string>
 
     <!-- No Folder -->
     <string name="folder_null">폴더 없음</string>

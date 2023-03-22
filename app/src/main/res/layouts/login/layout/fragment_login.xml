@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textSize="15sp"
-            android:background="@drawable/button_outline"
+            android:background="@drawable/button_outline_purple_30dp"
             android:hint="@string/id_hint"
             android:paddingLeft="10dp"/>
 
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textSize="15sp"
-            android:background="@drawable/button_outline"
+            android:background="@drawable/button_outline_purple_30dp"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
             android:paddingLeft="10dp" />

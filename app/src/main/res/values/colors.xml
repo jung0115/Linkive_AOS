@@ -7,6 +7,7 @@
     <color name="light_blue">#7AABE4</color>
     <color name="light_gray">#CDCDCD</color>
     <color name="dark_gray">#9B9B9B</color>
+    <color name="very_light_gray">#D9D9D9</color>
 
     <!-- 기타 색상 -->
     <color name="black">#FF000000</color>
