@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
+import com.dwgu.linkive.LinkView.LinkVIewFragment
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentHomeBinding
 
@@ -87,7 +88,10 @@ class HomeFragment : Fragment() {
     private fun initRecycler() {
         // 링크 리스트 recyclerview 세팅
         linkListAdapter = LinkListAdapter(
-            requireContext()
+            requireContext(),
+            onClickLinkItem = {
+                openLinkViewPage()
+            }
         )
         binding.recyclerviewLinkList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerviewLinkList.adapter = linkListAdapter
@@ -101,5 +105,14 @@ class HomeFragment : Fragment() {
             add(linkListItem)
         }
         linkListAdapter.notifyDataSetChanged()
+    }
+
+    // 링크 세부 페이지 열기
+    private fun openLinkViewPage() {
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .add(R.id.nav_host_fragment, LinkVIewFragment())
+            .commit()
     }
 }
