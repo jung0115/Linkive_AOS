@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 뷰 아이템 - 할일 체크박스 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:paddingHorizontal="4dp"
+    android:gravity="center_vertical">
+
+    <!-- 체크 아이콘 -->
+    <ImageView
+        android:id="@+id/img_link_view_checkbox"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_link_item_form_checkbox_unchecked"/>
+
+    <!-- 할일 내용 -->
+    <TextView
+        android:id="@+id/text_link_view_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="9dp"
+        android:text="할 일"
+        android:textColor="@color/black"
+        android:textSize="12sp"/>
+
+</LinearLayout>

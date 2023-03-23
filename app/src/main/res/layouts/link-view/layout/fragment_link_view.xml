@@ -97,7 +97,7 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/item_link_view_place"
+                layout="@layout/item_link_view_checkbox"
                 android:layout_below="@id/linearlayout_link_view_folder"
                 android:layout_marginHorizontal="30dp"/>
 
