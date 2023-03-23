@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingVertical="8dp"
     android:paddingHorizontal="10dp"
-    android:layout_marginBottom="15dp"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/shape_link_view_place_dash">
 
     <!-- 장소 아이콘 -->

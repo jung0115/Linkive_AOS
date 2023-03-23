@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -70,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="42dp"
-                android:layout_marginBottom="17dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center_vertical"
                 android:layout_below="@id/linearlayout_link_view_title"
                 android:layout_alignParentRight="true">
@@ -94,12 +95,16 @@
 
             </LinearLayout>
 
-            <include
+            <!-- 링크 View 아이템 리스트 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_link_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/item_link_view_checkbox"
-                android:layout_below="@id/linearlayout_link_view_folder"
-                android:layout_marginHorizontal="30dp"/>
+                android:layout_below="@+id/linearlayout_link_view_folder"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </RelativeLayout>
 

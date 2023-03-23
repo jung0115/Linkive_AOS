@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.dwgu.linkive.LinkView.LinkViewRecycler.*
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentLinkViewBinding
 
@@ -13,6 +15,10 @@ class LinkVIewFragment : Fragment() {
 
     // ViewBinding Setting
     lateinit var binding: FragmentLinkViewBinding
+
+    // 링크 View 페이지 아이템 Recyclerview
+    private val linkViewItems = mutableListOf<LinkViewItem>()
+    private lateinit var linkViewAdapter: LinkViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +32,36 @@ class LinkVIewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // recyclerview 세팅
+        initRecycler()
 
+        // 테스트 데이터
+        addLinkViewItem(LinkViewImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
+        addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))
+        addLinkViewItem(LinkViewPlaceItem("서울 송파구 올림픽로 240", "잠실동 40-1"))
+        addLinkViewItem(LinkViewLinkItem("백준 - 토마토(7569)", "https://www.acmicpc.net/problem/7569"))
+        addLinkViewItem(LinkViewCodeItem("System.out.print(“Hello, World!”);\n\n" +
+                "while(i < 10) {\ni++;\n}\n\nSystem.out.print(“Hello, World!”);\nSystem.out.print(“Hello, World!”);"))
+        addLinkViewItem(LinkViewCheckboxItem("할 일 1", true))
+        addLinkViewItem(LinkViewCheckboxItem("할 일 2", false))
+        addLinkViewItem(LinkViewImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
+        addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))
+    }
+
+    // 링크 View 페이지 아이템 recyclerview 세팅
+    private fun initRecycler() {
+        linkViewAdapter = LinkViewAdapter(requireContext())
+        binding.recyclerviewLinkView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerviewLinkView.adapter = linkViewAdapter
+        binding.recyclerviewLinkView.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
+        linkViewAdapter.items = linkViewItems
+    }
+
+    // 링크 View 페이지 아이템 추가
+    private fun addLinkViewItem(item: LinkViewItem) {
+        linkViewItems.apply {
+            add(item)
+        }
+        linkViewAdapter.notifyDataSetChanged()
     }
 }
