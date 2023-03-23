@@ -32,6 +32,9 @@ class LinkVIewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 페이지 정보 세팅 - 제목, 폴더, 출처 플랫폼
+        setLinkViewInformation("제목입니다", "instagram", "폴더1")
+
         // recyclerview 세팅
         initRecycler()
 
@@ -46,6 +49,27 @@ class LinkVIewFragment : Fragment() {
         addLinkViewItem(LinkViewCheckboxItem("할 일 2", false))
         addLinkViewItem(LinkViewImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
         addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))
+    }
+
+    // 페이지 정보 세팅 - 제목, 폴더, 출처 플랫폼
+    private fun setLinkViewInformation(title: String, source: String?, folder: String?) {
+        // 제목
+        binding.textviewLinkViewTitle.text = title
+
+        // 출처 플랫폼
+        // 출처 플랫폼이 존재하는 경우
+        if(source != null) {
+            val iconResourceName = "ic_link_list_item_source_" + source
+            val iconResourceId = resources.getIdentifier(iconResourceName, "drawable", requireContext().packageName)
+            binding.imgLinkViewSource.setImageResource(iconResourceId)
+        }
+
+        // 폴더
+        // 폴더가 존재하는 경우
+        if(folder != null) {
+            binding.imgLinkViewFolder.setImageResource(R.drawable.ic_folder_exist) // 폴더 존재 아이콘
+            binding.textviewLinkViewFolder.text = folder                           // 폴더명
+        }
     }
 
     // 링크 View 페이지 아이템 recyclerview 세팅
