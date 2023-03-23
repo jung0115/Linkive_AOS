@@ -70,6 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="42dp"
+                android:layout_marginBottom="17dp"
                 android:gravity="center_vertical"
                 android:layout_below="@id/linearlayout_link_view_title"
                 android:layout_alignParentRight="true">
@@ -92,6 +93,13 @@
                     android:src="@drawable/ic_folder_not_exist" />
 
             </LinearLayout>
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/item_link_view_place"
+                android:layout_below="@id/linearlayout_link_view_folder"
+                android:layout_marginHorizontal="30dp"/>
 
         </RelativeLayout>
 
