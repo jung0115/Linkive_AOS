@@ -16,4 +16,13 @@
     <color name="white_purple">#9799E5</color>
     <color name="very_light_purple">#9799E5</color>
 
+    <!-- 폴더 커버 색상 -->
+    <color name="cover_red">#FF8B8B</color>
+    <color name="cover_orange">#FFBB8B</color>
+    <color name="cover_yellow">#FFE58B</color>
+    <color name="cover_green">#8CEA8F</color>
+    <color name="cover_blue">#82B5F2</color>
+    <color name="cover_navy">#7A7EE4</color>
+    <color name="cover_purple">#C58BFF</color>
+    <color name="cover_gray">#A3A3A3</color>
 </resources>

@@ -51,6 +51,7 @@ class FolderFragment : Fragment() {
         addFolder("진주")
         // 폴더리스트 어댑터 연결
         binding.recyclerviewFolderList.layoutManager = GridLayoutManager(requireContext(), 2)
+
         binding.recyclerviewFolderList.adapter = FolderListAdapter(folderOfList)
     }
 

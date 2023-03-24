@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="150dp"
+    android:id="@+id/layout_folder_item"
+    android:layout_width="match_parent"
     android:layout_height="158dp"
-    android:elevation="5dp"
-    android:layout_marginHorizontal="4dp"
     android:layout_marginBottom="15dp"
-    android:background="@color/white">
+    android:layout_marginHorizontal="7.5dp"
+    android:background="@drawable/shape_folder_border"
+    android:elevation="3dp">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/img_folder_cover"
         android:layout_width="match_parent"
         android:layout_height="128dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/black"/>
+        android:background="@drawable/shape_folder_image_border"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_folder_property"
@@ -47,6 +50,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:id="@+id/textview_count_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/layout_folder_property"
@@ -56,5 +60,6 @@
         android:text="+2"
         android:textColor="@color/white"
         android:textSize="25sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

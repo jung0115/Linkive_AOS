@@ -9,8 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="14dp">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/img_linkive_logo"
@@ -24,22 +23,27 @@
 
         <Spinner
             android:id="@+id/spinner_sort_folder"
-            android:layout_width="61dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_linkive_logo"
             android:spinnerMode="dropdown"
             android:background="@drawable/shape_sort_folder"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="37dp"/>
+            android:layout_marginRight="28dp"
+            android:layout_marginTop="37dp"
+            android:paddingHorizontal="12dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_folder_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_sort_folder"
             android:layout_marginTop="14dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+            android:layout_marginHorizontal="14.5dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_sort_folder"
+            tools:listitem="@layout/item_folder_of_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

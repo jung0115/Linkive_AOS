@@ -1,6 +1,7 @@
 package com.dwgu.linkive.Folder.FolderListAdapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dwgu.linkive.R
@@ -18,6 +19,8 @@ class FolderListAdapter(private val List: List<FolderListItem>): RecyclerView.Ad
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {//view->viewholder로
         viewHolder.binding.textviewFolderName.text = List[position].name
+
+        viewHolder.binding.imgFolderCover.setImageResource(List[position].cover)
     }
 
     //동일
