@@ -10,6 +10,7 @@ import com.dwgu.linkive.Folder.FolderListAdapter.FolderListAdapter
 import com.dwgu.linkive.Folder.FolderListAdapter.FolderListItem
 import com.dwgu.linkive.Folder.SortFolder.SortFolderAdapter
 import com.dwgu.linkive.databinding.FragmentFolderBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class FolderFragment : Fragment() {
     private var _binding: FragmentFolderBinding? = null
@@ -53,6 +54,14 @@ class FolderFragment : Fragment() {
         binding.recyclerviewFolderList.layoutManager = GridLayoutManager(requireContext(), 2)
 
         binding.recyclerviewFolderList.adapter = FolderListAdapter(folderOfList)
+
+
+        // 메뉴 버튼 클릭 시 FolderMenuBottomSheet 띄움
+        binding.btnFolderMenu.setOnClickListener {
+            val bottomSheetFragment = FolderMenuBottomSheetFragment()
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        }
+
     }
 
     //폴더 추가 메소드
