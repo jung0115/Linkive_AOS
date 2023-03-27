@@ -106,7 +106,40 @@
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+            <!-- PageSheet 미선택 시 나오는 부분 -->
+            <LinearLayout
+                android:id="@+id/linearlayout_unselect_pagesheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/shape_unselect_pagesheet_dash"
+                android:layout_below="@id/recyclerview_link_view"
+                android:paddingVertical="90dp"
+                android:visibility="gone">
 
+                <!-- PageSheet 선택 안내 문구 -->
+                <TextView
+                    android:id="@+id/text_unselect_pagesheet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아직 선택된 Page Sheet 가 없습니다.\nPage Sheet를 선택하여 글을 작성해보세요."
+                    android:textSize="10sp"
+                    android:textColor="@color/dark_gray"/>
+
+                <!-- PageSheet 선택 버튼 -->
+                <ImageButton
+                    android:id="@+id/btn_select_pagesheet"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_select_pagesheet"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

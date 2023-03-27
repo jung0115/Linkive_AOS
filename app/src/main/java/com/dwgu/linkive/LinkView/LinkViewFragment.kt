@@ -20,6 +20,9 @@ class LinkVIewFragment : Fragment() {
     private val linkViewItems = mutableListOf<LinkViewItem>()
     private lateinit var linkViewAdapter: LinkViewAdapter
 
+    // PageSheet 선택 정보
+    private var pageSheet: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,12 +38,17 @@ class LinkVIewFragment : Fragment() {
         // 페이지 정보 세팅 - 제목, 폴더, 출처 플랫폼
         setLinkViewInformation("제목입니다", "instagram", "폴더1")
 
+        // PageSheet 미선택 상태일 때
+        if(pageSheet == null) {
+            binding.linearlayoutUnselectPagesheet.visibility = View.VISIBLE
+        }
+
         // recyclerview 세팅
         initRecycler()
 
         // 테스트 데이터
         addLinkViewItem(LinkViewImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
-        addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))
+        /*addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))
         addLinkViewItem(LinkViewPlaceItem("서울 송파구 올림픽로 240", "잠실동 40-1"))
         addLinkViewItem(LinkViewLinkItem("백준 - 토마토(7569)", "https://www.acmicpc.net/problem/7569"))
         addLinkViewItem(LinkViewCodeItem("System.out.print(“Hello, World!”);\n\n" +
@@ -48,7 +56,7 @@ class LinkVIewFragment : Fragment() {
         addLinkViewItem(LinkViewCheckboxItem("할 일 1", true))
         addLinkViewItem(LinkViewCheckboxItem("할 일 2", false))
         addLinkViewItem(LinkViewImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
-        addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))
+        addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))*/
     }
 
     // 페이지 정보 세팅 - 제목, 폴더, 출처 플랫폼
