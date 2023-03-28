@@ -63,5 +63,23 @@
 
     </RelativeLayout>
 
+    <!-- 검색 결과 -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/taylayout_search_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabTextAppearance="@style/search_result_tab_text"
+        app:tabTextColor="@color/dark_gray"
+        app:tabSelectedTextColor="@color/main_color"
+        app:tabIndicatorColor="@color/main_color"
+        android:layout_below="@+id/linearlayout_search_input"
+        android:visibility="gone"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_search_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/taylayout_search_result"
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -29,4 +29,10 @@
         <item name="backgroundTint">@android:color/transparent</item>
     </style>
 
+    <!-- 검색결과 탭 글자 크기 & 스타일 -->
+    <style name="search_result_tab_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
