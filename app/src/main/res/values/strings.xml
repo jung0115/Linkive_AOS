@@ -50,6 +50,16 @@
     <string name="manage_link_move_folder">폴더 이동</string>
     <string name="manage_link_goto_url">링크로 접속</string>
     <string name="manage_link_delete_page">삭제하기</string>
+    <string name="notice_delete_link">해당 링크 페이지를\n영구적으로 삭제하시겠습니까?</string>
+    <string name="select_pagesheet">Page Sheet 선택</string>
+    <string name="pagesheet_label_default">기본</string>
+    <string name="pagesheet_label_custom">커스텀</string>
+    <string name="pagesheet_free">자유</string>
+    <string name="pagesheet_trip">여행</string>
+    <string name="pagesheet_study">공부</string>
+    <string name="pagesheet_programming">개발</string>
+    <string name="pagesheet_diary">일기</string>
+    <string name="pagesheet_checklist">체크 리스트</string>
 
     <!-- Search -->
     <string name="search_title">검색</string>

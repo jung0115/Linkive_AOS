@@ -25,13 +25,23 @@ class ManageLinkBottomFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 폴더 이동 버튼 선택 시 -> 폴더 선택 bottomSheet
+        // 폴더 이동 버튼 선택 시 -> 폴더 선택 BottomSheet
         binding.relativelayoutMoveFolder.setOnClickListener(View.OnClickListener {
             // 현재 BottomSheet 닫기
             dismiss()
 
             // 폴더 선택 BottomSheet 열기
             val bottomSheet = MoveFolderBottomFragment()
+            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
+        })
+
+        // 삭제하기 버튼 선택 시 -> 링크 삭제 확인 BottomSheet
+        binding.relativelayoutDeletePage.setOnClickListener(View.OnClickListener {
+            // 현재 BottomSheet 닫기
+            dismiss()
+
+            // 링크 삭제 확인 BottomSheet 열기
+            val bottomSheet = DeleteLinkBottomFragment()
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         })
     }

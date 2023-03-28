@@ -5,82 +5,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="15dp"
-    android:paddingHorizontal="45dp"
-    android:gravity="center_horizontal"
     android:background="@drawable/shape_bottom_sheet_radius"
-    android:orientation="vertical"
     tools:context=".LinkView.LinkViewBottomSheet.MoveFolderBottomFragment">
 
-    <!-- BottomSheet 상단에 있는 수평바 -->
-    <View
-        android:layout_width="90dp"
-        android:layout_height="5dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/shape_bottom_sheet_bar_radius"/>
-
-    <!-- BottomSheet 제목 - 폴더 이동 -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="6dp"
-        android:layout_marginBottom="23dp"
-        android:text="@string/manage_link_move_folder"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:background="@drawable/shape_bottom_sheet_title_style"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_move_folder"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_move_folder"/>
-
-    <!-- 취소, 확인 버튼 -->
-    <LinearLayout
-        android:id="@+id/linearlayout_cancel_confirm_btns"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <!-- 취소 버튼 -->
-        <Button
-            android:id="@+id/btn_cancel_move_folder"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/shape_btn_cancel"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:paddingVertical="9dp"
-            android:paddingHorizontal="65dp"
-            android:text="@string/cancel"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:paddingVertical="15dp"
+            android:paddingHorizontal="45dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <!-- 확인 버튼 -->
-        <Button
-            android:id="@+id/btn_confirm_move_folder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:paddingVertical="9dp"
-            android:paddingHorizontal="65dp"
-            android:background="@drawable/shape_btn_confirm"
-            android:text="@string/confirm"
-            android:textSize="11sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"/>
+            <!-- BottomSheet 상단에 있는 수평바 -->
+            <View
+                android:layout_width="90dp"
+                android:layout_height="5dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/shape_bottom_sheet_bar_radius"/>
 
-    </LinearLayout>
+            <!-- BottomSheet 제목 - 폴더 이동 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="6dp"
+                android:layout_marginBottom="23dp"
+                android:text="@string/manage_link_move_folder"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@drawable/shape_bottom_sheet_title_style"/>
+
+            <!-- 폴더 리스트 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_move_folder"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_move_folder"/>
+
+            <!-- 취소, 확인 버튼 -->
+            <LinearLayout
+                android:id="@+id/linearlayout_cancel_confirm_btns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <!-- 취소 버튼 -->
+                <Button
+                    android:id="@+id/btn_cancel_move_folder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/shape_btn_cancel"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingVertical="9dp"
+                    android:paddingHorizontal="65dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <!-- 확인 버튼 -->
+                <Button
+                    android:id="@+id/btn_confirm_move_folder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingVertical="9dp"
+                    android:paddingHorizontal="65dp"
+                    android:background="@drawable/shape_btn_confirm"
+                    android:text="@string/confirm"
+                    android:textSize="11sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

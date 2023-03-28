@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewAdapter
-import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewItem
 import com.dwgu.linkive.LinkView.MoveFolderRecycler.MoveFolderAdapter
 import com.dwgu.linkive.LinkView.MoveFolderRecycler.MoveFolderItem
 import com.dwgu.linkive.databinding.FragmentMoveFolderBottomBinding
@@ -38,9 +36,19 @@ class MoveFolderBottomFragment : BottomSheetDialogFragment() {
         initRecycler()
 
         // 샘플 데이터
-        addMoveFolderItem(MoveFolderItem("폴더1", true)) // 첫번째 값 선택하도록
+        addMoveFolderItem(MoveFolderItem("폴더1", true)) // 첫번째 값 선택하도록 또는 현재 폴더
         addMoveFolderItem(MoveFolderItem("폴더2"))
         addMoveFolderItem(MoveFolderItem("폴더3"))
+
+        // 취소 버튼 선택 시
+        binding.btnCancelMoveFolder.setOnClickListener {
+            dismiss()
+        }
+
+        // 확인 버튼 선택 시
+        binding.btnConfirmMoveFolder.setOnClickListener {
+            dismiss()
+        }
     }
 
     // 폴더 이동 아이템 recyclerview 세팅
@@ -48,7 +56,7 @@ class MoveFolderBottomFragment : BottomSheetDialogFragment() {
         moveFolderAdapter = MoveFolderAdapter(requireContext())
         binding.recyclerviewMoveFolder.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewMoveFolder.adapter = moveFolderAdapter
-        //binding.recyclerviewMoveFolder.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
+        binding.recyclerviewMoveFolder.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
         moveFolderAdapter.items = moveFolderItems
     }
 

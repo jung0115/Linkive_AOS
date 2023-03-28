@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwgu.linkive.LinkView.LinkViewBottomSheet.ManageLinkBottomFragment
+import com.dwgu.linkive.LinkView.LinkViewBottomSheet.SelectPagesheetBottomFragment
 import com.dwgu.linkive.LinkView.LinkViewRecycler.*
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentLinkViewBinding
@@ -62,6 +63,12 @@ class LinkVIewFragment : Fragment() {
         // 제목 오른쪽 점 3개 버튼 선택 시 BottomSheet 나오게
         binding.btnLinkViewManage.setOnClickListener {
             val bottomSheet = ManageLinkBottomFragment()
+            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
+        }
+
+        // PageSheet 미선택 상태에서 PageSheet 선택 버튼
+        binding.btnSelectPagesheet.setOnClickListener {
+            val bottomSheet = SelectPagesheetBottomFragment()
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         }
     }
