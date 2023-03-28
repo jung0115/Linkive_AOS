@@ -63,6 +63,7 @@
 
     <!-- Search -->
     <string name="search_title">검색</string>
+    <string name="search_hint">검색어를 입력해주세요.</string>
 
     <!-- Folder-->
     <string name="folder_title">폴더</string>
