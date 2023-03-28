@@ -39,7 +39,7 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
         binding = DialogCreateLinkToUrlBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setCancelable(false) // 다이얼로그의 바깥 화면을 눌렀을 때 다이얼로그가 닫히지 않도록 함
+        //setCancelable(false) // 다이얼로그의 바깥 화면을 눌렀을 때 다이얼로그가 닫히지 않도록 함
 
         // URL 입력창 기본 입력 자판이 영문 자판으로 나오게
         binding.edittextInputUrl.privateImeOptions = "defaultInputmode=english"
