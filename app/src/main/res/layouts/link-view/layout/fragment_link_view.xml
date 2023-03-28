@@ -125,7 +125,8 @@
                     android:id="@+id/text_unselect_pagesheet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="아직 선택된 Page Sheet 가 없습니다.\nPage Sheet를 선택하여 글을 작성해보세요."
+                    android:gravity="center_horizontal"
+                    android:text="@string/non_pagesheet_notice"
                     android:textSize="10sp"
                     android:textColor="@color/dark_gray"/>
 

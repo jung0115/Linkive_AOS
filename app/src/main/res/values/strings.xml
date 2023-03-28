@@ -30,6 +30,26 @@
 
     <!-- Home -->
     <string name="home_title">홈</string>
+    <!-- No Folder -->
+    <string name="folder_null">폴더 없음</string>
+    <!-- 정렬 - 최신순, 제목순 -->
+    <string name="spinner_sort_new">최신순</string>
+    <string name="spinner_sort_title">제목순</string>
+    <!-- URL로 링크 추가 - hint -->
+    <string name="hint_create_link_to_url">URL을 입력해주세요.</string>
+    <!-- URL로 링크 추가 - 폴더 선택 Default -->
+    <string name="default_select_folder">폴더 선택</string>
+    <!-- 취소, 확인 -->
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
+
+    <!-- Link View -->
+    <string name="non_pagesheet_notice">아직 선택된 Page Sheet 가 없습니다.\nPage Sheet를 선택하여 글을 작성해보세요.</string>
+    <string name="manage_link">링크 관리</string>
+    <string name="manage_link_edit_page">페이지 수정</string>
+    <string name="manage_link_move_folder">폴더 이동</string>
+    <string name="manage_link_goto_url">링크로 접속</string>
+    <string name="manage_link_delete_page">삭제하기</string>
 
     <!-- Search -->
     <string name="search_title">검색</string>
@@ -42,22 +62,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!-- No Folder -->
-    <string name="folder_null">폴더 없음</string>
-
-    <!-- 정렬 - 최신순, 제목순 -->
-    <string name="spinner_sort_new">최신순</string>
-    <string name="spinner_sort_title">제목순</string>
-
-    <!-- URL로 링크 추가 - hint -->
-    <string name="hint_create_link_to_url">URL을 입력해주세요.</string>
-
-    <!-- URL로 링크 추가 - 폴더 선택 Default -->
-    <string name="default_select_folder">폴더 선택</string>
-
-    <!-- 취소, 확인 -->
-    <string name="cancel">취소</string>
-    <string name="confirm">확인</string>
 
 </resources>

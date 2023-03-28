@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dwgu.linkive.LinkView.LinkViewBottomSheet.ManageLinkBottomFragment
 import com.dwgu.linkive.LinkView.LinkViewRecycler.*
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentLinkViewBinding
@@ -57,6 +58,12 @@ class LinkVIewFragment : Fragment() {
         addLinkViewItem(LinkViewCheckboxItem("할 일 2", false))
         addLinkViewItem(LinkViewImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
         addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))*/
+
+        // 제목 오른쪽 점 3개 버튼 선택 시 BottomSheet 나오게
+        binding.btnLinkViewManage.setOnClickListener {
+            val bottomSheet = ManageLinkBottomFragment()
+            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
+        }
     }
 
     // 페이지 정보 세팅 - 제목, 폴더, 출처 플랫폼
