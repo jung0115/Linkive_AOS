@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction().remove(currentFragment!!).commit()
                     supportFragmentManager.popBackStack()
                 }
-                // 현재 프래그먼트가 기록, 검색, 설정 페이지 중 하나인 경우
+                // 현재 프래그먼트가 하단 메뉴를 눌렀을 때 나오는 첫 페이지 중 하나인 경우
                 else {
                     Toast.makeText(this, "종료하시려면 뒤로가기를 한번 더 눌러주세요.", Toast.LENGTH_SHORT).show()
                     doubleBackToExit = true
