@@ -48,7 +48,8 @@
             android:text="제목"
             android:textColor="@color/black"
             android:textSize="13sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:bufferType="spannable"/>
 
     </LinearLayout>
 
@@ -94,7 +95,8 @@
                 android:layout_marginRight="3dp"
                 android:text="@string/folder_null"
                 android:textColor="@color/black"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:bufferType="spannable"/>
 
             <ImageView
                 android:id="@+id/img_link_item_folder"

@@ -3,9 +3,10 @@ package com.dwgu.linkive.Search.SearchResultTab
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 
 // 검색 결과 ViewPager 어댑터
-class SearchViewPagerAdapter (manager: FragmentManager): FragmentPagerAdapter(manager) {
+class SearchViewPagerAdapter (manager: FragmentManager): FragmentStatePagerAdapter(manager) {
 
     var fragmentList: MutableList<Fragment> = arrayListOf()
     var titleList: MutableList<String> = arrayListOf()
