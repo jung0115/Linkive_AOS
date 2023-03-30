@@ -34,7 +34,7 @@ class NoticeNotSaveBottomFragment : BottomSheetDialogFragment() {
         binding.btnConfirmBackPage.setOnClickListener {
             dismiss()
 
-            // 페이지 닫기
+            // 링크 편집 페이지 닫기
             requireActivity().finish()
         }
     }

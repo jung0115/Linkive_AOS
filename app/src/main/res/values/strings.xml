@@ -72,6 +72,17 @@
     <string name="add_checkbox">할 일을 입력하세요.</string>
     <string name="notice_not_save">저장하지 않고 나가면 변경사항을 잃게 됩니다.\n페이지를 벗어나시겠습니까?</string>
     <string name="notice_delete_edit_item">선택한 아이템을 삭제하시겠습니까?</string>
+    <string name="option_text">글 관리</string>
+    <string name="option_image">이미지 관리</string>
+    <string name="option_place">주소 관리</string>
+    <string name="option_link">링크 관리</string>
+    <string name="option_code">코드 관리</string>
+    <string name="option_checkbox">할 일 관리</string>
+    <string name="delete_edit_item">아이템 삭제하기</string>
+    <string name="set_image">이미지 설정/변경</string>
+    <string name="set_link_url">링크 url 초기화</string>
+    <string name="set_place">주소 설정/변경</string>
+    <string name="set_contents">내용 초기화</string>
 
     <!-- Search -->
     <string name="search_title">검색</string>

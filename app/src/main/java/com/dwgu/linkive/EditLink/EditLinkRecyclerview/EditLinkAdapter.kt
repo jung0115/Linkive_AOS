@@ -16,7 +16,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 // 링크 편집 페이지 아이템 Recyclerview Adapter
-class EditLinkAdapter (private val context: Context) :
+class EditLinkAdapter (
+    private val context: Context,
+    val onClickItemOption: (itemCategory: String) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // ViewBinding Setting
@@ -188,8 +190,13 @@ class EditLinkAdapter (private val context: Context) :
                 binding.imgEditLinkImageView.visibility = View.GONE
             }
 
-            // 이미지 입력 버튼 눌렀을 때
             // 옵션 버튼 눌렀을 때
+            binding.btnOptionEditLinkImage.setOnClickListener {
+                // 이미지 아이템 옵션 BottomSheet 열기
+                onClickItemOption("image")
+            }
+
+            // 이미지 입력 버튼 눌렀을 때
         }
     }
 
@@ -207,6 +214,10 @@ class EditLinkAdapter (private val context: Context) :
             }
 
             // 옵션 버튼 눌렀을 때
+            binding.btnOptionEditLinkText.setOnClickListener {
+                // 글 아이템 옵션 BottomSheet 열기
+                onClickItemOption("text")
+            }
         }
     }
 

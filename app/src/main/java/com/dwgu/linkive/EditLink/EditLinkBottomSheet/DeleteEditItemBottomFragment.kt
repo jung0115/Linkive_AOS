@@ -23,6 +23,18 @@ class DeleteEditItemBottomFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 삭제 취소
+        binding.btnCancelDeleteEditItem.setOnClickListener {
+            dismiss()
+        }
+
+        // 삭제 확인
+        binding.btnConfirmDeleteEditItem.setOnClickListener {
+            dismiss()
+
+            // 삭제할 아이템 정보 전달
+        }
     }
 
 }

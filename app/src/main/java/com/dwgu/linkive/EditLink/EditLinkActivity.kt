@@ -1,10 +1,7 @@
 package com.dwgu.linkive.EditLink
 
-import android.app.ActivityManager
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -13,11 +10,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwgu.linkive.EditLink.EditLinkBottomSheet.NoticeNotSaveBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditImageBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditTextBottomFragment
 import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
-import com.dwgu.linkive.LinkView.LinkViewBottomSheet.MoveFolderBottomFragment
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityEditLinkBinding
 
@@ -188,7 +185,12 @@ class EditLinkActivity : AppCompatActivity() {
 
     // 링크 Edit 페이지 아이템 recyclerview 세팅
     private fun initRecycler() {
-        editLinkAdapter = EditLinkAdapter(this)
+        editLinkAdapter = EditLinkAdapter(
+            this,
+            onClickItemOption = {
+                openItemOptionBottomSheet(it)
+            }
+        )
         binding.recyclerviewEditLink.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewEditLink.adapter = editLinkAdapter
         //binding.recyclerviewEditLink.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
@@ -201,6 +203,24 @@ class EditLinkActivity : AppCompatActivity() {
             add(item)
         }
         editLinkAdapter.notifyDataSetChanged()
+    }
+
+    // 아이템 옵션 BottomSheet 열기
+    private fun openItemOptionBottomSheet(itemCategory: String) {
+        // 이미지 아이템 옵션 BottomSheet
+        if(itemCategory == "image") {
+            val bottomSheet = OptionEditImageBottomFragment()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
+        // 글 아이템 옵션 BottomSheet
+        else if(itemCategory == "text") {
+            val bottomSheet = OptionEditTextBottomFragment()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
+        // 주소(장소) 아이템 옵션 BottomSheet
+        // 링크 아이템 옵션 BottomSheet
+        // 코드 아이템 옵션 BottomSheet
+        // 할 일 아이템 옵션 BottomSheet
     }
 
     // 이전 버튼 - 폰에 있는 이전 버튼
