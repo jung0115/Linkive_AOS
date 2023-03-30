@@ -1,7 +1,10 @@
 package com.dwgu.linkive.EditLink
 
+import android.app.ActivityManager
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -10,8 +13,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.NoticeNotSaveBottomFragment
 import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
+import com.dwgu.linkive.LinkView.LinkViewBottomSheet.MoveFolderBottomFragment
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityEditLinkBinding
 
@@ -145,5 +151,17 @@ class EditLinkActivity : AppCompatActivity() {
             add(item)
         }
         editLinkAdapter.notifyDataSetChanged()
+    }
+
+    private var doubleBackToExit = false
+    // 이전 버튼 - 폰에 있는 이전 버튼
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        // 내용 저장 안 하고 벗어나면 저장 안 되는 거 안내하는 BottomSheet 열기
+        val bottomSheet = NoticeNotSaveBottomFragment()
+        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+    }
+    fun runDelayed(millis: Long, function: () -> Unit) {
+        Handler(Looper.getMainLooper()).postDelayed(function, millis)
     }
 }

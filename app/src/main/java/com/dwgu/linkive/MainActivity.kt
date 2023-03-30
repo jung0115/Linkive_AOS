@@ -10,8 +10,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.NoticeNotSaveBottomFragment
 import com.dwgu.linkive.Folder.FolderFragment
 import com.dwgu.linkive.Home.HomeFragment
+import com.dwgu.linkive.LinkView.LinkViewBottomSheet.MoveFolderBottomFragment
 import com.dwgu.linkive.Login.LoginFragment
 import com.dwgu.linkive.Login.SignUpFragment
 import com.dwgu.linkive.MyPage.MyPageFragment
@@ -118,10 +120,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            // 링크 편집 페이지인 경우
-            /*else if(ActivityName == "EditLinkActivity") {
-                // 변경 내용 저장 안 된다는 안내 BottomSheet
-            }*/
         }
     }
     fun runDelayed(millis: Long, function: () -> Unit) {

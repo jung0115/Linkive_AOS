@@ -13,7 +13,7 @@ import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentLinkViewBinding
 
 
-class LinkVIewFragment : Fragment() {
+class LinkViewFragment : Fragment() {
 
     // ViewBinding Setting
     lateinit var binding: FragmentLinkViewBinding

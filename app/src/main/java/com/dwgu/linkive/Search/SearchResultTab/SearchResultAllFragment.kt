@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
-import com.dwgu.linkive.LinkView.LinkVIewFragment
+import com.dwgu.linkive.LinkView.LinkViewFragment
 import com.dwgu.linkive.R
 import com.dwgu.linkive.Search.SearchResultRecycler.SearchResultAdapter
 import com.dwgu.linkive.databinding.FragmentSearchResultAllBinding
@@ -84,7 +84,7 @@ class SearchResultAllFragment : Fragment() {
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
-            .add(R.id.nav_host_fragment, LinkVIewFragment())
+            .add(R.id.nav_host_fragment, LinkViewFragment())
             .commit()
     }
 }
