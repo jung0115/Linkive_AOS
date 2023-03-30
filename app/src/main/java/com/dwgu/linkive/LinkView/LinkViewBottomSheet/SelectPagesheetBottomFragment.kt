@@ -1,10 +1,12 @@
 package com.dwgu.linkive.LinkView.LinkViewBottomSheet
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dwgu.linkive.EditLink.EditLinkActivity
 import com.dwgu.linkive.LinkView.SelectPagesheetRecycler.SelectPagesheetAdapter
 import com.dwgu.linkive.LinkView.SelectPagesheetRecycler.SelectPagesheetItem
 import com.dwgu.linkive.R
@@ -52,6 +54,11 @@ class SelectPagesheetBottomFragment : BottomSheetDialogFragment() {
         // 확인 버튼 선택 시
         binding.btnConfirmSelectPagesheet.setOnClickListener {
             dismiss()
+
+            // 링크 편집 페이지 열기
+            // 선택한 PageSheet 정보 넘겨줘야 함
+            val editLinkActivity = Intent(requireContext(), EditLinkActivity::class.java)
+            startActivity(editLinkActivity)
         }
     }
 

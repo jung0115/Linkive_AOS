@@ -45,6 +45,8 @@ class EditLinkActivity : AppCompatActivity() {
         // recyclerview 세팅
         initRecycler()
 
+        // PageSheet 선택 안 한 상태로 편집 페이지 들어오면 '자유'로 선택해두기
+
         // PageSheet 선택 Spinner
         // 기본 PageSheet
         pagesheetList.add(getString(R.string.pagesheet_free))
