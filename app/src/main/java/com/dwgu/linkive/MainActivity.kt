@@ -118,6 +118,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+            // 링크 편집 페이지인 경우
+            /*else if(ActivityName == "EditLinkActivity") {
+                // 변경 내용 저장 안 된다는 안내 BottomSheet
+            }*/
         }
     }
     fun runDelayed(millis: Long, function: () -> Unit) {

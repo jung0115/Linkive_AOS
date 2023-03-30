@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 편집 아이템 - 장소(위치) -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/shape_link_view_place_dash">
+
+    <!-- 장소 아이콘 -->
+    <ImageView
+        android:id="@+id/img_edit_link_place_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_link_item_form_place"/>
+
+    <!-- 주소 편집 - 입력 전 -->
+    <RelativeLayout
+        android:id="@+id/relativelayout_edit_link_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@+id/img_edit_link_place_icon"
+        android:layout_toLeftOf="@id/btn_option_edit_link_place">
+
+        <!-- 입력 안내 -->
+        <TextView
+            android:id="@+id/text_edit_link_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="@string/add_place"
+            android:textSize="9sp"
+            android:textColor="@color/dark_gray"/>
+
+        <!-- 입력 버튼 -->
+        <!-- 이미지 추가 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_input_edit_link_place"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_btn_input_edit_item"/>
+
+    </RelativeLayout>
+
+
+    <!-- 주소 - 입력했을 때 보이는 모양 -->
+    <LinearLayout
+        android:id="@+id/linearlayout_edit_link_place_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/img_edit_link_place_icon"
+        android:layout_toLeftOf="@id/btn_option_edit_link_place"
+        android:visibility="gone">
+
+        <!-- 도로명 주소 -->
+        <TextView
+            android:id="@+id/text_edit_link_place1_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="서울 송파구 올림픽로 240"
+            android:textSize="9sp"
+            android:textColor="@color/black"/>
+
+        <!-- 지번 주소 -->
+        <TextView
+            android:id="@+id/text_edit_link_place2_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="서울 송파구 올림픽로 240"
+            android:textSize="9sp"
+            android:textColor="@color/dark_gray"/>
+
+    </LinearLayout>
+
+    <!-- 아이템 옵션 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_option_edit_link_place"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_btn_menu_edit_item" />
+
+</RelativeLayout>

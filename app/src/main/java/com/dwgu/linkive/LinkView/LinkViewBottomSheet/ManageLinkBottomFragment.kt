@@ -1,11 +1,11 @@
 package com.dwgu.linkive.LinkView.LinkViewBottomSheet
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dwgu.linkive.EditLink.EditLinkFragment
-import com.dwgu.linkive.R
+import com.dwgu.linkive.EditLink.EditLinkActivity
 import com.dwgu.linkive.databinding.FragmentManageLinkBottomBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -33,11 +33,8 @@ class ManageLinkBottomFragment : BottomSheetDialogFragment() {
             dismiss()
 
             // 링크 편집 페이지 열기
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .add(R.id.nav_host_fragment, EditLinkFragment())
-                .commit()
+            val editLinkActivity = Intent(requireContext(), EditLinkActivity::class.java)
+            startActivity(editLinkActivity)
         })
 
         // 폴더 이동 버튼 선택 시 -> 폴더 선택 BottomSheet

@@ -13,7 +13,6 @@
         android:id="@+id/img_link_view_code"
         android:layout_width="14dp"
         android:layout_height="14dp"
-        android:layout_centerVertical="true"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_link_item_form_code"/>
 

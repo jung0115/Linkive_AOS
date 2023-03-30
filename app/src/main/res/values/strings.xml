@@ -64,6 +64,12 @@
     <!-- Edit Link -->
     <string name="btn_save">저장</string>
     <string name="title_hint">제목을 입력해주세요.</string>
+    <string name="text_hint">글을 입력해주세요.</string>
+    <string name="add_image">사진 추가</string>
+    <string name="add_place">주소 추가</string>
+    <string name="add_link">링크 URL을 입력하세요.</string>
+    <string name="add_code">코드를 입력하세요.</string>
+    <string name="add_checkbox">할 일을 입력하세요.</string>
 
     <!-- Search -->
     <string name="search_title">검색</string>
