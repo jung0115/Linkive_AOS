@@ -126,14 +126,15 @@
         android:elevation="20dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:paddingVertical="15dp">
+        android:paddingVertical="12dp">
 
         <!-- 글 아이템 추가 버튼 -->
         <ImageButton
             android:id="@+id/btn_add_item_text"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/ic_link_item_form_text" />
@@ -141,9 +142,10 @@
         <!-- 이미지 아이템 추가 버튼 -->
         <ImageButton
             android:id="@+id/btn_add_item_image"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/ic_link_item_form_image" />
@@ -151,9 +153,10 @@
         <!-- 링크 아이템 추가 버튼 -->
         <ImageButton
             android:id="@+id/btn_add_item_link"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/ic_link_item_form_link" />
@@ -161,9 +164,10 @@
         <!-- 장소(위치) 아이템 추가 버튼 -->
         <ImageButton
             android:id="@+id/btn_add_item_place"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/ic_link_item_form_place" />
@@ -171,9 +175,10 @@
         <!-- 할 일(체크박스) 아이템 추가 버튼 -->
         <ImageButton
             android:id="@+id/btn_add_item_checkbox"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/ic_link_item_form_checkbox" />
@@ -181,9 +186,10 @@
         <!-- 코드 아이템 추가 버튼 -->
         <ImageButton
             android:id="@+id/btn_add_item_code"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/ic_link_item_form_code" />

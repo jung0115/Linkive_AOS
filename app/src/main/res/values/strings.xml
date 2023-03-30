@@ -71,6 +71,7 @@
     <string name="add_code">코드를 입력하세요.</string>
     <string name="add_checkbox">할 일을 입력하세요.</string>
     <string name="notice_not_save">저장하지 않고 나가면 변경사항을 잃게 됩니다.\n페이지를 벗어나시겠습니까?</string>
+    <string name="notice_delete_edit_item">선택한 아이템을 삭제하시겠습니까?</string>
 
     <!-- Search -->
     <string name="search_title">검색</string>

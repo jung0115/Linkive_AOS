@@ -201,6 +201,10 @@ class EditLinkAdapter (private val context: Context) :
                 // 글 내용 세팅
                 binding.edittextEditLinkText.setText(item.editLinkText)
             }
+            // 글 내용이 없는 경우
+            else {
+                binding.edittextEditLinkText.setText(null)
+            }
 
             // 옵션 버튼 눌렀을 때
         }
@@ -223,6 +227,11 @@ class EditLinkAdapter (private val context: Context) :
             }
             // 주소가 입력되지 않은 경우
             else {
+                // 도로명 주소
+                binding.textEditLinkPlace1View.text = null
+                // 지번 주소
+                binding.textEditLinkPlace1View.text = null
+
                 // Edit 모드 보여주고, View 모드 가리기
                 binding.relativelayoutEditLinkPlace.visibility = View.VISIBLE
                 binding.linearlayoutEditLinkPlaceView.visibility = View.GONE
@@ -249,6 +258,11 @@ class EditLinkAdapter (private val context: Context) :
             }
             // 링크가 입력되지 않은 경우
             else {
+                // 링크 제목
+                binding.textEditLinkLinkTitle.text = null
+                // 링크 url
+                binding.textEditLinkLinkUrl.text = null
+
                 // Edit 모드 보여주고, View 모드 가리기
                 binding.edittextEditLinkLink.visibility = View.VISIBLE
                 binding.linearlayoutEditLinkLink.visibility = View.GONE
@@ -267,6 +281,11 @@ class EditLinkAdapter (private val context: Context) :
                 // 코드 내용
                 binding.edittextEditLinkCode.setText(item.editLinkCode)
             }
+            // 코드 내용이 없는 경우
+            else {
+                // 코드 내용
+                binding.edittextEditLinkCode.setText(null)
+            }
 
             // 옵션 버튼 선택 시
         }
@@ -279,6 +298,11 @@ class EditLinkAdapter (private val context: Context) :
             if(item.editLinkCheckboxText != null) {
                 // 할 일 내용
                 binding.edittextEditLinkCheckbox.setText(item.editLinkCheckboxText)
+            }
+            // 할 일 내용이 없는 경우
+            else {
+                // 할 일 내용
+                binding.edittextEditLinkCheckbox.setText(null)
             }
 
             // 체크된 상태인 경우

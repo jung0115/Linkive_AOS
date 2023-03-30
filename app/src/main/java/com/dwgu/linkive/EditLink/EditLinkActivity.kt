@@ -53,7 +53,7 @@ class EditLinkActivity : AppCompatActivity() {
 
         // PageSheet 선택 안 한 상태로 편집 페이지 들어오면 '자유'로 선택해두기
 
-        // PageSheet 선택 Spinner
+        // PageSheet 선택 Spinner -------------------------------------------------------------------
         // 기본 PageSheet
         pagesheetList.add(getString(R.string.pagesheet_free))
         pagesheetList.add(getString(R.string.pagesheet_trip))
@@ -79,7 +79,7 @@ class EditLinkActivity : AppCompatActivity() {
             }
         }
 
-        // 제목 샘플 데이터
+        // 제목 샘플 데이터 ----------------------------------------------------------------------------
         binding.edittextEditLinkTitle.setText("제목 테스트")
 
         // 제목 글자수 제한
@@ -113,7 +113,7 @@ class EditLinkActivity : AppCompatActivity() {
             }
         })
 
-        // 샘플 데이터
+        // 샘플 데이터 --------------------------------------------------------------------------------------------
         addEditLinkItem(EditLinkImageItem(null))
         addEditLinkItem(EditLinkImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
         addEditLinkItem(EditLinkTextItem(null))
@@ -129,10 +129,60 @@ class EditLinkActivity : AppCompatActivity() {
         addEditLinkItem(EditLinkCheckboxItem("할 일 입력 테스트", false))
         addEditLinkItem(EditLinkCheckboxItem("할 일 입력 테스트", true))
 
-        // 저장 버튼 선택 시
+        // 저장 버튼 선택 시 --------------------------------------------------------------------------------------
         binding.btnSaveEditLinkPage.setOnClickListener {
             // 페이지 닫기
             finish()
+        }
+
+        // 아이템 추가 --------------------------------------------------------------------------------------------
+        // 글 아이템 추가
+        binding.btnAddItemText.setOnClickListener {
+            // 글 아이템 추가
+            addEditLinkItem(EditLinkTextItem(null))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+        }
+        // 이미지 아이템 추가
+        binding.btnAddItemImage.setOnClickListener {
+            // 이미지 아이템 추가
+            addEditLinkItem(EditLinkImageItem(null))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+        }
+        // 링크 아이템 추가
+        binding.btnAddItemLink.setOnClickListener {
+            // 링크 아이템 추가
+            addEditLinkItem(EditLinkLinkItem(null, null))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+        }
+        // 장소(위치) 아이템 추가
+        binding.btnAddItemPlace.setOnClickListener {
+            // 장소(위치) 아이템 추가
+            addEditLinkItem(EditLinkPlaceItem(null, null))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+        }
+        // 체크박스(할 일) 아이템 추가
+        binding.btnAddItemCheckbox.setOnClickListener {
+            // 할 일 아이템 추가
+            addEditLinkItem(EditLinkCheckboxItem(null, false))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+        }
+        // 코드 아이템 추가
+        binding.btnAddItemCode.setOnClickListener {
+            // 코드 아이템 추가
+            addEditLinkItem(EditLinkCodeItem(null))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
         }
     }
 
@@ -153,7 +203,6 @@ class EditLinkActivity : AppCompatActivity() {
         editLinkAdapter.notifyDataSetChanged()
     }
 
-    private var doubleBackToExit = false
     // 이전 버튼 - 폰에 있는 이전 버튼
     override fun onBackPressed() {
         //super.onBackPressed()
@@ -161,7 +210,5 @@ class EditLinkActivity : AppCompatActivity() {
         val bottomSheet = NoticeNotSaveBottomFragment()
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
-    fun runDelayed(millis: Long, function: () -> Unit) {
-        Handler(Looper.getMainLooper()).postDelayed(function, millis)
-    }
+
 }
