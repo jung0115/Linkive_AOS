@@ -61,6 +61,10 @@
     <string name="pagesheet_diary">일기</string>
     <string name="pagesheet_checklist">체크 리스트</string>
 
+    <!-- Edit Link -->
+    <string name="btn_save">저장</string>
+    <string name="title_hint">제목을 입력해주세요.</string>
+
     <!-- Search -->
     <string name="search_title">검색</string>
     <string name="search_hint">검색어를 입력해주세요.</string>

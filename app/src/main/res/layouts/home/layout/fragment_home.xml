@@ -41,10 +41,10 @@
                 android:layout_marginBottom="4.5dp"
                 android:background="@drawable/selector_spinner_link_list_sort"
                 android:dropDownWidth="wrap_content"
+                android:dropDownVerticalOffset="0.2dp"
                 android:paddingRight="23dp"
                 android:popupBackground="@drawable/selector_spinner_link_list_sort_popup"
-                android:spinnerMode="dropdown"
-                android:dropDownVerticalOffset="0.2dp" />
+                android:spinnerMode="dropdown" />
 
             <!-- 링크 리스트 -->
             <androidx.recyclerview.widget.RecyclerView
