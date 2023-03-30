@@ -1,14 +1,17 @@
 package com.dwgu.linkive.EditLink
 
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
-import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewAdapter
-import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewItem
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityEditLinkBinding
 
@@ -29,10 +32,18 @@ class EditLinkActivity : AppCompatActivity() {
     private val editLinkItems = mutableListOf<EditLinkItem>()
     private lateinit var editLinkAdapter: EditLinkAdapter
 
+    // 제목 글자수 입력 제한
+    private val titleLimit = 10
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // ViewBinding
         binding = ActivityEditLinkBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // recyclerview 세팅
+        initRecycler()
 
         // PageSheet 선택 Spinner
         // 기본 PageSheet
@@ -63,8 +74,36 @@ class EditLinkActivity : AppCompatActivity() {
         // 제목 샘플 데이터
         binding.edittextEditLinkTitle.setText("제목 테스트")
 
-        // recyclerview 세팅
-        initRecycler()
+        // 제목 글자수 제한
+        binding.edittextEditLinkTitle.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 입력 변화 감지
+                var titleLength = binding.edittextEditLinkTitle.text.length
+
+                // 글자수가 제한을 넘어갈 경우
+                if(titleLength > titleLimit) {
+                    // 키보드 내리기
+                    val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(binding.edittextEditLinkTitle.windowToken, 0)
+
+                    // 경고
+                    Toast.makeText(this@EditLinkActivity, "제목은 최대 10글자까지 입력 가능합니다.", Toast.LENGTH_SHORT).show()
+
+                    // 글자수 넘어간 내용은 지우기
+                    val cutTitle = binding.edittextEditLinkTitle.text.substring(0 until titleLimit)
+                    binding.edittextEditLinkTitle.setText(cutTitle)
+
+                    // 커서 위치를 마지막으로
+                    binding.edittextEditLinkTitle.setSelection(titleLimit)
+                }
+            }
+        })
 
         // 샘플 데이터
         addEditLinkItem(EditLinkImageItem(null))
