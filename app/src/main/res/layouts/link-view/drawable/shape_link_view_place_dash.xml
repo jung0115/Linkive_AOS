@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 View 아이템 - 위치(장소) border -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:shape="rectangle">
+
+    <solid android:color="@color/white" />
+    <stroke
+        android:width="0.8dp"
+        android:color="@color/main_color"
+        android:dashGap="6dp"
+        android:dashWidth="6dp"/>
+    <corners android:radius="5dp" />
+</shape>

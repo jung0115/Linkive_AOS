@@ -26,6 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 링크 편집 페이지 -->
+        <activity
+            android:name=".EditLink.EditLinkActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 편집 아이템 - 링크 -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/shape_link_view_place_dash">
+
+    <!-- 링크 아이콘 -->
+    <ImageView
+        android:id="@+id/img_edit_link_link_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_link_item_form_link"/>
+
+    <!-- 링크 편집 - url 입력 전. url 입력할 수 있는 부분 -->
+    <EditText
+        android:id="@+id/edittext_edit_link_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="7dp"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:hint="@string/add_link"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_gray"
+        android:textSize="9sp"
+        android:inputType="text"
+        android:maxLines="1"
+        android:imeOptions="actionDone"
+        android:layout_toRightOf="@+id/img_edit_link_link_icon"
+        android:layout_toLeftOf="@id/btn_option_edit_link_link"/>
+
+    <!-- 링크 편집 - url 입력 시 보이는 정보 -->
+    <LinearLayout
+        android:id="@+id/linearlayout_edit_link_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="7dp"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/img_edit_link_link_icon"
+        android:layout_toLeftOf="@id/btn_option_edit_link_link"
+        android:visibility="gone">
+
+        <!-- 링크 제목 -->
+        <TextView
+            android:id="@+id/text_edit_link_link_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="백준 - 토마토(7569)"
+            android:textSize="9sp"
+            android:textColor="@color/black"/>
+
+        <!-- 링크 url -->
+        <TextView
+            android:id="@+id/text_edit_link_link_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="https://www.acmicpc.net/problem/7569"
+            android:textSize="9sp"
+            android:textColor="@color/dark_gray"/>
+
+    </LinearLayout>
+
+    <!-- 아이템 옵션 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_option_edit_link_link"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_btn_menu_edit_item" />
+
+</RelativeLayout>

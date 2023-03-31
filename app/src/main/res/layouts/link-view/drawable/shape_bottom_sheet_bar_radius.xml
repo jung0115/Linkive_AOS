@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- bottom sheet 위에 있는 회색 바 radius -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@color/light_gray"/>
+    <corners
+        android:radius="10dp" />
+
+</shape>

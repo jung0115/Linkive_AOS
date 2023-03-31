@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 편집 아이템 - 코드 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    android:background="@drawable/shape_link_view_code_background">
+
+    <!-- 코드 아이콘 -->
+    <ImageView
+        android:id="@+id/img_edit_link_code"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="13dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_link_item_form_code"/>
+
+    <!-- 코드 편집 - 내용 입력 -->
+    <EditText
+        android:id="@+id/edittext_edit_link_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_edit_link_code"
+        android:layout_marginHorizontal="13dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:hint="@string/add_code"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_gray"
+        android:textSize="10sp" />
+
+    <!-- 아이템 옵션 버튼 -->
+    <ImageButton
+        android:id="@+id/btn_option_edit_link_code"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_btn_menu_edit_item" />
+
+</RelativeLayout>
