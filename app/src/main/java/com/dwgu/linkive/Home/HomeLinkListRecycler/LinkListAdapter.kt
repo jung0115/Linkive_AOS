@@ -2,14 +2,8 @@ package com.dwgu.linkive.Home.HomeLinkListRecycler
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Outline
-import android.os.Build
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
-import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dwgu.linkive.ImageLoader.ImageLoader
@@ -20,7 +14,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LinkListAdapter(private val context: Context) :
+class LinkListAdapter(
+    private val context: Context,
+    val onClickLinkItem: () -> Unit
+    ) :
     RecyclerView.Adapter<LinkListAdapter.LinkListViewHolder>() {
 
     var items = mutableListOf<LinkListItem>()
@@ -39,9 +36,9 @@ class LinkListAdapter(private val context: Context) :
         holder.bind(items[position])
 
         // 링크 아이템 클릭 시
-        /*holder.itemView.setOnClickListener {
-
-        }*/
+        holder.itemView.setOnClickListener {
+            onClickLinkItem()
+        }
     }
 
     inner class LinkListViewHolder(private val binding: ItemLinkOfListBinding) :
@@ -62,8 +59,6 @@ class LinkListAdapter(private val context: Context) :
                 binding.textviewLinkItemFolder.text = "폴더 없음"                            // 폴더명 = 폴더 없음
             }
 
-            // 썸네일 이미지 상단 꼭짓점 radius
-            roundTop(binding.imgLinkItemThumbnail, 24f)
             // 썸네일 이미지가 존재할 경우
             if(item.thumbnailImage != null) {
                 CoroutineScope(Dispatchers.Main).launch {
@@ -96,23 +91,5 @@ class LinkListAdapter(private val context: Context) :
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             }
         }
-    }
-
-    // 썸네일 이미지 상단 꼭짓점 둥글게
-    fun roundTop(iv: ImageView, curveRadius : Float)  : ImageView {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            iv.outlineProvider = object : ViewOutlineProvider() {
-
-                @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-                override fun getOutline(view: View?, outline: Outline?) {
-                    outline?.setRoundRect(0, 0, view!!.width, (view.height + curveRadius).toInt(), curveRadius)
-                }
-            }
-
-            iv.clipToOutline = true
-        }
-        return iv
     }
 }

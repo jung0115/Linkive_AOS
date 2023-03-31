@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    tools:context=".EditLink.EditLinkActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/linearlayout_edit_link_items">
+
+        <!-- 페이지 시트 선택 Spinner, 작성 완료 버튼 -->
+        <RelativeLayout
+            android:id="@+id/relativelayuot_edit_link_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginHorizontal="30dp">
+
+            <!-- 페이지 시트 선택 Spinner -->
+            <Spinner
+                android:id="@+id/spinner_select_pagesheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/selector_spinner_select_pagesheet"
+                android:dropDownWidth="wrap_content"
+                android:dropDownVerticalOffset="0.39dp"
+                android:paddingRight="28dp"
+                android:popupBackground="@drawable/selector_spinner_select_pagesheet_popup"
+                android:spinnerMode="dropdown" />
+
+            <!-- 저장(작성 완료) 버튼 -->
+            <Button
+                android:id="@+id/btn_save_edit_link_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/shape_btn_confirm"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="13dp"
+                android:paddingVertical="6dp"
+                android:text="@string/btn_save"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <!-- 제목 -->
+        <RelativeLayout
+            android:id="@+id/linearlayout_edit_link_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/shape_link_view_title_radius"
+            android:elevation="4dp"
+            android:paddingVertical="11dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="15dp">
+
+            <!-- 링크 출처 플랫폼 -->
+            <ImageView
+                android:id="@+id/img_edit_link_source"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_link_list_item_source_default" />
+
+            <!-- 링크 제목 -->
+            <EditText
+                android:id="@+id/edittext_edit_link_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="13dp"
+                android:layout_toRightOf="@id/img_edit_link_source"
+                android:backgroundTint="@color/black"
+                android:hint="@string/title_hint"
+                android:textColorHint="@color/dark_gray"
+                android:text="제목"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:maxLines="1"
+                android:imeOptions="actionDone"/>
+
+        </RelativeLayout>
+
+        <!-- 링크 View 아이템 리스트 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_edit_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </LinearLayout>
+
+    <!-- 아이템 리스트 -->
+    <LinearLayout
+        android:id="@+id/linearlayout_edit_link_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:elevation="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp">
+
+        <!-- 글 아이템 추가 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_add_item_text"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_link_item_form_text" />
+
+        <!-- 이미지 아이템 추가 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_add_item_image"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_link_item_form_image" />
+
+        <!-- 링크 아이템 추가 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_add_item_link"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_link_item_form_link" />
+
+        <!-- 장소(위치) 아이템 추가 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_add_item_place"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_link_item_form_place" />
+
+        <!-- 할 일(체크박스) 아이템 추가 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_add_item_checkbox"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_link_item_form_checkbox" />
+
+        <!-- 코드 아이템 추가 버튼 -->
+        <ImageButton
+            android:id="@+id/btn_add_item_code"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="17dp"
+            android:padding="3dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_link_item_form_code" />
+
+    </LinearLayout>
+
+</RelativeLayout>

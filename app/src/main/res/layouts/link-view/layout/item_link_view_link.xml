@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 뷰 아이템 - 링크 -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/shape_link_view_place_dash">
+
+    <!-- 링크 아이콘 -->
+    <ImageView
+        android:id="@+id/img_link_view_link"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_link_item_form_link"/>
+
+    <!-- 정보 -->
+    <LinearLayout
+        android:id="@+id/linearlayout_link_view_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/img_link_view_link">
+
+        <!-- 링크 제목 -->
+        <TextView
+            android:id="@+id/text_link_view_link_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="백준 - 토마토(7569)"
+            android:textSize="9sp"
+            android:textColor="@color/black"/>
+
+        <!-- 링크 url -->
+        <TextView
+            android:id="@+id/text_link_view_link_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="https://www.acmicpc.net/problem/7569"
+            android:textSize="9sp"
+            android:textColor="@color/dark_gray"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

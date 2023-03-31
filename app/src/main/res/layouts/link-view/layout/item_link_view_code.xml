@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 뷰 아이템 - 코드 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    android:background="@drawable/shape_link_view_code_background">
+
+    <!-- 코드 아이콘 -->
+    <ImageView
+        android:id="@+id/img_link_view_code"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_link_item_form_code"/>
+
+    <TextView
+        android:id="@+id/text_link_view_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="System.out.print(“Hello, World!”);"
+        android:textColor="@color/black"
+        android:textSize="10sp"/>
+
+</LinearLayout>
