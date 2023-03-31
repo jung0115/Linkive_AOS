@@ -31,12 +31,6 @@
     <!-- Home -->
     <string name="home_title">홈</string>
 
-    <!-- Search -->
-    <string name="search_title">검색</string>
-
-    <!-- Folder-->
-    <string name="folder_title">폴더</string>
-
     <!-- MyPage-->
     <string name="mypage_title">마이페이지</string>
     <string name="nickname">닉네임</string>
@@ -49,7 +43,7 @@
     <string name="diary">일기</string>
     <string name="check_list">체크\n리스트</string>
     <string name="custom">커스텀</string>
-    <string name="add">+</string>
+    <string name="add_btn">+</string>
     <string name="customer_service">고객 지원</string>
     <string name="inquiry">문의하기</string>
     <string name="logout">로그아웃</string>
@@ -150,9 +144,6 @@
     <string name="folder_add">폴더 추가</string>
     <string name="folder_name_hint">폴더명을 입력해주세요.</string>
     <string name="folder_add_password_hint">비밀번호를 입력해주세요. (선택)</string>
-
-    <!-- MyPage-->
-    <string name="mypage_title">마이페이지</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
