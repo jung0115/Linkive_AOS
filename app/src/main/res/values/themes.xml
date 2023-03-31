@@ -15,9 +15,29 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+
+
         <!-- Customize your theme here. -->
 
         <!-- bottom sheet rounding을 위한-->
-        <item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>
+        <!--<item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>-->
+        <!-- bottomSheet 둥글게 -->
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
     </style>
+
+    <!-- bottomSheet 둥글게 -->
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+        <!-- bottomsheet editText 자판 생성 시 view가 다 보이게 -->
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/shape_bottomsheet</item>
+    </style>
+
+
 </resources>

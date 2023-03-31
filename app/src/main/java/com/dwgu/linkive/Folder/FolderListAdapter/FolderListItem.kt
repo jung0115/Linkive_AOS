@@ -1,3 +1,5 @@
 package com.dwgu.linkive.Folder.FolderListAdapter
 
-data class FolderListItem(val name: String, var cover: Int = 0, var isLock: Boolean = false)
+import com.dwgu.linkive.R
+
+data class FolderListItem(val name: String, var cover: Int = R.drawable.img_folder_background_blue, var isLock: Boolean = false)
