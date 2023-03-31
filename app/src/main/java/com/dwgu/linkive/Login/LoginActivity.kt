@@ -1,24 +1,19 @@
 package com.dwgu.linkive.Login
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.renderscript.ScriptGroup
 import android.text.InputType
-import android.text.InputType.*
+import android.util.AttributeSet
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import com.dwgu.linkive.R
-import com.dwgu.linkive.databinding.FragmentLoginBinding
-import kotlinx.android.synthetic.main.fragment_login.*
+import com.dwgu.linkive.databinding.ActivityLoginBinding
 
-class LoginFragment : Fragment(){
+class LoginActivity : AppCompatActivity() {
 
-    // binding
-    private lateinit var binding: FragmentLoginBinding
+    // ViewBinding
+    lateinit var binding: ActivityLoginBinding
 
     // 변수들
     private var id = "11"
@@ -28,18 +23,12 @@ class LoginFragment : Fragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-       binding = FragmentLoginBinding.inflate(layoutInflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
 
         binding.btnErrorId.visibility = View.GONE
         binding.btnErrorPassword.visibility = View.GONE
@@ -53,11 +42,11 @@ class LoginFragment : Fragment(){
         binding.btnViewHide.setOnCheckedChangeListener {_, isChecked ->
             if(isChecked) {
                 // 비밀번호를 보이게
-                binding.inputPassword.inputType = TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.inputPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 binding.btnViewHide.setBackgroundResource(R.drawable.view)
             } else {
                 // 비밀번호가 안보이게
-                binding.inputPassword.inputType = TYPE_CLASS_TEXT or TYPE_TEXT_VARIATION_PASSWORD
+                binding.inputPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 binding.btnViewHide.setBackgroundResource(R.drawable.hidden)
             }
             // 커서가 항상 뒤에 위치하도록
@@ -122,11 +111,6 @@ class LoginFragment : Fragment(){
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
+
 }

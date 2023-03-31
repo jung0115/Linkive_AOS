@@ -6,8 +6,6 @@ import android.util.Log
 import androidx.fragment.app.FragmentManager
 import com.dwgu.linkive.Folder.FolderFragment
 import com.dwgu.linkive.Home.HomeFragment
-import com.dwgu.linkive.Login.LoginFragment
-import com.dwgu.linkive.Login.SignUpFragment
 import com.dwgu.linkive.MyPage.MyPageFragment
 import com.dwgu.linkive.Search.SearchFragment
 import com.dwgu.linkive.databinding.ActivityMainBinding
@@ -39,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_home -> {
                     supportFragmentManager
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment, SignUpFragment())
+                        .replace(R.id.nav_host_fragment, HomeFragment())
                         .commit()
                     Log.d("msg", "menu_home work")
                 }
