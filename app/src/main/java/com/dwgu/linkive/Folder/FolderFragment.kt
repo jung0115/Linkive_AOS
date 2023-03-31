@@ -1,10 +1,12 @@
 package com.dwgu.linkive.Folder
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Folder.FolderListAdapter.FolderListAdapter
 import com.dwgu.linkive.Folder.FolderListAdapter.FolderListItem
@@ -60,6 +62,25 @@ class FolderFragment : Fragment() {
         binding.btnFolderMenu.setOnClickListener {
             val bottomSheetFragment = FolderMenuBottomSheetFragment()
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        }
+
+
+        // 정렬 스피너의 값이 바뀌면
+        binding.spinnerSortFolder.onItemSelectedListener = object :
+        AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                //생성순 선택 시
+                if(position==0) {
+                    Log.d("성공", binding.spinnerSortFolder.selectedItem.toString())
+                }
+                //가나다순 선택 시
+                else if(position==1) {
+                    Log.d("성공", binding.spinnerSortFolder.selectedItem.toString())
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
         }
 
     }

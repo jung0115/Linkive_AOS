@@ -31,7 +31,7 @@
             android:background="@drawable/shape_sort_folder"
             android:layout_marginRight="28dp"
             android:layout_marginTop="37dp"
-            android:paddingHorizontal="7dp"/>
+            android:popupBackground="@drawable/shape_sort_folder"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_folder_list"
