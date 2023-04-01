@@ -3,7 +3,7 @@
   Linkive
 </h1>
 
-<p align="center">✅ 나만의 링크 저장 플랫폼<br/>
+<p align="left">✅ 나만의 링크 저장 플랫폼<br/>
 🏢 경상대학교 컴퓨터과학부 종합설계PBL<br/>
 📅 개발기간: 2023.01 ~<br/></p>
 
