@@ -7,9 +7,24 @@
 🏢 경상대학교 컴퓨터과학부 종합설계PBL<br/>
 📅 개발기간: 2023.01 ~<br/><br/></p>
   
-## 개발 팀 소개
-**PM** 하도원  
-**Android App** 고수민, 조정미, 하도원  
-**Web** 고수민, 김남혁, 차봉석  
-**Server** 김남혁, 차봉석  
-**Design** 고수민, 조정미  
+## 🧑‍💻 Team Information
+<p align="left"><strong>Team</strong> 도원결의<br/><br/>
+<strong>PM</strong>  하도원<br/>
+<strong>Android</strong>  고수민, 조정미, 하도원<br/>
+<strong>Web</strong>  고수민, 김남혁, 차봉석<br/>
+<strong>Server</strong>  김남혁, 차봉석<br/>
+<strong>Design</strong>  고수민, 조정미<br/><br/></p>
+  
+## 🛠️ Stack
+**Android**  
+![Kotlin](https://img.shields.io/badge/Kotlin-A333F1??style=plastic&logo=kotlin&logoColor=white)
+![AndroidStudio](https://img.shields.io/badge/Android_Studio-3DDC84??style=plastic&logo=android&logoColor=white)
+  
+**Web**  
+![React.js](https://img.shields.io/badge/React.js-black??style=plastic&logo=react&logoColor=61DAFB)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E??style=plastic&logo=javascript&logoColor=white)
+  
+**Server**  
+![Node.js](https://img.shields.io/badge/Node.js-80BD01??style=plastic&logo=node.js&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E??style=plastic&logo=javascript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-254C7E??style=plastic&logo=postgresql&logoColor=white)
