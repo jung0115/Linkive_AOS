@@ -9,7 +9,7 @@
   
 ## 💡 Project Information
 웹과 모바일 앱에서 자유롭게 사용 가능한 링크 저장 메모 플랫폼
-<br/>
+<br/><br/>
 ## 🧑‍💻 Team Information
 <p align="left"><strong>Team</strong> 도원결의<br/><br/>
 <strong>PM</strong>  하도원<br/>
