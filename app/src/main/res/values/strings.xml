@@ -1,3 +1,153 @@
 <resources>
-    <string name="app_name">Linkive_AOS</string>
+    <string name="app_name">Linkive</string>
+
+    <!-- Login -->
+    <string name="id_hint">아이디를 입력해주세요.</string>
+    <string name="password_hint">비밀번호를 입력해주세요.</string>
+    <string name="login">로그인</string>
+    <string name="find_id">아이디 찾기</string>
+    <string name="find_password">패스워드 찾기</string>
+    <string name="sign_up">회원 가입</string>
+    <string name="social_login">소셜 로그인</string>
+    <string name="id_or_password_error">아이디 혹은 비밀번호가 올바르지 않습니다.</string>
+    <string name="nickname_hint">닉네임을 입력해주세요.</string>
+    <string name="email_hint">이메일을 입력해주세요.</string>
+    <string name="password_check_hint">비밀번호를 한 번 더 입력해주세요.</string>
+    <string name="personal_information_agree">개인정보 제공에 동의합니다.</string>
+    <string name="email_error">이메일을 인증해주세요.</string>
+    <string name="id_error">이미 존재하는 아이디입니다.</string>
+    <string name="password_error">비밀번호는 영어 대소문자, 숫자, 특수문자 조합의 8~16자로 입력해주세요.</string>
+    <string name="password_check_error">비밀번호가 일치하지 않습니다.</string>
+    <string name="certification_number">인증번호</string>
+    <string name="certification_request">인증 요청</string>
+    <string name="certification">인증하기</string>
+    <string name="email_requst_message">회원님의 아이디가 이메일로 전송되었습니다.</string>
+    <string name="password_to_change_hint">변경할 비밀번호</string>
+    <string name="check">확인 </string>
+    <string name="kakaotalk_login">카카오로 로그인</string>
+    <string name="naver_login">네이버로 로그인</string>
+    <string name="google_login">구글로 로그인</string>
+
+    <!-- Home -->
+    <string name="home_title">홈</string>
+
+    <!-- MyPage-->
+    <string name="nickname">닉네임</string>
+    <string name="id">1234</string>
+    <string name="page_sheet">Page Sheet</string>
+    <string name="basic">기본</string>
+    <string name="travel">여행</string>
+    <string name="study">공부</string>
+    <string name="dev">개발</string>
+    <string name="diary">일기</string>
+    <string name="check_list">체크\n리스트</string>
+    <string name="custom">커스텀</string>
+    <string name="add_btn">+</string>
+    <string name="customer_service">고객 지원</string>
+    <string name="inquiry">문의하기</string>
+    <string name="logout">로그아웃</string>
+    <string name="quit">회원 탈퇴</string>
+
+    <!-- Inquiry -->
+    <string name="inquiry_content">Linkive를 사용해주셔서 감사합니다.\n\n서비스 사용과 관련해서 문의사항 또는 불편한 점이\n있다면 아래 메일로 의견을 보내주시기 바랍니다.</string>
+    <string name="dev_email">Linkive Email</string>
+
+    <!-- Quit -->
+    <string name="quit_content">회원을 탈퇴하시겠습니까?\n\n탈퇴할 경우 현재 아이디는 재사용 및 복구가\n불가능합니다. 탈퇴 후 회원정보 및 개인형\n서비스 이용 기록은 모두 삭제됩니다.\n\n계정 탈퇴를 원하시면 아래 정보를 입력 후\n탈퇴 버튼을 선택해주세요.</string>
+
+    <!-- Edit Profile-->
+    <string name="change_profile">프로필 변경</string>
+
+    <!-- Basic Page Sheet 확인 -->
+    <string-array name="basic_page_sheet_array">
+        <item>여행</item>
+        <item>공부</item>
+        <item>개발</item>
+        <item>일기</item>
+        <item>체크\n리스트</item>
+    </string-array>
+    <string name="place">주소</string>
+    <string name="photo">사진</string>
+    <string name="write">글</string>
+    <string name="link">링크</string>
+    <string name="code">코드</string>
+    <string name="todo">할 일</string>
+
+    <!-- Page Sheet Activity -->
+    <string name="page_sheet_name_hint">Page Sheet 이름 입력</string>
+    <string name="save">저장</string>
+
+    <!-- No Folder -->
+    <string name="folder_null">폴더 없음</string>
+    <!-- 정렬 - 최신순, 제목순 -->
+    <string name="spinner_sort_new">최신순</string>
+    <string name="spinner_sort_title">제목순</string>
+    <!-- URL로 링크 추가 - hint -->
+    <string name="hint_create_link_to_url">URL을 입력해주세요.</string>
+    <!-- URL로 링크 추가 - 폴더 선택 Default -->
+    <string name="default_select_folder">폴더 선택</string>
+    <!-- 취소, 확인 -->
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
+
+    <!-- Link View -->
+    <string name="non_pagesheet_notice">아직 선택된 Page Sheet 가 없습니다.\nPage Sheet를 선택하여 글을 작성해보세요.</string>
+    <string name="manage_link">링크 관리</string>
+    <string name="manage_link_edit_page">페이지 수정</string>
+    <string name="manage_link_move_folder">폴더 이동</string>
+    <string name="manage_link_goto_url">링크로 접속</string>
+    <string name="manage_link_delete_page">삭제하기</string>
+    <string name="notice_delete_link">해당 링크 페이지를\n영구적으로 삭제하시겠습니까?</string>
+    <string name="select_pagesheet">Page Sheet 선택</string>
+    <string name="pagesheet_label_default">기본</string>
+    <string name="pagesheet_label_custom">커스텀</string>
+    <string name="pagesheet_free">자유</string>
+    <string name="pagesheet_trip">여행</string>
+    <string name="pagesheet_study">공부</string>
+    <string name="pagesheet_programming">개발</string>
+    <string name="pagesheet_diary">일기</string>
+    <string name="pagesheet_checklist">체크 리스트</string>
+
+    <!-- Edit Link -->
+    <string name="btn_save">저장</string>
+    <string name="title_hint">제목을 입력해주세요.</string>
+    <string name="text_hint">글을 입력해주세요.</string>
+    <string name="add_image">사진 추가</string>
+    <string name="add_place">주소 추가</string>
+    <string name="add_link">링크 URL을 입력하세요.</string>
+    <string name="add_code">코드를 입력하세요.</string>
+    <string name="add_checkbox">할 일을 입력하세요.</string>
+    <string name="notice_not_save">저장하지 않고 나가면 변경사항을 잃게 됩니다.\n페이지를 벗어나시겠습니까?</string>
+    <string name="notice_delete_edit_item">선택한 아이템을 삭제하시겠습니까?</string>
+    <string name="option_text">글 관리</string>
+    <string name="option_image">이미지 관리</string>
+    <string name="option_place">주소 관리</string>
+    <string name="option_link">링크 관리</string>
+    <string name="option_code">코드 관리</string>
+    <string name="option_checkbox">할 일 관리</string>
+    <string name="delete_edit_item">아이템 삭제하기</string>
+    <string name="set_image">이미지 설정/변경</string>
+    <string name="set_link_url">링크 url 초기화</string>
+    <string name="set_place">주소 설정/변경</string>
+    <string name="set_contents">내용 초기화</string>
+
+    <!-- Search -->
+    <string name="search_title">검색</string>
+    <string name="search_hint">검색어를 입력해주세요.</string>
+
+    <!-- Folder-->
+    <string name="folder_title">폴더</string>
+    <string name="folder_management">폴더 관리</string>
+    <string name="add">추가하기</string>
+    <string name="remove">삭제하기</string>
+    <string name="folder_add">폴더 추가</string>
+    <string name="folder_name_hint">폴더명을 입력해주세요.</string>
+    <string name="folder_add_password_hint">비밀번호를 입력해주세요. (선택)</string>
+
+    <!-- MyPage-->
+    <string name="mypage_title">마이페이지</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

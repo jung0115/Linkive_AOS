@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- url로 링크 추가 Dialog의 꼭짓점 radius-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:shape="rectangle">
+
+    <solid android:color="@color/white"/>
+    <corners
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"
+        android:bottomRightRadius="10dp"
+        android:bottomLeftRadius="10dp" />
+
+</shape>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="item_sort_folder">
+        <item>생성순</item>
+        <item>가나다순</item>
+    </string-array>
+</resources>

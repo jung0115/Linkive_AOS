@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="40dp"
+    tools:context=".MyPage.EditProfileFragment">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_profile"
+        android:layout_marginVertical="30dp"
+        android:layout_gravity="center"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:minHeight="30dp"
+        android:text="@string/change_profile"
+        android:background="@drawable/button_solid_radius"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/button_outline_purple_30dp"
+        android:padding="20dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nickname"
+            android:textSize="15sp"
+            android:textColor="@color/black"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_edit"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="gms08057@naver.com"
+        android:background="@drawable/button_outline_purple_30dp"
+        android:padding="20dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/button_outline_purple_30dp"
+        android:padding="20dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/id"
+            android:textSize="15sp"
+            android:textColor="@color/black"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_edit"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/button_outline_purple_30dp"
+        android:padding="20dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호"
+            android:textSize="15sp"
+            android:textColor="@color/black"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_edit"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_light_solid_radius"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:layout_marginRight="10dp"
+            android:textSize="14sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_solid_radius"
+            android:text="@string/check"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

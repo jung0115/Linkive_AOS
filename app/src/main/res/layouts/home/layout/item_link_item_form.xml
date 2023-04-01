@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 리스트 아이템에서 해당 글에 포함된 요쇼 아이콘 표시하는 부분 아이템 -->
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/img_link_item_form"
+    android:layout_width="8dp"
+    android:layout_height="8dp"
+    android:layout_marginRight="3dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/ic_link_item_form_text" />

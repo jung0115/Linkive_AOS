@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 리스트에 들어가는 링크 아이템 -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="7.5dp"
+    android:elevation="3dp"
+    android:background="@drawable/shape_link_item_radius">
+
+    <!-- 썸네일 이미지 -->
+    <ImageView
+        android:id="@+id/img_link_item_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
+        android:background="@drawable/shape_link_item_thumb_radius"
+        android:src="@drawable/img_link_item_thumbnail_default" />
+
+    <!-- 제목 -->
+    <LinearLayout
+        android:id="@+id/linearlayout_link_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="11dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/img_link_item_thumbnail">
+
+        <!-- 링크 출처 플랫폼 -->
+        <ImageView
+            android:id="@+id/img_link_item_source"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_link_list_item_source_default" />
+
+        <!-- 제목 Text -->
+        <TextView
+            android:id="@+id/textview_link_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:text="제목"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:bufferType="spannable"/>
+
+    </LinearLayout>
+
+    <!-- 설명 -->
+    <RelativeLayout
+        android:id="@+id/linearlayout_link_item_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_below="@+id/linearlayout_link_item_title">
+
+        <!-- 포함된 요소 종류 아이콘 리스트 -->
+        <LinearLayout
+            android:id="@+id/linearlayout_link_item_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_link_item_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_link_item_form" />
+
+        </LinearLayout>
+
+        <!-- 폴더 -->
+        <LinearLayout
+            android:id="@+id/linearlayout_link_item_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/textview_link_item_folder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:text="@string/folder_null"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:bufferType="spannable"/>
+
+            <ImageView
+                android:id="@+id/img_link_item_folder"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_folder_not_exist" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

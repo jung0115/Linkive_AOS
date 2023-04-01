@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- url로 링크 추가 - url 입력 edittext -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <stroke android:width="1.2dp" android:color="@color/main_color" />
+            <corners android:radius="30dp" />
+            <padding
+                android:top="9dp"
+                android:bottom="9dp"
+                android:left="14dp"
+                android:right="14dp" />
+        </shape>
+    </item>
+</selector>

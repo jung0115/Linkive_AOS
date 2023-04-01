@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 리스트 아이템의 꼭짓점 radius -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:shape="rectangle">
+
+    <solid android:color="@color/white"/>
+    <corners
+        android:topLeftRadius="12dp"
+        android:topRightRadius="12dp"
+        android:bottomRightRadius="12dp"
+        android:bottomLeftRadius="12dp" />
+
+</shape>

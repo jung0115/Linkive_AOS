@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/ic_close"
+        android:layout_gravity="end"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="110dp"
+            android:layout_height="30dp"
+            android:text="@string/find_id"
+            android:background="@drawable/button_solid_elipse"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_marginBottom="10dp">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/button_outline_purple_30dp"
+                android:hint="@string/email_hint"
+                android:paddingLeft="10dp"
+                android:textSize="15sp"
+                android:layout_marginRight="10dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="@string/certification_request"
+                android:background="@drawable/button_solid_radius"
+                android:textColor="@color/white"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_marginBottom="20dp">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:layout_marginRight="10dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@drawable/button_outline_purple_30dp"
+                    android:hint="@string/certification_number"
+                    android:paddingLeft="10dp"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:text="00:00"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/red"/>
+
+            </FrameLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="@string/certification"
+                android:background="@drawable/button_solid_radius"
+                android:textColor="@color/white"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="@string/email_requst_message"
+            android:textColor="@color/main_color"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+
+</FrameLayout>
