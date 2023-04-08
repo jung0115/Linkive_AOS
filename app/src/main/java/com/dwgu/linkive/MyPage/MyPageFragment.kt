@@ -1,15 +1,18 @@
 package com.dwgu.linkive.MyPage
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentMyPageBinding
 import kotlinx.android.synthetic.main.page_sheet_item.view.*
 
-class MyPageFragment : Fragment() {
+class  MyPageFragment : Fragment() {
 
     // view binding
     lateinit var binding: FragmentMyPageBinding
@@ -52,19 +55,51 @@ class MyPageFragment : Fragment() {
         basicPageSheetAdapter = BasicPageSheetAdapter(
             this.basicPageSheetList,
             sheetClick = {
-
+                Log.d("msg", "기본 페이지 확인으로 이동")
+                view?.findNavController()?.navigate(R.id.action_menu_mypage_to_pageSheetActivity)
             }
         )
 
         customPageSheetAdapter = CustomPageSheetAdapter(
             this.customPageSheetList,
             sheetClick = {
-
+                Log.d("msg", "커스텀 페이지 확인으로 이동")
+                view?.findNavController()?.navigate(R.id.action_menu_mypage_to_pageSheetActivity)
             }
         )
 
         binding.basicBtnRecycler.adapter = basicPageSheetAdapter
         binding.customBtnRecycler.adapter = customPageSheetAdapter
+
+        setOnClickListener()
     }
 
+    private fun setOnClickListener() {
+        // 프로필 수정
+        binding.btnEditProfile.setOnClickListener{
+            Log.d("msg", "회원 정보 수정 화면으로 이동")
+            view?.findNavController()?.navigate(R.id.action_menu_mypage_to_editProfileFragment)
+        }
+
+        // 문의하기
+        binding.btnInquiry.setOnClickListener {
+            Log.d("msg", "문의하기 화면으로 이동")
+            view?.findNavController()?.navigate(R.id.action_menu_mypage_to_inquiryFragment)
+        }
+
+        // 로그아웃
+        binding.btnLogout.setOnClickListener {
+            // 차후 수정 필요
+
+
+            // 로그아웃 후, 로그인 화면으로 이동
+            view?.findNavController()?.navigate(R.id.action_menu_mypage_to_loginActivity)
+        }
+
+        // 회원탈퇴
+        binding.btnQuit.setOnClickListener {
+            Log.d("msg", "회원 탈퇴 화면으로 이동")
+            view?.findNavController()?.navigate(R.id.action_menu_mypage_to_quitFragment)
+        }
+    }
 }

@@ -54,6 +54,12 @@
         <action
             android:id="@+id/action_menu_mypage_to_quitFragment"
             app:destination="@id/quitFragment" />
+        <action
+            android:id="@+id/action_menu_mypage_to_editPageSheetFragment4"
+            app:destination="@id/editPageSheetFragment4" />
+        <action
+            android:id="@+id/action_menu_mypage_to_loginActivity"
+            app:destination="@id/loginActivity" />
     </fragment>
     <fragment
         android:id="@+id/linkViewFragment"
@@ -79,8 +85,8 @@
             android:id="@+id/action_manageLinkBottomFragment_to_deleteLinkBottomFragment"
             app:destination="@id/deleteLinkBottomFragment" />
         <action
-            android:id="@+id/action_manageLinkBottomFragment_to_editPageSheetFragment2"
-            app:destination="@id/editPageSheetFragment2" />
+            android:id="@+id/action_manageLinkBottomFragment_to_editLinkActivity4"
+            app:destination="@id/editLinkActivity4" />
     </dialog>
     <dialog
         android:id="@+id/moveFolderBottomFragment"
@@ -97,20 +103,6 @@
         android:name="com.dwgu.linkive.LinkView.LinkViewBottomSheet.SelectPagesheetBottomFragment"
         android:label="fragment_select_pagesheet_bottom"
         tools:layout="@layout/fragment_select_pagesheet_bottom" />
-    <fragment
-        android:id="@+id/editPageSheetFragment2"
-        android:name="com.dwgu.linkive.MyPage.EditPageSheetFragment"
-        android:label="fragment_edit_page_sheet"
-        tools:layout="@layout/fragment_edit_page_sheet" >
-        <action
-            android:id="@+id/action_editPageSheetFragment2_to_optionEditImageBottomFragment"
-            app:destination="@id/optionEditImageBottomFragment" />
-    </fragment>
-    <dialog
-        android:id="@+id/optionEditImageBottomFragment"
-        android:name="com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditImageBottomFragment"
-        android:label="fragment_option_edit_image_bottom"
-        tools:layout="@layout/fragment_option_edit_image_bottom" />
     <fragment
         android:id="@+id/searchResultAllFragment"
         android:name="com.dwgu.linkive.Search.SearchResultTab.SearchResultAllFragment"
@@ -168,35 +160,49 @@
         android:id="@+id/editProfileFragment"
         android:name="com.dwgu.linkive.MyPage.EditProfileFragment"
         android:label="fragment_edit_profile"
-        tools:layout="@layout/fragment_edit_profile" />
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_menu_mypage"
+            app:destination="@id/menu_mypage" />
+    </fragment>
     <fragment
         android:id="@+id/inquiryFragment"
         android:name="com.dwgu.linkive.MyPage.InquiryFragment"
         android:label="fragment_inquiry"
-        tools:layout="@layout/fragment_inquiry" />
-    <dialog
-        android:id="@+id/noticeNotSaveBottomFragment"
-        android:name="com.dwgu.linkive.EditLink.EditLinkBottomSheet.NoticeNotSaveBottomFragment"
-        android:label="fragment_notice_not_save_bottom"
-        tools:layout="@layout/fragment_notice_not_save_bottom" />
-    <dialog
-        android:id="@+id/optionEditTextBottomFragment"
-        android:name="com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditTextBottomFragment"
-        android:label="fragment_option_edit_text_bottom"
-        tools:layout="@layout/fragment_option_edit_text_bottom" />
+        tools:layout="@layout/fragment_inquiry" >
+        <action
+            android:id="@+id/action_inquiryFragment_to_menu_mypage"
+            app:destination="@id/menu_mypage" />
+    </fragment>
     <fragment
         android:id="@+id/quitFragment"
         android:name="com.dwgu.linkive.MyPage.QuitFragment"
         android:label="fragment_quit"
-        tools:layout="@layout/fragment_quit" />
-    <activity
-        android:id="@+id/editLinkActivity2"
-        android:name="com.dwgu.linkive.EditLink.EditLinkActivity"
-        android:label="activity_edit_link"
-        tools:layout="@layout/activity_edit_link" />
+        tools:layout="@layout/fragment_quit" >
+        <action
+            android:id="@+id/action_quitFragment_to_menu_mypage"
+            app:destination="@id/menu_mypage" />
+        <action
+            android:id="@+id/action_quitFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </fragment>
     <activity
         android:id="@+id/pageSheetActivity"
         android:name="com.dwgu.linkive.MyPage.PageSheetActivity"
         android:label="activity_page_sheet"
         tools:layout="@layout/activity_page_sheet" />
+    <activity
+        android:id="@+id/editLinkActivity4"
+        android:name="com.dwgu.linkive.EditLink.EditLinkActivity"
+        android:label="activity_edit_link"
+        tools:layout="@layout/activity_edit_link" />
+    <fragment
+        android:id="@+id/editPageSheetFragment4"
+        android:name="com.dwgu.linkive.MyPage.EditPageSheetFragment"
+        android:label="fragment_edit_page_sheet"
+        tools:layout="@layout/fragment_edit_page_sheet" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.dwgu.linkive.Login.LoginActivity"
+        android:label="LoginActivity" />
 </navigation>
