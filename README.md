@@ -14,7 +14,7 @@
 <p align="left"><strong>Team</strong> 도원결의<br/><br/>
 <strong>PM</strong>  하도원<br/>
 <strong>Android</strong>  고수민, 조정미, 하도원<br/>
-<strong>Web</strong>  고수민, 김남혁, 차봉석<br/>
+<strong>Web</strong>  고수민, 김남혁, 차봉석, 조정미, 하도원<br/>
 <strong>Server</strong>  김남혁, 차봉석<br/>
 <strong>Design</strong>  고수민, 조정미<br/><br/></p>
   
