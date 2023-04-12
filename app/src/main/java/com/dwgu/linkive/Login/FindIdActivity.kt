@@ -8,11 +8,16 @@ import android.view.View
 import android.widget.Toast
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityFindIdBinding
+import kotlin.concurrent.timer
 
 class FindIdActivity : AppCompatActivity() {
 
     // viewBinding 선언
     lateinit var binding: ActivityFindIdBinding
+
+    // 타이머 변수
+    private var min = 3
+    private var sec = 60
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +50,9 @@ class FindIdActivity : AppCompatActivity() {
 
             // 이메일 전송 메시지 보내기
             binding.textSend.visibility = View.VISIBLE
+
+            // 3분 타이머 시작
+            startTimer()
         }
 
         // 인증하기
@@ -52,7 +60,32 @@ class FindIdActivity : AppCompatActivity() {
             // 서버에 확인
             // 알림
             Toast.makeText(this, "인증되었습니다.", Toast.LENGTH_SHORT).show()
+
+            // 존재하는 이메일이면, 해당 이메일로 아이디 전송
         }
 
+    }
+
+    // 3분 타이머 시작
+    private fun startTimer() {
+        min--
+        sec--
+        // 1000 = 1초
+        timer(period = 1000,) {
+            runOnUiThread {
+                if(sec<10) {
+                    binding.textTime.text = "0$min:0$sec"
+                } else {
+                    binding.textTime.text = "0$min:$sec"
+                }
+                // 3분 후에, 타이머 중지
+                if(sec==0 && min==0) cancel()
+                else if(sec == 0) {
+                    min--
+                    sec = 59
+                }
+                sec--
+            }
+        }
     }
 }

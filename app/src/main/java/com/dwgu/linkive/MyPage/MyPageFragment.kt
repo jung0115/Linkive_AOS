@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentMyPageBinding
-import kotlinx.android.synthetic.main.page_sheet_item.view.*
 
 class  MyPageFragment : Fragment() {
 
