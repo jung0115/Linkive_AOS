@@ -83,7 +83,7 @@
                     android:layout_marginRight="3dp"
                     android:text="@string/folder_null"
                     android:textColor="@color/black"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:id="@+id/img_link_view_folder"
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="@string/non_pagesheet_notice"
-                    android:textSize="10sp"
+                    android:textSize="14sp"
                     android:textColor="@color/dark_gray"/>
 
                 <!-- PageSheet 선택 버튼 -->

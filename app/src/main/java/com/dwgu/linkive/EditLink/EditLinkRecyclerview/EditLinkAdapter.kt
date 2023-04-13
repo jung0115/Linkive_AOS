@@ -248,8 +248,13 @@ class EditLinkAdapter (
                 binding.linearlayoutEditLinkPlaceView.visibility = View.GONE
             }
 
-            // 주소 입력 버튼 선택 시
             // 옵션 버튼 선택 시
+            binding.btnOptionEditLinkPlace.setOnClickListener {
+                // 주소 아이템 옵션 BottomSheet 열기
+                onClickItemOption("place")
+            }
+
+            // 주소 입력 버튼 선택 시
         }
     }
 
@@ -279,8 +284,13 @@ class EditLinkAdapter (
                 binding.linearlayoutEditLinkLink.visibility = View.GONE
             }
 
-            // url 입력 후 엔터
             // 옵션 버튼 선택 시
+            binding.btnOptionEditLinkLink.setOnClickListener {
+                // 링크 아이템 옵션 BottomSheet 열기
+                onClickItemOption("link")
+            }
+
+            // url 입력 후 엔터
         }
     }
 
@@ -299,6 +309,10 @@ class EditLinkAdapter (
             }
 
             // 옵션 버튼 선택 시
+            binding.btnOptionEditLinkCode.setOnClickListener {
+                // 코드 아이템 옵션 BottomSheet 열기
+                onClickItemOption("code")
+            }
         }
     }
 
@@ -351,6 +365,10 @@ class EditLinkAdapter (
             })
 
             // 옵션 버튼 선택
+            binding.btnOptionEditLinkCheckbox.setOnClickListener {
+                // 할 일 아이템 옵션 BottomSheet 열기
+                onClickItemOption("checkbox")
+            }
         }
     }
 }

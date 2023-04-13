@@ -30,7 +30,7 @@
         android:hint="@string/add_code"
         android:textColor="@color/black"
         android:textColorHint="@color/dark_gray"
-        android:textSize="10sp" />
+        android:textSize="14sp" />
 
     <!-- 아이템 옵션 버튼 -->
     <ImageButton

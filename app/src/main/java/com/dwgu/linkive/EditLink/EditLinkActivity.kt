@@ -11,9 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dwgu.linkive.EditLink.EditLinkBottomSheet.NoticeNotSaveBottomFragment
-import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditImageBottomFragment
-import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditTextBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.*
 import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityEditLinkBinding
@@ -218,9 +216,25 @@ class EditLinkActivity : AppCompatActivity() {
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
         // 주소(장소) 아이템 옵션 BottomSheet
+        else if(itemCategory == "place") {
+            val bottomSheet = OptionEditPlaceBottomFragment()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
         // 링크 아이템 옵션 BottomSheet
+        else if(itemCategory == "link") {
+            val bottomSheet = OptionEditLinkBottomFragment()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
         // 코드 아이템 옵션 BottomSheet
+        else if(itemCategory == "code") {
+            val bottomSheet = OptionEditCodeBottomFragment()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
         // 할 일 아이템 옵션 BottomSheet
+        else if(itemCategory == "checkbox") {
+            val bottomSheet = OptionEditCheckboxBottomFragment()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
     }
 
     // 이전 버튼 - 폰에 있는 이전 버튼

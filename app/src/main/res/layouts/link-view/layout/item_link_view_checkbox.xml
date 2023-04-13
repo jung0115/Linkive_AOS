@@ -24,6 +24,6 @@
         android:layout_marginLeft="9dp"
         android:text="할 일"
         android:textColor="@color/black"
-        android:textSize="12sp"/>
+        android:textSize="14sp"/>
 
 </LinearLayout>

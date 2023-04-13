@@ -47,7 +47,7 @@
             android:layout_marginLeft="7dp"
             android:text="제목"
             android:textColor="@color/black"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:bufferType="spannable"/>
 
@@ -95,7 +95,7 @@
                 android:layout_marginRight="3dp"
                 android:text="@string/folder_null"
                 android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:bufferType="spannable"/>
 
             <ImageView
