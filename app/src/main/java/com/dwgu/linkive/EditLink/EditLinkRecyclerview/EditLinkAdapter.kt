@@ -2,6 +2,8 @@ package com.dwgu.linkive.EditLink.EditLinkRecyclerview
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -165,7 +167,7 @@ class EditLinkAdapter (
     // 이미지
     inner class ImageHolder(private val binding: ItemEditLinkImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: EditLinkImageItem, position: Int) {
-            // 이미지가 입력된 경우
+            // 이미지가 입력된 경우 - 이전에 선택된 이미지
             if(item.editLinkImage != null) {
                 // 이미지 url로 이미지 로드
                 CoroutineScope(Dispatchers.Main).launch {
@@ -174,6 +176,14 @@ class EditLinkAdapter (
                     }
                     binding.imgEditLinkImageView.setImageBitmap(imageBitmap) // 이미지
                 }
+                // Edit 모드 가리고, View 모드 보여주기
+                binding.linearlayoutEditLinkImage.visibility = View.GONE
+                binding.imgEditLinkImageView.visibility = View.VISIBLE
+            }
+            // 편집 페이지에서 이미지 선택 시
+            else if(item.editLinkImageUri != null) {
+                binding.imgEditLinkImageView.setImageURI(item.editLinkImageUri)
+
                 // Edit 모드 가리고, View 모드 보여주기
                 binding.linearlayoutEditLinkImage.visibility = View.GONE
                 binding.imgEditLinkImageView.visibility = View.VISIBLE
@@ -190,8 +200,6 @@ class EditLinkAdapter (
                 // 이미지 아이템 옵션 BottomSheet 열기
                 onClickItemOption(mutableListOf("image", position.toString()))
             }
-
-            // 이미지 입력 버튼 눌렀을 때
         }
     }
 
