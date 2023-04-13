@@ -13,6 +13,11 @@ class OptionEditImageBottomFragment : BottomSheetDialogFragment() {
     // ViewBinding Setting
     lateinit var binding: FragmentOptionEditImageBottomBinding
 
+    // 리사이클러뷰에서의 position 값
+    final val POSITION_IN_RECYCLERVIEW = "position_in_recyclerview"
+
+    var position: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,6 +29,9 @@ class OptionEditImageBottomFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 리사이클러뷰에서의 position 값
+        position = arguments?.getString(POSITION_IN_RECYCLERVIEW)
 
         // 이미지 설정/변경 버튼 선택 시
         binding.relativelayoutSetImage.setOnClickListener(View.OnClickListener {
@@ -38,6 +46,12 @@ class OptionEditImageBottomFragment : BottomSheetDialogFragment() {
 
             // 링크 편집 아이템 삭제 확인 BottomSheet 열기
             val bottomSheet = DeleteEditItemBottomFragment()
+
+            // recycleview에서의 position 값 전달
+            val bundle = Bundle()
+            bundle.putString("position_in_recyclerview", position)
+            bottomSheet.arguments = bundle
+
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         })
     }
