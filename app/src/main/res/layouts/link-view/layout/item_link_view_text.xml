@@ -14,4 +14,12 @@
         android:textColor="@color/black"
         android:textSize="14sp"/>
 
+    <TextView
+        android:id="@+id/text_link_view_text_null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/null_text"
+        android:textColor="@color/dark_gray"
+        android:textSize="14sp"/>
+
 </RelativeLayout>
