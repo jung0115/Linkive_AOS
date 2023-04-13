@@ -168,12 +168,24 @@ class LinkViewAdapter (private val context: Context) :
     // 이미지
     inner class ImageHolder(private val binding: ItemLinkViewImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: LinkViewImageItem) {
-            // 이미지 url로 이미지 로드
-            CoroutineScope(Dispatchers.Main).launch {
-                val imageBitmap: Bitmap? = withContext(Dispatchers.IO) {
-                    ImageLoader.loadImage(item.linkViewImage)
+            // 이미지가 비어있을 때
+            if(item.linkViewImage == null) {
+                // 이미지 나타나는 곳 가리고, 빈값 보여주기
+                binding.imgLinkViewImage.visibility = View.GONE
+                binding.linearlayoutLinkViewImageNull.visibility = View.VISIBLE
+            }
+            else {
+                // 이미지 나타나는 곳 보여주고, 빈값 가리기
+                binding.imgLinkViewImage.visibility = View.VISIBLE
+                binding.linearlayoutLinkViewImageNull.visibility = View.GONE
+
+                // 이미지 url로 이미지 로드
+                CoroutineScope(Dispatchers.Main).launch {
+                    val imageBitmap: Bitmap? = withContext(Dispatchers.IO) {
+                        ImageLoader.loadImage(item.linkViewImage!!)
+                    }
+                    binding.imgLinkViewImage.setImageBitmap(imageBitmap) // 이미지
                 }
-                binding.imgLinkViewImage.setImageBitmap(imageBitmap) // 이미지
             }
         }
     }
@@ -181,42 +193,105 @@ class LinkViewAdapter (private val context: Context) :
     // 글
     inner class TextHolder(private val binding: ItemLinkViewTextBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: LinkViewTextItem) {
-            // 글 내용
-            binding.textLinkViewText.text = item.linkViewText
+            // 글이 비어있을 때
+            if(item.linkViewText == null) {
+                // 글 나타나는 곳 가리고, 빈값 보여주기
+                binding.textLinkViewText.visibility = View.GONE
+                binding.textLinkViewTextNull.visibility = View.VISIBLE
+            }
+            else {
+                // 글 나타나는 곳 보여주고, 빈값 가리기
+                binding.textLinkViewText.visibility = View.VISIBLE
+                binding.textLinkViewTextNull.visibility = View.GONE
+
+                // 글 내용
+                binding.textLinkViewText.text = item.linkViewText
+            }
         }
     }
 
     // 주소(장소)
     inner class PlaceHolder(private val binding: ItemLinkViewPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: LinkViewPlaceItem) {
-            // 도로명 주소
-            binding.textLinkViewPlace1.text = item.linkViewPlace1
-            // 지번 주소
-            binding.textLinkViewPlace2.text = "지번: " + item.linkViewPlace2
+            // 주소가 비어있을 때
+            if(item.linkViewPlace1 == null) {
+                // 주소 나타나는 곳 가리고, 빈값 보여주기
+                binding.linearlayoutLinkViewPlace.visibility = View.GONE
+                binding.linearlayoutLinkViewPlaceNull.visibility = View.VISIBLE
+            }
+            else {
+                // 주소 나타나는 곳 보여주고, 빈값 가리기
+                binding.linearlayoutLinkViewPlace.visibility = View.VISIBLE
+                binding.linearlayoutLinkViewPlaceNull.visibility = View.GONE
+
+                // 도로명 주소
+                binding.textLinkViewPlace1.text = item.linkViewPlace1
+                // 지번 주소
+                binding.textLinkViewPlace2.text = "지번: " + item.linkViewPlace2
+            }
         }
     }
 
     // 링크
     inner class LinkHolder(private val binding: ItemLinkViewLinkBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: LinkViewLinkItem) {
-            // 링크 제목
-            binding.textLinkViewLinkTitle.text = item.linkViewLinkTitle
-            // 링크 url
-            binding.textLinkViewLinkUrl.text = item.linkViewLinkUrl
+            // 링크가 비어있을 때
+            if(item.linkViewLinkTitle == null) {
+                // 링크 나타나는 곳 가리고, 빈값 보여주기
+                binding.linearlayoutLinkViewLink.visibility = View.GONE
+                binding.linearlayoutLinkViewLinkNull.visibility = View.VISIBLE
+            }
+            else {
+                // 링크 나타나는 곳 보여주고, 빈값 가리기
+                binding.linearlayoutLinkViewLink.visibility = View.VISIBLE
+                binding.linearlayoutLinkViewLinkNull.visibility = View.GONE
+
+                // 링크 제목
+                binding.textLinkViewLinkTitle.text = item.linkViewLinkTitle
+                // 링크 url
+                binding.textLinkViewLinkUrl.text = item.linkViewLinkUrl
+            }
         }
     }
 
     // 코드
     inner class CodeHolder(private val binding: ItemLinkViewCodeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: LinkViewCodeItem) {
-            // 코드 내용
-            binding.textLinkViewCode.text = item.linkViewCode
+            // 코드 내용이 없는 경우
+            if(item.linkViewCode == null) {
+                // 코드 나타나는 곳 가리고, 빈값 보여주기
+                binding.textLinkViewCode.visibility = View.GONE
+                binding.textLinkViewCodeNull.visibility = View.VISIBLE
+            }
+            else {
+                // 코드 나타나는 곳 보여주고, 빈값 가리기
+                binding.textLinkViewCode.visibility = View.VISIBLE
+                binding.textLinkViewCodeNull.visibility = View.GONE
+
+                // 코드 내용
+                binding.textLinkViewCode.text = item.linkViewCode
+            }
         }
     }
 
     // 할 일(체크박스)
     inner class CheckboxHolder(private val binding: ItemLinkViewCheckboxBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: LinkViewCheckboxItem) {
+            // 할 일 내용이 없는 경우
+            if(item.linkViewCheckboxText == null) {
+                // 할 일 나타나는 곳 가리고, 빈값 보여주기
+                binding.textLinkViewCheckbox.visibility = View.GONE
+                binding.textLinkViewCheckboxNull.visibility = View.VISIBLE
+            }
+            else {
+                // 할 일 나타나는 곳 보여주고, 빈값 가리기
+                binding.textLinkViewCheckbox.visibility = View.VISIBLE
+                binding.textLinkViewCheckboxNull.visibility = View.GONE
+
+                // 할 일 내용
+                binding.textLinkViewCheckbox.text = item.linkViewCheckboxText
+            }
+
             // 체크된 상태인 경우
             if(item.linkViewCheckboxChecked) {
                 // 체크 완료 아이콘

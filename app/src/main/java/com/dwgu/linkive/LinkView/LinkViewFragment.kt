@@ -40,6 +40,8 @@ class LinkViewFragment : Fragment() {
         // 페이지 정보 세팅 - 제목, 폴더, 출처 플랫폼
         setLinkViewInformation("제목입니다", "instagram", "폴더1")
 
+        //pageSheet = "oo"
+
         // PageSheet 미선택 상태일 때
         if(pageSheet == null) {
             binding.linearlayoutUnselectPagesheet.visibility = View.VISIBLE
@@ -51,11 +53,16 @@ class LinkViewFragment : Fragment() {
         // 테스트 데이터
         addLinkViewItem(LinkViewImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
         /*addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))
+        addLinkViewItem(LinkViewTextItem(null))
         addLinkViewItem(LinkViewPlaceItem("서울 송파구 올림픽로 240", "잠실동 40-1"))
+        addLinkViewItem(LinkViewPlaceItem(null, null))
         addLinkViewItem(LinkViewLinkItem("백준 - 토마토(7569)", "https://www.acmicpc.net/problem/7569"))
+        addLinkViewItem(LinkViewLinkItem(null, null))
         addLinkViewItem(LinkViewCodeItem("System.out.print(“Hello, World!”);\n\n" +
                 "while(i < 10) {\ni++;\n}\n\nSystem.out.print(“Hello, World!”);\nSystem.out.print(“Hello, World!”);"))
+        addLinkViewItem(LinkViewCodeItem(null))
         addLinkViewItem(LinkViewCheckboxItem("할 일 1", true))
+        addLinkViewItem(LinkViewCheckboxItem(null, true))
         addLinkViewItem(LinkViewCheckboxItem("할 일 2", false))
         addLinkViewItem(LinkViewImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
         addLinkViewItem(LinkViewTextItem("글 테스트입니다.\n테스트 글입니다."))*/
