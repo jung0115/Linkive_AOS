@@ -1,9 +1,11 @@
 package com.dwgu.linkive.EditLink
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
@@ -111,8 +113,8 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         })
 
         // 샘플 데이터 --------------------------------------------------------------------------------------------
-        addEditLinkItem(EditLinkImageItem(null))
-        addEditLinkItem(EditLinkImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg"))
+        addEditLinkItem(EditLinkImageItem(null, null))
+        addEditLinkItem(EditLinkImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg", null))
         addEditLinkItem(EditLinkTextItem(null))
         addEditLinkItem(EditLinkTextItem("글 입력\n테스트\n테스트"))
         addEditLinkItem(EditLinkPlaceItem(null, null))
@@ -144,7 +146,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         // 이미지 아이템 추가
         binding.btnAddItemImage.setOnClickListener {
             // 이미지 아이템 추가
-            addEditLinkItem(EditLinkImageItem(null))
+            addEditLinkItem(EditLinkImageItem(null, null))
 
             // 최하단으로 스크롤 이동
             binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
@@ -276,6 +278,12 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     // 아이템 삭제
     override fun deleteItemListener(position: Int) {
         editLinkItems.removeAt(position)
+        editLinkAdapter.notifyDataSetChanged()
+    }
+
+    // 갤러리에서 이미지 선택한 거 반영해주기
+    override fun selectImageListener(position: Int, imageUri: Uri) {
+        editLinkItems[position] = EditLinkImageItem(null, imageUri)
         editLinkAdapter.notifyDataSetChanged()
     }
 
