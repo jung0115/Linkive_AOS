@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 // 링크 편집 페이지 아이템 Recyclerview Adapter
 class EditLinkAdapter (
     private val context: Context,
-    val onClickItemOption: (itemCategory: String) -> Unit) :
+    val onClickItemOption: (itemCategory: MutableList<String>) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // ViewBinding Setting
@@ -95,27 +95,27 @@ class EditLinkAdapter (
         when (holder) {
             // 이미지
             is ImageHolder -> {
-                holder.bind(items[position] as EditLinkImageItem)
+                holder.bind(items[position] as EditLinkImageItem, position)
             }
             // 글
             is TextHolder -> {
-                holder.bind(items[position] as EditLinkTextItem)
+                holder.bind(items[position] as EditLinkTextItem, position)
             }
             // 주소(장소)
             is PlaceHolder -> {
-                holder.bind(items[position] as EditLinkPlaceItem)
+                holder.bind(items[position] as EditLinkPlaceItem, position)
             }
             // 링크
             is LinkHolder -> {
-                holder.bind(items[position] as EditLinkLinkItem)
+                holder.bind(items[position] as EditLinkLinkItem, position)
             }
             // 코드
             is CodeHolder -> {
-                holder.bind(items[position] as EditLinkCodeItem)
+                holder.bind(items[position] as EditLinkCodeItem, position)
             }
             // 할 일(체크박스)
             is CheckboxHolder -> {
-                holder.bind(items[position] as EditLinkCheckboxItem)
+                holder.bind(items[position] as EditLinkCheckboxItem, position)
             }
         }
     }
@@ -153,11 +153,6 @@ class EditLinkAdapter (
         }
     }
 
-    fun addItems(item: EditLinkItem) {
-        this.items.add(item)
-        this.notifyDataSetChanged()
-    }
-
     companion object {
         private const val TYPE_IMAGE = 0    // 이미지
         private const val TYPE_TEXT = 1     // 글
@@ -169,7 +164,7 @@ class EditLinkAdapter (
 
     // 이미지
     inner class ImageHolder(private val binding: ItemEditLinkImageBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkImageItem) {
+        fun bind(item: EditLinkImageItem, position: Int) {
             // 이미지가 입력된 경우
             if(item.editLinkImage != null) {
                 // 이미지 url로 이미지 로드
@@ -193,7 +188,7 @@ class EditLinkAdapter (
             // 옵션 버튼 눌렀을 때
             binding.btnOptionEditLinkImage.setOnClickListener {
                 // 이미지 아이템 옵션 BottomSheet 열기
-                onClickItemOption("image")
+                onClickItemOption(mutableListOf("image", position.toString()))
             }
 
             // 이미지 입력 버튼 눌렀을 때
@@ -202,7 +197,7 @@ class EditLinkAdapter (
 
     // 글
     inner class TextHolder(private val binding: ItemEditLinkTextBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkTextItem) {
+        fun bind(item: EditLinkTextItem, position: Int) {
             // 글 내용이 입력된 경우
             if(item.editLinkText != null) {
                 // 글 내용 세팅
@@ -216,14 +211,14 @@ class EditLinkAdapter (
             // 옵션 버튼 눌렀을 때
             binding.btnOptionEditLinkText.setOnClickListener {
                 // 글 아이템 옵션 BottomSheet 열기
-                onClickItemOption("text")
+                onClickItemOption(mutableListOf("text", position.toString()))
             }
         }
     }
 
     // 주소(장소)
     inner class PlaceHolder(private val binding: ItemEditLinkPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkPlaceItem) {
+        fun bind(item: EditLinkPlaceItem, position: Int) {
             // 주소가 입력된 경우
             if(item.editLinkPlace1 != null) {
                 // 주소 입력
@@ -251,7 +246,7 @@ class EditLinkAdapter (
             // 옵션 버튼 선택 시
             binding.btnOptionEditLinkPlace.setOnClickListener {
                 // 주소 아이템 옵션 BottomSheet 열기
-                onClickItemOption("place")
+                onClickItemOption(mutableListOf("place", position.toString()))
             }
 
             // 주소 입력 버튼 선택 시
@@ -260,7 +255,7 @@ class EditLinkAdapter (
 
     // 링크
     inner class LinkHolder(private val binding: ItemEditLinkLinkBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkLinkItem) {
+        fun bind(item: EditLinkLinkItem, position: Int) {
             // 링크가 입력된 경우
             if(item.editLinkLinkTitle != null) {
                 // 링크 제목
@@ -287,7 +282,7 @@ class EditLinkAdapter (
             // 옵션 버튼 선택 시
             binding.btnOptionEditLinkLink.setOnClickListener {
                 // 링크 아이템 옵션 BottomSheet 열기
-                onClickItemOption("link")
+                onClickItemOption(mutableListOf("link", position.toString()))
             }
 
             // url 입력 후 엔터
@@ -296,7 +291,7 @@ class EditLinkAdapter (
 
     // 코드
     inner class CodeHolder(private val binding: ItemEditLinkCodeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkCodeItem) {
+        fun bind(item: EditLinkCodeItem, position: Int) {
             // 코드 내용이 입력된 경우
             if(item.editLinkCode != null) {
                 // 코드 내용
@@ -311,14 +306,14 @@ class EditLinkAdapter (
             // 옵션 버튼 선택 시
             binding.btnOptionEditLinkCode.setOnClickListener {
                 // 코드 아이템 옵션 BottomSheet 열기
-                onClickItemOption("code")
+                onClickItemOption(mutableListOf("code", position.toString()))
             }
         }
     }
 
     // 할 일(체크박스)
     inner class CheckboxHolder(private val binding: ItemEditLinkCheckboxBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkCheckboxItem) {
+        fun bind(item: EditLinkCheckboxItem, position: Int) {
             // 할 일 내용이 입력된 경우
             if(item.editLinkCheckboxText != null) {
                 // 할 일 내용
@@ -367,7 +362,7 @@ class EditLinkAdapter (
             // 옵션 버튼 선택
             binding.btnOptionEditLinkCheckbox.setOnClickListener {
                 // 할 일 아이템 옵션 BottomSheet 열기
-                onClickItemOption("checkbox")
+                onClickItemOption(mutableListOf("checkbox", position.toString()))
             }
         }
     }

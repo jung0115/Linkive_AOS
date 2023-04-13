@@ -13,6 +13,11 @@ class OptionEditCheckboxBottomFragment : BottomSheetDialogFragment() {
     // ViewBinding Setting
     lateinit var binding: FragmentOptionEditCheckboxBottomBinding
 
+    // 리사이클러뷰에서의 position 값
+    final val POSITION_IN_RECYCLERVIEW = "position_in_recyclerview"
+
+    var position: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,6 +29,9 @@ class OptionEditCheckboxBottomFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 리사이클러뷰에서의 position 값
+        position = arguments?.getString(POSITION_IN_RECYCLERVIEW)
 
         // 내용 초기화 버튼
         binding.relativelayoutSetCheckbox.setOnClickListener(View.OnClickListener {
@@ -38,6 +46,12 @@ class OptionEditCheckboxBottomFragment : BottomSheetDialogFragment() {
 
             // 링크 편집 아이템 삭제 확인 BottomSheet 열기
             val bottomSheet = DeleteEditItemBottomFragment()
+
+            // recycleview에서의 position 값 전달
+            val bundle = Bundle()
+            bundle.putString("position_in_recyclerview", position)
+            bottomSheet.arguments = bundle
+
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         })
     }
