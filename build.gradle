@@ -5,7 +5,9 @@ buildscript {
     }
     dependencies {
         def nav_version = "2.5.3"
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+            classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+        // Google Service Plugin
+        classpath 'com.google.gms:google-services:4.3.8' // 4.3.15 버전에서는 default_web_client_id string 사용 불가
     }
 }
 
