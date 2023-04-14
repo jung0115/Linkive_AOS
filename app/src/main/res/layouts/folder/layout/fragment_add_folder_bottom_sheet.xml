@@ -104,6 +104,7 @@
         </RadioGroup>
 
         <EditText
+            android:id="@+id/edittext_folder_name"
             android:layout_width="290dp"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
@@ -121,8 +122,8 @@
             android:background="@drawable/shape_edittext">
 
             <EditText
-                android:id="@+id/editText"
-                android:layout_width="230dp"
+                android:id="@+id/edittext_folder_password"
+                android:layout_width="240dp"
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:hint="@string/folder_add_password_hint"
@@ -135,6 +136,42 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <CheckBox
+                android:id="@+id/check_eye"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/selector_eye"
+                android:button="@null"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_password_check"
+            android:layout_width="290dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/shape_edittext"
+            android:visibility="gone"
+            >
+
+            <EditText
+                android:id="@+id/edittext_folder_password_check"
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="@string/folder_add_password_check_hint"
+                android:maxLength="10"
+                android:paddingLeft="23dp"
+                android:textColorHint="@color/hint_text"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/check_eye_check"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -151,6 +188,7 @@
             android:layout_marginTop="13dp"
             android:layout_marginBottom="21dp">
             <Button
+                android:id="@+id/btn_cancel"
                 android:layout_width="130dp"
                 android:layout_height="30dp"
                 android:text="@string/cancel"
@@ -162,6 +200,7 @@
                 android:minWidth="0dp"
                 />
             <Button
+                android:id="@+id/btn_confirm"
                 android:layout_width="130dp"
                 android:layout_height="30dp"
                 android:text="@string/confirm"

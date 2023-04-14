@@ -14,7 +14,9 @@ import com.dwgu.linkive.databinding.ItemFolderOfListBinding
 
 class FolderListAdapter(private val List: List<FolderListItem>): RecyclerView.Adapter<FolderListAdapter.ViewHolder>() {
 
-    class ViewHolder(val binding: ItemFolderOfListBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemFolderOfListBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.item_folder_of_list, viewGroup, false)
@@ -27,16 +29,14 @@ class FolderListAdapter(private val List: List<FolderListItem>): RecyclerView.Ad
 
         viewHolder.binding.imgFolderCover.setImageResource(List[position].cover)
         roundTop(viewHolder.binding.imgFolderCover, 24f)
-//        viewHolder.binding.imgFolderCover.apply {
-//            measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-//            clipToOutline= true
-//        }
-//        viewHolder.binding.layoutFolderItem.apply {
-//            measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-//            clipToOutline= true
-//        }
-//        viewHolder.binding.imgFolderCover.clipToOutline = true
-//        viewHolder.binding.layoutFolderItem.clipChildren = true
+
+        // 클릭 이벤트
+        viewHolder.binding.root.setOnClickListener {
+
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.nav_host_fragment, folderFragment)
+//                .commit()
+        }
     }
 
     //동일
