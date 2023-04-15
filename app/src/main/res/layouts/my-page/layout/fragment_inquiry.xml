@@ -33,6 +33,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_close_inquiry"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/ic_close"

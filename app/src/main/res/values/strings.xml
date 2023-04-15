@@ -32,6 +32,7 @@
     <string name="home_title">홈</string>
 
     <!-- MyPage-->
+    <string name="mypage_title">마이페이지</string>
     <string name="nickname">닉네임</string>
     <string name="id">1234</string>
     <string name="page_sheet">Page Sheet</string>
@@ -149,9 +150,6 @@
     <string name="folder_password_error">비밀번호와 다릅니다.</string>
     <string name="folder_thumbnail_edit">폴더 썸네일 변경</string>
     <string name="folder_password_setting_edit">비밀번호 설정 / 변경</string>
-
-    <!-- MyPage-->
-    <string name="mypage_title">마이페이지</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
