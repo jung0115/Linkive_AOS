@@ -59,10 +59,12 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
 
-                <ImageView
+                <ImageButton
+                    android:id="@+id/btn_edit_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_edit"
+                    android:background="@color/transparent"
                     android:layout_gravity="center"
                     />
 
@@ -167,6 +169,7 @@
                 android:layout_marginBottom="20dp"/>
 
             <LinearLayout
+                android:id="@+id/btn_inquiry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -190,6 +193,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/btn_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -213,6 +217,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/btn_quit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

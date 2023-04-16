@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/menu_home">
+    <fragment
+        android:id="@+id/menu_home"
+        android:name="com.dwgu.linkive.Home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_menu_home_to_linkViewFragment"
+            app:destination="@id/linkViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/menu_search"
+        android:name="com.dwgu.linkive.Search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_menu_search_to_searchResultAllFragment"
+            app:destination="@id/searchResultAllFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/menu_folder"
+        android:name="com.dwgu.linkive.Folder.FolderFragment"
+        android:label="fragment_folder"
+        tools:layout="@layout/fragment_folder" >
+        <action
+            android:id="@+id/action_menu_folder_to_folderMenuBottomSheetFragment2"
+            app:destination="@id/folderMenuBottomSheetFragment2" />
+        <action
+            android:id="@+id/action_menu_folder_to_addFolderBottomSheetFragment"
+            app:destination="@id/addFolderBottomSheetFragment" />
+        <action
+            android:id="@+id/action_menu_folder_to_deleteEditItemBottomFragment2"
+            app:destination="@id/deleteEditItemBottomFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/menu_mypage"
+        android:name="com.dwgu.linkive.MyPage.MyPageFragment"
+        android:label="fragment_my_page"
+        tools:layout="@layout/fragment_my_page" >
+        <action
+            android:id="@+id/action_menu_mypage_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_menu_mypage_to_pageSheetActivity"
+            app:destination="@id/pageSheetActivity" />
+        <action
+            android:id="@+id/action_menu_mypage_to_inquiryFragment"
+            app:destination="@id/inquiryFragment" />
+        <action
+            android:id="@+id/action_menu_mypage_to_quitFragment"
+            app:destination="@id/quitFragment" />
+        <action
+            android:id="@+id/action_menu_mypage_to_editPageSheetFragment4"
+            app:destination="@id/editPageSheetFragment4" />
+        <action
+            android:id="@+id/action_menu_mypage_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/linkViewFragment"
+        android:name="com.dwgu.linkive.LinkView.LinkViewFragment"
+        android:label="fragment_link_view"
+        tools:layout="@layout/fragment_link_view" >
+        <action
+            android:id="@+id/action_linkViewFragment_to_manageLinkBottomFragment"
+            app:destination="@id/manageLinkBottomFragment" />
+        <action
+            android:id="@+id/action_linkViewFragment_to_selectPagesheetBottomFragment"
+            app:destination="@id/selectPagesheetBottomFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/manageLinkBottomFragment"
+        android:name="com.dwgu.linkive.LinkView.LinkViewBottomSheet.ManageLinkBottomFragment"
+        android:label="fragment_manage_link_bottom"
+        tools:layout="@layout/fragment_manage_link_bottom" >
+        <action
+            android:id="@+id/action_manageLinkBottomFragment_to_moveFolderBottomFragment"
+            app:destination="@id/moveFolderBottomFragment" />
+        <action
+            android:id="@+id/action_manageLinkBottomFragment_to_deleteLinkBottomFragment"
+            app:destination="@id/deleteLinkBottomFragment" />
+        <action
+            android:id="@+id/action_manageLinkBottomFragment_to_editLinkActivity4"
+            app:destination="@id/editLinkActivity4" />
+    </dialog>
+    <dialog
+        android:id="@+id/moveFolderBottomFragment"
+        android:name="com.dwgu.linkive.LinkView.LinkViewBottomSheet.MoveFolderBottomFragment"
+        android:label="fragment_move_folder_bottom"
+        tools:layout="@layout/fragment_move_folder_bottom" />
+    <dialog
+        android:id="@+id/deleteLinkBottomFragment"
+        android:name="com.dwgu.linkive.LinkView.LinkViewBottomSheet.DeleteLinkBottomFragment"
+        android:label="fragment_delete_link_bottom"
+        tools:layout="@layout/fragment_delete_link_bottom" />
+    <dialog
+        android:id="@+id/selectPagesheetBottomFragment"
+        android:name="com.dwgu.linkive.LinkView.LinkViewBottomSheet.SelectPagesheetBottomFragment"
+        android:label="fragment_select_pagesheet_bottom"
+        tools:layout="@layout/fragment_select_pagesheet_bottom" />
+    <fragment
+        android:id="@+id/searchResultAllFragment"
+        android:name="com.dwgu.linkive.Search.SearchResultTab.SearchResultAllFragment"
+        android:label="fragment_search_result_all"
+        tools:layout="@layout/fragment_search_result_all" >
+        <action
+            android:id="@+id/action_searchResultAllFragment_to_searchResultTitleFragment"
+            app:destination="@id/searchResultTitleFragment" />
+        <action
+            android:id="@+id/action_searchResultAllFragment_to_searchResultContentsFragment"
+            app:destination="@id/searchResultContentsFragment" />
+        <action
+            android:id="@+id/action_searchResultAllFragment_to_searchResultFolderFragment"
+            app:destination="@id/searchResultFolderFragment" />
+        <action
+            android:id="@+id/action_searchResultAllFragment_to_searchResultPlaceFragment"
+            app:destination="@id/searchResultPlaceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultContentsFragment"
+        android:name="com.dwgu.linkive.Search.SearchResultTab.SearchResultContentsFragment"
+        android:label="fragment_search_result_contents"
+        tools:layout="@layout/fragment_search_result_contents" />
+    <fragment
+        android:id="@+id/searchResultFolderFragment"
+        android:name="com.dwgu.linkive.Search.SearchResultTab.SearchResultFolderFragment"
+        android:label="fragment_search_result_folder"
+        tools:layout="@layout/fragment_search_result_folder" />
+    <fragment
+        android:id="@+id/searchResultPlaceFragment"
+        android:name="com.dwgu.linkive.Search.SearchResultTab.SearchResultPlaceFragment"
+        android:label="fragment_search_result_place"
+        tools:layout="@layout/fragment_search_result_place" />
+    <fragment
+        android:id="@+id/searchResultTitleFragment"
+        android:name="com.dwgu.linkive.Search.SearchResultTab.SearchResultTitleFragment"
+        android:label="fragment_search_result_title"
+        tools:layout="@layout/fragment_search_result_title" />
+    <dialog
+        android:id="@+id/addFolderBottomSheetFragment"
+        android:name="com.dwgu.linkive.Folder.AddFolderBottomSheetFragment"
+        android:label="fragment_add_folder_bottom_sheet"
+        tools:layout="@layout/fragment_add_folder_bottom_sheet" />
+    <dialog
+        android:id="@+id/folderMenuBottomSheetFragment2"
+        android:name="com.dwgu.linkive.Folder.FolderMenuBottomSheetFragment"
+        android:label="fragment_folder_menu_bottom_sheet"
+        tools:layout="@layout/fragment_folder_menu_bottom_sheet" />
+    <dialog
+        android:id="@+id/deleteEditItemBottomFragment2"
+        android:name="com.dwgu.linkive.EditLink.EditLinkBottomSheet.DeleteEditItemBottomFragment"
+        android:label="fragment_delete_edit_item_bottom"
+        tools:layout="@layout/fragment_delete_edit_item_bottom" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.dwgu.linkive.MyPage.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_menu_mypage"
+            app:destination="@id/menu_mypage" />
+    </fragment>
+    <fragment
+        android:id="@+id/inquiryFragment"
+        android:name="com.dwgu.linkive.MyPage.InquiryFragment"
+        android:label="fragment_inquiry"
+        tools:layout="@layout/fragment_inquiry" >
+        <action
+            android:id="@+id/action_inquiryFragment_to_menu_mypage"
+            app:destination="@id/menu_mypage" />
+    </fragment>
+    <fragment
+        android:id="@+id/quitFragment"
+        android:name="com.dwgu.linkive.MyPage.QuitFragment"
+        android:label="fragment_quit"
+        tools:layout="@layout/fragment_quit" >
+        <action
+            android:id="@+id/action_quitFragment_to_menu_mypage"
+            app:destination="@id/menu_mypage" />
+        <action
+            android:id="@+id/action_quitFragment_to_loginActivity"
+            app:destination="@id/loginActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/pageSheetActivity"
+        android:name="com.dwgu.linkive.MyPage.PageSheetActivity"
+        android:label="activity_page_sheet"
+        tools:layout="@layout/activity_page_sheet" />
+    <activity
+        android:id="@+id/editLinkActivity4"
+        android:name="com.dwgu.linkive.EditLink.EditLinkActivity"
+        android:label="activity_edit_link"
+        tools:layout="@layout/activity_edit_link" />
+    <fragment
+        android:id="@+id/editPageSheetFragment4"
+        android:name="com.dwgu.linkive.MyPage.EditPageSheetFragment"
+        android:label="fragment_edit_page_sheet"
+        tools:layout="@layout/fragment_edit_page_sheet" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.dwgu.linkive.Login.LoginActivity"
+        android:label="LoginActivity" />
+</navigation>

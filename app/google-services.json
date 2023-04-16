@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1085838934586",
+    "project_id": "linkive-f073c",
+    "storage_bucket": "linkive-f073c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085838934586:android:013b928f3e133d15df2b03",
+        "android_client_info": {
+          "package_name": "com.dwgu.linkive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1085838934586-sn9bc9hpttkn05qgu6ngt213ofau4cbn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dwgu.linkive",
+            "certificate_hash": "de93f5f38dce25cee55ebc059ef9e0b1810affe9"
+          }
+        },
+        {
+          "client_id": "1085838934586-u4e1t402e08q30tvahe102qn8cbtcvs6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMDRwCSBsGNewtGOUB4UFbvYm24nJvkbM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1085838934586-h3t7r813b1b97dkhgb9p6p8i9q3g0fh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
