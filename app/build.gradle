@@ -9,7 +9,7 @@ android {
     // 자동완성 사용 시: 32
     // 앱 실행 시: 33
 //    compileSdk 32
-    compileSdk 33
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.dwgu.linkive"

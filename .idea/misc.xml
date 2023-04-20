@@ -76,8 +76,11 @@
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/layout/fragment_link_v_iew.xml" value="0.24947916666666667" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/bottom-navi/menu/bottom_navigation_menu.xml" value="0.25364583333333335" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/edit-link/drawable/doing_drag_effect.xml" value="0.1" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/edit-link/drawable/ic_btn_input_edit_item.xml" value="0.149" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/edit-link/drawable/ic_btn_menu_edit_item.xml" value="0.149" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/edit-link/drawable/not_drag_effect.xml" value="0.1" />
+        <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/edit-link/drawable/select_drag_effect.xml" value="0.1" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/edit-link/drawable/selector_spinner_select_pagesheet.xml" value="0.1015" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/edit-link/drawable/selector_spinner_select_pagesheet_popup.xml" value="0.1015" />
         <entry key="..\:/android/Linkive_AOS/app/src/main/res/layouts/edit-link/drawable/shape_edit_link_img_radius.xml" value="0.149" />

@@ -12,7 +12,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dwgu.linkive.EditLink.DragToMoveItem.ItemTouchCallback
 import com.dwgu.linkive.EditLink.EditLinkBottomSheet.*
 import com.dwgu.linkive.EditLink.EditLinkOption.EditLinkOptionListener
 import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
@@ -35,7 +37,10 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
     // 링크 edit 페이지 아이템 Recyclerview
     private val editLinkItems = mutableListOf<EditLinkItem>()
+    // recyclerview adapter
     private lateinit var editLinkAdapter: EditLinkAdapter
+    // recyclerview 아이템 이동 콜백 변수 : 드래그 시 이동하는 거
+    private lateinit var itemTouchHelper: ItemTouchHelper
 
     // 제목 글자수 입력 제한
     private val titleLimit = 10
@@ -193,6 +198,10 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
                 openItemOptionBottomSheet(it)
             }
         )
+        // 드래그 이동 adapter
+        itemTouchHelper = ItemTouchHelper(ItemTouchCallback(editLinkAdapter))
+        itemTouchHelper.attachToRecyclerView(binding.recyclerviewEditLink)
+
         binding.recyclerviewEditLink.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewEditLink.adapter = editLinkAdapter
         //binding.recyclerviewEditLink.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌

@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:gravity="center_vertical">
+    android:layout_marginHorizontal="5dp"
+    android:gravity="center_vertical"
+    android:background="@color/white">
 
     <!-- 체크 아이콘 -->
     <ImageView

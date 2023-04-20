@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.dwgu.linkive.EditLink.DragToMoveItem.ItemTouchHelperListener
 import com.dwgu.linkive.ImageLoader.ImageLoader
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.*
@@ -21,7 +22,8 @@ import kotlinx.coroutines.withContext
 class EditLinkAdapter (
     private val context: Context,
     val onClickItemOption: (itemCategory: MutableList<String>) -> Unit) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    ItemTouchHelperListener {
 
     // ViewBinding Setting
     private lateinit var imageBinding: ItemEditLinkImageBinding       // 이미지
@@ -33,61 +35,60 @@ class EditLinkAdapter (
 
     var items = mutableListOf<EditLinkItem>()
 
+    // 아이템 이동 - 드래그로 이동 시 호출됨
+    // from: 드래그가 시작되는 위치
+    // to: 이동되는 위치
+    override fun onItemMove(from: Int, to: Int) {
+        // 드래그 되고있는 아이템을 변수로 지정 (dragItem)
+        val dragItem: EditLinkItem = items[from]
+        items.removeAt(from)      // 드래그 되고 있는 아이템 제거
+        items.add(to, dragItem)   // 드래그 끝나는 지점에 추가
+        notifyItemMoved(from, to)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         // 이미지
         TYPE_IMAGE -> {
             val view = LayoutInflater.from(context).inflate(R.layout.item_edit_link_image, parent, false)
-
             imageBinding = ItemEditLinkImageBinding.bind(view)
 
             ImageHolder(ItemEditLinkImageBinding.bind(view))
         }
-
         // 글
         TYPE_TEXT -> {
             val view = LayoutInflater.from(context).inflate(R.layout.item_edit_link_text, parent, false)
-
             textBinding = ItemEditLinkTextBinding.bind(view)
 
             TextHolder(ItemEditLinkTextBinding.bind(view))
         }
-
         // 주소(장소)
         TYPE_PLACE -> {
             val view = LayoutInflater.from(context).inflate(R.layout.item_edit_link_place, parent, false)
-
             placeBinding = ItemEditLinkPlaceBinding.bind(view)
 
             PlaceHolder(ItemEditLinkPlaceBinding.bind(view))
         }
-
         // 링크
         TYPE_LINK -> {
             val view = LayoutInflater.from(context).inflate(R.layout.item_edit_link_link, parent, false)
-
             linkBinding = ItemEditLinkLinkBinding.bind(view)
 
             LinkHolder(ItemEditLinkLinkBinding.bind(view))
         }
-
         // 코드
         TYPE_CODE -> {
             val view = LayoutInflater.from(context).inflate(R.layout.item_edit_link_code, parent, false)
-
             codeBinding = ItemEditLinkCodeBinding.bind(view)
 
             CodeHolder(ItemEditLinkCodeBinding.bind(view))
         }
-
         // 할 일 (체크리스트)
         TYPE_CHECKBOX -> {
             val view = LayoutInflater.from(context).inflate(R.layout.item_edit_link_checkbox, parent, false)
-
             checkboxBinding = ItemEditLinkCheckboxBinding.bind(view)
 
             CheckboxHolder(ItemEditLinkCheckboxBinding.bind(view))
         }
-
         else -> {
             throw IllegalStateException("Not Found ViewHolder Type $viewType")
         }
@@ -149,7 +150,6 @@ class EditLinkAdapter (
         is EditLinkCheckboxItem -> {
             TYPE_CHECKBOX
         }
-
         else -> {
             throw IllegalStateException("Not Found ViewHolder Type")
         }
