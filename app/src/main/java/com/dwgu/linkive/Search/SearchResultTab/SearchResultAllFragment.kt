@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.findFragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
 import com.dwgu.linkive.LinkView.LinkViewFragment
 import com.dwgu.linkive.R
+import com.dwgu.linkive.Search.SearchFragment
 import com.dwgu.linkive.Search.SearchResultRecycler.SearchResultAdapter
 import com.dwgu.linkive.databinding.FragmentSearchResultAllBinding
 
@@ -81,10 +84,6 @@ class SearchResultAllFragment : Fragment() {
 
     // 링크 세부 페이지 열기
     private fun openLinkViewPage() {
-        requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-            .add(R.id.nav_host_fragment, LinkViewFragment())
-            .commit()
+        view?.findNavController()?.navigate(R.id.action_menu_search_to_linkViewFragment)
     }
 }
