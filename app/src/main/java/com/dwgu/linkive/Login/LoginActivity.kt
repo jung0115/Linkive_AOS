@@ -1,16 +1,12 @@
 package com.dwgu.linkive.Login
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
-import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import com.dwgu.linkive.Home.HomeFragment
 import com.dwgu.linkive.MainActivity
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityLoginBinding
@@ -25,6 +21,8 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.OAuthLoginCallback
 
 class LoginActivity : AppCompatActivity() {
 
@@ -47,6 +45,10 @@ class LoginActivity : AppCompatActivity() {
     var googleSignInClient : GoogleSignInClient? = null
     var GOOGLE_LOGIN_CODE = 9001
 
+    // Naver Login
+//    val NAVER_CLIENT_ID = getString(R.string.NAVER_CLIENT_ID)
+//    val NAVER_CLIENT_SECRET = getString(R.string.NAVER_CLIENT_SECRET)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -62,6 +64,9 @@ class LoginActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        // 네이버 SDK 초기화
+//        NaverIdLoginSDK.initialize(this, NAVER_CLIENT_ID, NAVER_CLIENT_SECRET,"LoginTest")
     }
 
     override fun onResume() {
@@ -115,7 +120,7 @@ class LoginActivity : AppCompatActivity() {
                     // 비밀번호 불일치
                     binding.btnErrorPassword.visibility = View.VISIBLE
                     binding.btnViewHide.visibility = View.GONE
-                } else if(id != inputId && password != inputPassword){
+                } else if((id != inputId) && (password != inputPassword)){
                     // 둘 다 불일치
                     binding.btnErrorId.visibility = View.VISIBLE
                     binding.btnErrorPassword.visibility = View.VISIBLE
@@ -178,6 +183,7 @@ class LoginActivity : AppCompatActivity() {
         // 네이버 로그인
         binding.btnNaverLogin.setOnClickListener {
             Log.d("msg", "naver login work")
+            naverLogin()
         }
         // 구글 로그인
         binding.btnGoogleLogin.setOnClickListener {
@@ -253,6 +259,27 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // NaverLogin
+    private fun naverLogin() {
+        // oauthLoginCallback: OAuth 인증 요청이 종료됐음을 알려주는 콜백 인터페이스
+        val oauthLoginCallback = object : OAuthLoginCallback {
+            override fun onSuccess() {
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            }
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                Toast.makeText(this@LoginActivity, "errorCode: $errorCode, errorDesc: $errorDescription", Toast.LENGTH_SHORT).show()
+            }
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
+            }
+        }
+
+        NaverIdLoginSDK.authenticate(this, oauthLoginCallback)
+    }
+    // Google Login
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == GOOGLE_LOGIN_CODE) {

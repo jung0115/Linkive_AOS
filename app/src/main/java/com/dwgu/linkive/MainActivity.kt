@@ -1,31 +1,12 @@
 package com.dwgu.linkive
 
-import android.app.ActivityManager
-import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.dwgu.linkive.EditLink.EditLinkBottomSheet.NoticeNotSaveBottomFragment
-import com.dwgu.linkive.Folder.FolderFragment
-import com.dwgu.linkive.Home.HomeFragment
-import com.dwgu.linkive.LinkView.LinkViewBottomSheet.MoveFolderBottomFragment
-import com.dwgu.linkive.Login.LoginActivity
-import com.dwgu.linkive.MyPage.MyPageFragment
-import com.dwgu.linkive.Search.SearchFragment
 import com.dwgu.linkive.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.kakao.sdk.common.util.Utility
-import com.kakao.sdk.user.UserApiClient
 
 class MainActivity : AppCompatActivity() {
 

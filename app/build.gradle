@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "com.dwgu.linkive"
         minSdk 23
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -60,8 +60,8 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.10.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
@@ -70,7 +70,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    // kakao login module
+    // Kakao login module
     implementation "com.kakao.sdk:v2-user:2.13.0"
 
     // NavGraph
@@ -78,12 +78,18 @@ dependencies {
         implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
         implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
+    // Google Login
     // Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.3.0')
 
     // Firebase products
     implementation 'com.google.firebase:firebase-analytics-ktx'
-
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.4'
+
+    // Naver Login
+//    implementation 'com.navercorp.nid:oauth:5.1.0' // jdk 11
+//    implementation 'com.navercorp.nid:oauth-jdk8:5.1.0' // jdk 8
+    implementation 'com.navercorp.nid:oauth:5.1.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
 }
