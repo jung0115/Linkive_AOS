@@ -2,14 +2,14 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     // Google Service
-    id 'com.google.gms.google-services'
+    //id 'com.google.gms.google-services'
 }
 
 android {
     // 자동완성 사용 시: 32
     // 앱 실행 시: 33
 //    compileSdk 32
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.dwgu.linkive"
@@ -56,6 +56,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'com.dwgu.linkive'
 }
 
 dependencies {
