@@ -1,6 +1,8 @@
 package com.dwgu.linkive.EditLink
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -196,6 +198,9 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             this,
             onClickItemOption = {
                 openItemOptionBottomSheet(it)
+            },
+            onClickSelectImage = {
+                navigatePhotos(it)
             }
         )
         // 드래그 이동 adapter
@@ -304,4 +309,37 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
+    private var selectImagePosition: Int? = null
+    // 갤러리 오픈
+    private fun navigatePhotos(position: Int) {
+        selectImagePosition = position
+
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        startActivityForResult(intent, 2000)
+    }
+
+    // 갤러리에서 호출한 액티비티 결과 반환
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            Log.d("msg", "gallery error")
+            return
+        }
+        when (requestCode) {
+            2000 -> {
+                val selectedImageURI: Uri? = data?.data
+                if (selectedImageURI != null) {
+                    // 선택한 이미지 전달
+                    selectImageListener(selectImagePosition!!.toInt(), selectedImageURI)
+
+                } else {
+                    Log.d("msg", "gallery error")
+                }
+            }
+            else -> {
+                Log.d("msg", "gallery error")
+            }
+        }
+    }
 }

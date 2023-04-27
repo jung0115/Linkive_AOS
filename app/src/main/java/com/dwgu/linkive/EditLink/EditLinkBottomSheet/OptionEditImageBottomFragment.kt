@@ -3,7 +3,6 @@ package com.dwgu.linkive.EditLink.EditLinkBottomSheet
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -58,6 +57,7 @@ class OptionEditImageBottomFragment : BottomSheetDialogFragment() {
         binding.relativelayoutSetImage.setOnClickListener(View.OnClickListener {
             // 갤러리 열어서 이미지 선택
             navigatePhotos()
+
         })
 
         // 아이템 삭제 버튼 선택 시 -> 삭제 확인 BottomSheet

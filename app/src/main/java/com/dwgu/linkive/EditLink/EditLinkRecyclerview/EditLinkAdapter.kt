@@ -1,6 +1,8 @@
 package com.dwgu.linkive.EditLink.EditLinkRecyclerview
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Paint
 import android.net.Uri
@@ -8,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dwgu.linkive.EditLink.DragToMoveItem.ItemTouchHelperListener
@@ -22,7 +25,8 @@ import kotlinx.coroutines.withContext
 // 링크 편집 페이지 아이템 Recyclerview Adapter
 class EditLinkAdapter (
     private val context: Context,
-    val onClickItemOption: (itemCategory: MutableList<String>) -> Unit) :
+    val onClickItemOption: (itemCategory: MutableList<String>) -> Unit,
+    val onClickSelectImage: (position: Int) -> Unit):
     RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     ItemTouchHelperListener {
 
@@ -200,6 +204,12 @@ class EditLinkAdapter (
             binding.btnOptionEditLinkImage.setOnClickListener {
                 // 이미지 아이템 옵션 BottomSheet 열기
                 onClickItemOption(mutableListOf("image", position.toString()))
+            }
+
+            // 이미지 추가 버튼 눌렀을 때
+            binding.btnInputEditLinkImage.setOnClickListener {
+                // 갤러리 열기
+                onClickSelectImage(position)
             }
         }
     }
