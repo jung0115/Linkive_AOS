@@ -2,6 +2,7 @@ package com.dwgu.linkive.EditLink.EditLinkRecyclerview
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Paint
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -338,7 +339,9 @@ class EditLinkAdapter (
                 // 체크 완료 아이콘
                 binding.imgEditLinkCheckbox.setImageResource(R.drawable.ic_link_item_form_checkbox)
                 // 내용을 회색으로
-                binding.edittextEditLinkCheckbox.setTextColor(ContextCompat.getColor(context!!, R.color.dark_gray))
+                binding.edittextEditLinkCheckbox.setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
+                // 내용에 취소선 넣어주기
+                binding.edittextEditLinkCheckbox.paintFlags = binding.edittextEditLinkCheckbox.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
             // 체크가 안 된 경우
             else {
@@ -346,23 +349,29 @@ class EditLinkAdapter (
                 binding.imgEditLinkCheckbox.setImageResource(R.drawable.ic_link_item_form_checkbox_unchecked)
                 // 내용을 검정색으로
                 binding.edittextEditLinkCheckbox.setTextColor(ContextCompat.getColor(context, R.color.black))
+                // 내용에 취소선 해제
+                binding.edittextEditLinkCheckbox.paintFlags = binding.edittextEditLinkCheckbox.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
 
             // 체크박스 클릭 시
             binding.imgEditLinkCheckbox.setOnClickListener(View.OnClickListener {
-                // 체크가 안 된 경우 -> 체크 선택
+                // 체크된 상태인 경우 -> 체크 해제
                 if(item.editLinkCheckboxChecked) {
                     // 체크 안 됨 아이콘
                     binding.imgEditLinkCheckbox.setImageResource(R.drawable.ic_link_item_form_checkbox_unchecked)
                     // 내용을 검정색으로
                     binding.edittextEditLinkCheckbox.setTextColor(ContextCompat.getColor(context, R.color.black))
+                    // 내용에 취소선 해제
+                    binding.edittextEditLinkCheckbox.paintFlags = binding.edittextEditLinkCheckbox.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 }
-                // 체크된 상태인 경우 -> 체크 해제
+                // 체크가 안 된 경우 -> 체크 선택
                 else {
                     // 체크 완료 아이콘
                     binding.imgEditLinkCheckbox.setImageResource(R.drawable.ic_link_item_form_checkbox)
                     // 내용을 회색으로
                     binding.edittextEditLinkCheckbox.setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
+                    // 내용에 취소선 넣어주기
+                    binding.edittextEditLinkCheckbox.paintFlags = binding.edittextEditLinkCheckbox.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }
                 item.editLinkCheckboxChecked = !item.editLinkCheckboxChecked
             })

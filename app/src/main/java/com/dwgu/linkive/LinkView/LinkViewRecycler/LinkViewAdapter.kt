@@ -2,6 +2,7 @@ package com.dwgu.linkive.LinkView.LinkViewRecycler
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -297,31 +298,39 @@ class LinkViewAdapter (private val context: Context) :
                 // 체크 완료 아이콘
                 binding.imgLinkViewCheckbox.setImageResource(R.drawable.ic_link_item_form_checkbox)
                 // 내용을 회색으로
-                binding.textLinkViewCheckbox.setTextColor(ContextCompat.getColor(context!!, R.color.dark_gray))
+                binding.textLinkViewCheckbox.setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
+                // 내용에 취소선 넣어주기
+                binding.textLinkViewCheckbox.paintFlags = binding.textLinkViewCheckbox.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
             // 체크가 안 된 경우
             else {
                 // 체크 안 됨 아이콘
                 binding.imgLinkViewCheckbox.setImageResource(R.drawable.ic_link_item_form_checkbox_unchecked)
                 // 내용을 검정색으로
-                binding.textLinkViewCheckbox.setTextColor(ContextCompat.getColor(context!!, R.color.black))
+                binding.textLinkViewCheckbox.setTextColor(ContextCompat.getColor(context, R.color.black))
+                // 내용에 취소선 해제
+                binding.textLinkViewCheckbox.paintFlags = binding.textLinkViewCheckbox.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
 
             // 체크박스 클릭 시
             binding.imgLinkViewCheckbox.setOnClickListener(View.OnClickListener {
-                // 체크가 안 된 경우 -> 체크 선택
+                // 체크된 상태인 경우 -> 체크 해제
                 if(item.linkViewCheckboxChecked) {
                     // 체크 안 됨 아이콘
                     binding.imgLinkViewCheckbox.setImageResource(R.drawable.ic_link_item_form_checkbox_unchecked)
                     // 내용을 검정색으로
-                    binding.textLinkViewCheckbox.setTextColor(ContextCompat.getColor(context!!, R.color.black))
+                    binding.textLinkViewCheckbox.setTextColor(ContextCompat.getColor(context, R.color.black))
+                    // 내용에 취소선 해제
+                    binding.textLinkViewCheckbox.paintFlags = binding.textLinkViewCheckbox.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 }
-                // 체크된 상태인 경우 -> 체크 해제
+                // 체크가 안 된 경우 -> 체크 선택
                 else {
                     // 체크 완료 아이콘
                     binding.imgLinkViewCheckbox.setImageResource(R.drawable.ic_link_item_form_checkbox)
                     // 내용을 회색으로
-                    binding.textLinkViewCheckbox.setTextColor(ContextCompat.getColor(context!!, R.color.dark_gray))
+                    binding.textLinkViewCheckbox.setTextColor(ContextCompat.getColor(context, R.color.dark_gray))
+                    // 내용에 취소선 넣어주기
+                    binding.textLinkViewCheckbox.paintFlags = binding.textLinkViewCheckbox.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }
                 item.linkViewCheckboxChecked = !item.linkViewCheckboxChecked
             })
