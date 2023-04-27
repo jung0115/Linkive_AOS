@@ -89,6 +89,8 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
                 Log.d(ContentValues.TAG, "URL로 링크 생성 값 확인 -------------------------------------------")
                 Log.d(ContentValues.TAG, "URL: " + linkUrl + ", folder: " + selectedFolder.toString())
 
+                GetInfoForUrl(linkUrl, selectedFolder)
+
                 dismiss() // Dialog 닫기
             }
         }
