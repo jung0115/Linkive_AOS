@@ -58,7 +58,7 @@ public fun GetInfoForUrl(url: String, folder: String?) {
                 // 출처 플랫폼
 
                 // 인스타그램은 OpenGraph를 지원하지 않음
-                // 트위터, 네이버 블로그는 OpenGraph 지원함
+                // 트위터, 네이버 블로그는 OpenGraph 지원
 
             } catch (e: NullPointerException) {
                 e.printStackTrace()
