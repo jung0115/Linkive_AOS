@@ -47,6 +47,9 @@ class LinkViewFragment : Fragment() {
             binding.linearlayoutUnselectPagesheet.visibility = View.VISIBLE
         }
 
+        // 해당 링크 페이지의 url - 임시 테스트 데이터
+        var linkUrl = "https://github.com/jung0115/Linkive_AOS"
+
         // recyclerview 세팅
         initRecycler()
 
@@ -70,6 +73,12 @@ class LinkViewFragment : Fragment() {
         // 제목 오른쪽 점 3개 버튼 선택 시 BottomSheet 나오게
         binding.btnLinkViewManage.setOnClickListener {
             val bottomSheet = ManageLinkBottomFragment()
+
+            // 해당 링크 페이지의 url 값 전달
+            val bundle = Bundle()
+            bundle.putString("url_of_link_memo", linkUrl)
+            bottomSheet.arguments = bundle
+
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         }
 
