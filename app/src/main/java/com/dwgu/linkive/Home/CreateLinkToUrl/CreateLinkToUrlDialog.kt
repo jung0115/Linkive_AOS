@@ -13,6 +13,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListData
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.DialogCreateLinkToUrlBinding
 
@@ -89,7 +90,8 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
                 Log.d(ContentValues.TAG, "URL로 링크 생성 값 확인 -------------------------------------------")
                 Log.d(ContentValues.TAG, "URL: " + linkUrl + ", folder: " + selectedFolder.toString())
 
-                GetInfoForUrl(linkUrl, selectedFolder)
+                // 링크 url로 페이지 정보 가져오기: 제목, 썸네일 이미지, 출처 플랫폼 등
+                var linkData: LinkListData = GetInfoForUrl(linkUrl, selectedFolder)
 
                 dismiss() // Dialog 닫기
             }
