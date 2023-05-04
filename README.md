@@ -12,6 +12,12 @@
 ## 💡 Project Information
 <p align="left">웹과 모바일 앱에서 자유롭게 사용 가능한 링크 저장 메모 플랫폼<br/><br/></p>
   
+## 🖥️ Github Repo
+**AOS** https://github.com/jung0115/Linkive_AOS  
+**Web** https://github.com/charBS0701/linkive-react  
+**Server** https://github.com/AFloppy/Linkive_Backend  
+<br/>
+  
 ## 🧑‍💻 Team Information
 <p align="left"><strong>Team</strong> 도원결의<br/><br/>
 <strong>PM</strong>  하도원<br/>
