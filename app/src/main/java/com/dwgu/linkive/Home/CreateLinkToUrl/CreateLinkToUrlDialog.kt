@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListData
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.DialogCreateLinkToUrlBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 // URL로 링크 추가 Dialog
 class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
@@ -91,7 +94,10 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
                 Log.d(ContentValues.TAG, "URL: " + linkUrl + ", folder: " + selectedFolder.toString())
 
                 // 링크 url로 페이지 정보 가져오기: 제목, 썸네일 이미지, 출처 플랫폼 등
-                var linkData: LinkListData = GetInfoForUrl(linkUrl, selectedFolder)
+                var linkData: LinkListData?
+                GlobalScope.launch(Dispatchers.IO) {
+                    linkData = GetInfoForUrl(linkUrl, selectedFolder)
+                }
 
                 dismiss() // Dialog 닫기
             }

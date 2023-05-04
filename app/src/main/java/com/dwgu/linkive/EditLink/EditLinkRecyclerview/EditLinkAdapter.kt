@@ -10,15 +10,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dwgu.linkive.EditLink.DragToMoveItem.ItemTouchHelperListener
+import com.dwgu.linkive.Home.CreateLinkToUrl.GetInfoForUrl
+import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListData
 import com.dwgu.linkive.ImageLoader.ImageLoader
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -304,7 +310,40 @@ class EditLinkAdapter (
                 onClickItemOption(mutableListOf("link", position.toString()))
             }
 
-            // url 입력 후 엔터
+            // url 입력 후 엔터 키 이벤트 처리
+            binding.edittextEditLinkLink.setOnEditorActionListener{v, id, event ->
+                if(id == EditorInfo.IME_ACTION_GO){
+                    // 입력된 url
+                    var linkUrl: String = binding.edittextEditLinkLink.text.toString()
+
+                    // 링크 url로 페이지 정보 가져오기: 제목, 썸네일 이미지, 출처 플랫폼 등
+                    var linkData: LinkListData? = null
+                    GlobalScope.launch(Dispatchers.IO) {
+                        linkData = async { GetInfoForUrl(linkUrl, null) }.await()
+
+                        item.editLinkLinkUrl = linkData!!.linkUrl
+                        item.editLinkLinkTitle = linkData!!.linkTitle
+
+                        return@launch
+                    }
+
+                    if (linkData != null) {
+                        // 링크 url, title 내용 적용
+                        item.editLinkLinkUrl = linkData!!.linkUrl
+                        item.editLinkLinkTitle = linkData!!.linkTitle
+
+                        // 링크 제목
+                        binding.textEditLinkLinkTitle.text = item.editLinkLinkTitle
+                        // 링크 url
+                        binding.textEditLinkLinkUrl.text = item.editLinkLinkUrl
+
+                        // Edit 모드 가리고, View 모드 보여주기
+                        binding.edittextEditLinkLink.visibility = View.GONE
+                        binding.linearlayoutEditLinkLink.visibility = View.VISIBLE
+                    }
+                }
+                true
+            }
         }
     }
 

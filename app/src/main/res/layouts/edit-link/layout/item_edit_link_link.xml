@@ -33,7 +33,7 @@
         android:textSize="14sp"
         android:inputType="text"
         android:maxLines="1"
-        android:imeOptions="actionDone"
+        android:imeOptions="actionGo"
         android:layout_toRightOf="@+id/img_edit_link_link_icon"
         android:layout_toLeftOf="@id/btn_option_edit_link_link"/>
 
