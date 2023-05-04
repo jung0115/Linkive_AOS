@@ -1,6 +1,6 @@
 <h1 align="center">
   <img alt="Linkive logo" src="https://user-images.githubusercontent.com/76805879/229301824-3f774e24-ceec-4444-a660-d5daf4c4bb22.png" width="200px"/><br/>
-  Linkive
+  Linkive AOS
   
   [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fjung0115%2FLinkive_AOS&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 </h1>
