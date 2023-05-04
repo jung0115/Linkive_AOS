@@ -1,9 +1,11 @@
 package com.dwgu.linkive.EditLink.EditLinkBottomSheet
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dwgu.linkive.EditLink.EditLinkOption.EditLinkOptionListener
 import com.dwgu.linkive.databinding.FragmentOptionEditCodeBottomBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -17,6 +19,20 @@ class OptionEditCodeBottomFragment : BottomSheetDialogFragment() {
     final val POSITION_IN_RECYCLERVIEW = "position_in_recyclerview"
 
     var position: String? = null
+
+    // 코드 초기화 event 전달하기 위한 listener
+    private lateinit var resetItemListener: EditLinkOptionListener
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            resetItemListener = context as EditLinkOptionListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(
+                context.toString()
+            )
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +53,8 @@ class OptionEditCodeBottomFragment : BottomSheetDialogFragment() {
         binding.relativelayoutSetCode.setOnClickListener(View.OnClickListener {
             dismiss()
 
-            // 글 내용 초기화
+            // 코드 내용 초기화
+            resetItemListener.resetItemListener(position!!.toInt(), "code")
         })
 
         // 아이템 삭제 버튼 선택 시 -> 삭제 확인 BottomSheet

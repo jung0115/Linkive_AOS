@@ -301,6 +301,30 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         editLinkAdapter.notifyDataSetChanged()
     }
 
+    // 링크 편집 페이지 글, 코드, 링크, 할 일 내용 리셋
+    override fun resetItemListener(position: Int, itemType: String) {
+        // 글 리셋
+        if(itemType == "text") {
+            editLinkItems[position] = EditLinkTextItem(null)
+            editLinkAdapter.notifyDataSetChanged()
+        }
+        // 코드 리셋
+        else if(itemType == "code") {
+            editLinkItems[position] = EditLinkCodeItem(null)
+            editLinkAdapter.notifyDataSetChanged()
+        }
+        // 링크 리셋
+        else if(itemType == "link") {
+            editLinkItems[position] = EditLinkLinkItem(null, null)
+            editLinkAdapter.notifyDataSetChanged()
+        }
+        // 할 일 리셋
+        else if(itemType == "checkbox") {
+            editLinkItems[position] = EditLinkCheckboxItem(null, false)
+            editLinkAdapter.notifyDataSetChanged()
+        }
+    }
+
     // 이전 버튼 - 폰에 있는 이전 버튼
     override fun onBackPressed() {
         //super.onBackPressed()
