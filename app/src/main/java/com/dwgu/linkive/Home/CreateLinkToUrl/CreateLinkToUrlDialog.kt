@@ -26,6 +26,9 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
     // ViewBinding
     private lateinit var binding : DialogCreateLinkToUrlBinding
 
+    // 제목 글자수
+    final val TITLE_LENGHT = 15
+
     // 폴더 선택 Spinner
     // 폴더 리스트
     private val selectFolderList = mutableListOf<String>()
@@ -97,6 +100,13 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
                 var linkData: LinkListData?
                 GlobalScope.launch(Dispatchers.IO) {
                     linkData = GetInfoForUrl(linkUrl, selectedFolder)
+
+                    if(linkData != null) {
+                        // 제목 글자수가 TITLE_LENGHT 자를 넘어가는 경우
+                        if (linkData!!.linkTitle.length > TITLE_LENGHT) {
+                            linkData!!.linkTitle = linkData!!.linkTitle.substring(0 until TITLE_LENGHT) + "..."
+                        }
+                    }
                 }
 
                 dismiss() // Dialog 닫기

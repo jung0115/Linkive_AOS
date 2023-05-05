@@ -42,7 +42,7 @@
             android:textColor="@color/dark_gray"/>
 
         <!-- 입력 버튼 -->
-        <!-- 이미지 추가 버튼 -->
+        <!-- 장소 추가 버튼 -->
         <ImageButton
             android:id="@+id/btn_input_edit_link_place"
             android:layout_width="25dp"

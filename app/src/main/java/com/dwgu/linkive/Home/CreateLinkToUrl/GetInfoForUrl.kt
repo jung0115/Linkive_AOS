@@ -18,6 +18,9 @@ suspend fun GetInfoForUrl(url: String, folder: String?): LinkListData? {
     // 페이지에서 가져온 데이터 정리
     var linkData: LinkListData? = null
 
+    // 제목 글자수
+    val TITLE_LENGHT = 15
+
     //CoroutineScope(Dispatchers.IO).launch {
     GlobalScope.launch(Dispatchers.IO) {
 
@@ -64,13 +67,13 @@ suspend fun GetInfoForUrl(url: String, folder: String?): LinkListData? {
 
                     // 제목 - ogMap.get("title").toString()
                     var title: String = ogMap.get("title").toString()
-                    // 제목 글자수가 10자를 넘어가는 경우
-                    if (ogMap.get("title").toString().length > 10) {
-                        title = title.substring(0 until 10) + "..."
-                    }
-                    // 제목이 없는 경우 - 내용 첫 10글자를 제목으로
-                    else if (ogMap.get("title").toString().length == 0 || title == null) {
-                        title = ogMap.get("description").toString().substring(0 until 10) + "..."
+                    // 제목 글자수가 TITLE_LENGHT 자를 넘어가는 경우
+                    /*if (ogMap.get("title").toString().length > TITLE_LENGHT) {
+                        title = title.substring(0 until TITLE_LENGHT) + "..."
+                    }*/
+                    // 제목이 없는 경우 - 내용 첫 TITLE_LENGHT 글자를 제목으로
+                    if (ogMap.get("title").toString().length == 0 || title == null) {
+                        title = ogMap.get("description").toString().substring(0 until TITLE_LENGHT) + "..."
                     }
 
                     // 폴더명 - folderName
@@ -108,8 +111,8 @@ suspend fun GetInfoForUrl(url: String, folder: String?): LinkListData? {
                     // url - ogMap.get("url").toString()
                     var linkUrl = ogMap.get("url").toString()
 
-                    // 제목 - 내용을 가져올 수 없으므로 url 첫 10글자를 제목으로
-                    var title = linkUrl.substring(0 until 10) + "..."
+                    // 제목 - 내용을 가져올 수 없으므로 url 첫 TITLE_LENGHT 글자를 제목으로
+                    var title = linkUrl.substring(0 until TITLE_LENGHT) + "..."
 
                     // 폴더명 - folderName
                     var folderName = folder

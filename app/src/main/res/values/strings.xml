@@ -115,7 +115,7 @@
     <string name="text_hint">글을 입력해주세요.</string>
     <string name="add_image">이미지 추가</string>
     <string name="add_place">주소 추가</string>
-    <string name="add_link">링크 URL을 입력하세요.</string>
+    <string name="add_link">URL 추가</string>
     <string name="add_code">코드를 입력하세요.</string>
     <string name="add_checkbox">할 일을 입력하세요.</string>
     <string name="notice_not_save">저장하지 않고 나가면 변경사항을 잃게 됩니다.\n페이지를 벗어나시겠습니까?</string>
@@ -128,7 +128,7 @@
     <string name="option_checkbox">할 일 관리</string>
     <string name="delete_edit_item">아이템 삭제하기</string>
     <string name="set_image">이미지 설정/변경</string>
-    <string name="set_link_url">링크 url 초기화</string>
+    <string name="set_link_url">링크 url 설정/변경</string>
     <string name="set_place">주소 설정/변경</string>
     <string name="set_contents">내용 초기화</string>
     <string name="null_image">이미지</string>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dwgu.linkive.EditLink.EditLinkOption.EditLinkOptionListener
+import com.dwgu.linkive.EditLink.EditLinkOption.SetEditLinkBottomFragment
 import com.dwgu.linkive.databinding.FragmentOptionEditLinkBottomBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -55,7 +56,17 @@ class OptionEditLinkBottomFragment : BottomSheetDialogFragment() {
             dismiss()
 
             // 링크 내용 초기화
-            resetItemListener.resetItemListener(position!!.toInt(), "link")
+            //resetItemListener.resetItemListener(position!!.toInt(), "link")
+
+            // 링크 url 입력 BottomSheet 열기
+            val bottomSheet = SetEditLinkBottomFragment()
+
+            // recycleview에서의 position 값 전달
+            val bundle = Bundle()
+            bundle.putString("position_in_recyclerview", position)
+            bottomSheet.arguments = bundle
+
+            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         })
 
         // 아이템 삭제 버튼 선택 시 -> 삭제 확인 BottomSheet

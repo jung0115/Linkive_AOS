@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwgu.linkive.EditLink.DragToMoveItem.ItemTouchCallback
 import com.dwgu.linkive.EditLink.EditLinkBottomSheet.*
 import com.dwgu.linkive.EditLink.EditLinkOption.EditLinkOptionListener
+import com.dwgu.linkive.EditLink.EditLinkOption.SetEditLinkBottomFragment
 import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityEditLinkBinding
@@ -265,6 +266,18 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
+        // 링크 url 입력 BottomSheet
+        else if(itemInfo[0] == "link_url") {
+            // 링크 url 입력 BottomSheet 열기
+            val bottomSheet = SetEditLinkBottomFragment()
+
+            // recycleview에서의 position 값 전달
+            val bundle = Bundle()
+            bundle.putString("position_in_recyclerview", itemInfo[1])
+            bottomSheet.arguments = bundle
+
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
         // 코드 아이템 옵션 BottomSheet
         else if(itemInfo[0] == "code") {
             val bottomSheet = OptionEditCodeBottomFragment()
@@ -323,6 +336,12 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             editLinkItems[position] = EditLinkCheckboxItem(null, false)
             editLinkAdapter.notifyDataSetChanged()
         }
+    }
+
+    // 링크 편집 페이지 > 링크 아이템 내용 적용 (url에서 가져온 내용)
+    override fun setLinkItemListener(position: Int, linkTile: String?, linkUrl: String?) {
+        editLinkItems[position] = EditLinkLinkItem(linkTile, linkUrl)
+        editLinkAdapter.notifyDataSetChanged()
     }
 
     // 이전 버튼 - 폰에 있는 이전 버튼
