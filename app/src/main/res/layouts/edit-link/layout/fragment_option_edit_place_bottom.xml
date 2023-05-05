@@ -9,7 +9,7 @@
     android:gravity="center_horizontal"
     android:background="@drawable/shape_bottom_sheet_radius"
     android:orientation="vertical"
-    tools:context=".EditLink.EditLinkBottomSheet.OptionEditImageBottomFragment">
+    tools:context=".EditLink.EditLinkBottomSheet.OptionEditPlaceBottomFragment">
 
     <!-- BottomSheet 상단에 있는 수평바 -->
     <View
@@ -18,22 +18,22 @@
         android:layout_marginBottom="30dp"
         android:background="@drawable/shape_bottom_sheet_bar_radius"/>
 
-    <!-- BottomSheet 제목 - 이미지 아이템 옵션 -->
+    <!-- BottomSheet 제목 - 장소 아이템 옵션 -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
         android:paddingVertical="6dp"
         android:layout_marginBottom="23dp"
-        android:text="@string/option_image"
+        android:text="@string/option_place"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
         android:background="@drawable/shape_bottom_sheet_title_style"/>
 
-    <!-- 이미지 설정/변경 버튼 -->
+    <!-- 장소 설정/변경 버튼 -->
     <RelativeLayout
-        android:id="@+id/relativelayout_set_image"
+        android:id="@+id/relativelayout_set_place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="2dp"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:text="@string/set_image"
+            android:text="@string/set_place"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold" />

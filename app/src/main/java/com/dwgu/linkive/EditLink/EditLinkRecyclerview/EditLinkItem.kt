@@ -1,11 +1,14 @@
 package com.dwgu.linkive.EditLink.EditLinkRecyclerview
 
+import android.net.Uri
+
 // 링크 편집 페이지에 보이는 아이템 데이터
 interface EditLinkItem
 
 // 이미지
 data class EditLinkImageItem (
-    var editLinkImage: String?,  // 이미지 주소 url
+    var editLinkImage: String?,      // 이미지 주소 url
+    var editLinkImageUri: Uri? // 이미지 주소 Bitmap -> 이미지 편집 중에만 사용.
 ) : EditLinkItem
 
 // 글
