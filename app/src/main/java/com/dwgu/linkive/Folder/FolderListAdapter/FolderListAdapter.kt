@@ -14,8 +14,28 @@ import com.dwgu.linkive.databinding.ItemFolderOfListBinding
 
 class FolderListAdapter(private val List: List<FolderListItem>): RecyclerView.Adapter<FolderListAdapter.ViewHolder>() {
 
-    class ViewHolder(val binding: ItemFolderOfListBinding) : RecyclerView.ViewHolder(binding.root) {
+    //커스텀 리스너
+    interface OnItemClickListner{
+        fun onItemClick(view: View, position: Int)
+    }
 
+    //객체 저장 변수
+    private lateinit var itemClickListner: OnItemClickListner
+
+    //객체 전달 메서드
+    fun setOnItemclickListner(onItemClickListner: OnItemClickListner){
+        itemClickListner = onItemClickListner
+    }
+
+    inner class ViewHolder(val binding: ItemFolderOfListBinding) : RecyclerView.ViewHolder(binding.root){
+        init {
+            binding.root.setOnClickListener {
+                val pos = adapterPosition
+                if(pos != RecyclerView.NO_POSITION && itemClickListner != null){
+                    itemClickListner.onItemClick(binding.root, pos)
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -30,13 +50,14 @@ class FolderListAdapter(private val List: List<FolderListItem>): RecyclerView.Ad
         viewHolder.binding.imgFolderCover.setImageResource(List[position].cover)
         roundTop(viewHolder.binding.imgFolderCover, 24f)
 
-        // 클릭 이벤트
-        viewHolder.binding.root.setOnClickListener {
-
-//            parentFragmentManager.beginTransaction()
-//                .replace(R.id.nav_host_fragment, folderFragment)
-//                .commit()
-        }
+//        // 클릭 이벤트
+//        viewHolder.binding.root.setOnClickListener {
+//
+////            parentFragmentManager.beginTransaction()
+////                .replace(R.id.nav_host_fragment, folderFragment)
+////                .commit()
+//
+//        }
     }
 
     //동일

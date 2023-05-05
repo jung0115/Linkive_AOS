@@ -38,6 +38,32 @@ class LinkInFolderFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // recyclerview 세팅
+        initRecycler()
+
+        // 테스트 데이터
+        addLinkListItem(LinkListItem("테스트1", "폴더1",
+            "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
+            "instagram", mutableListOf("text", "image")))
+        addLinkListItem(LinkListItem("테스트2", "폴더2", null, "twitter", mutableListOf("link", "place")))
+        addLinkListItem(LinkListItem("테스트3", null, null, "naver_blog", mutableListOf("text", "image", "link", "place", "code", "checkbox")))
+        addLinkListItem(LinkListItem("테스트4", null, null, null, null))
+        addLinkListItem(LinkListItem("테스트5", "폴더5", null, null, null))
+        addLinkListItem(LinkListItem("테스트6", null, null, "twitter", null))
+        addLinkListItem(LinkListItem("테스트7", "폴더7", null, "twitter", null))
+        addLinkListItem(LinkListItem("테스트8", null, null, "twitter", null))
+
+        //메뉴 버튼 클릭 시
+        binding.btnMenu.setOnClickListener {
+            // 폴더 관리 바텀 시트
+            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment()
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        }
+    }
+
     private fun initRecycler() {
         // 링크 리스트 recyclerview 세팅
         linkInFolderAdapter = LinkInFolderAdapter(
@@ -69,6 +95,7 @@ class LinkInFolderFragment : Fragment() {
             .add(R.id.nav_host_fragment, LinkViewFragment())
             .commit()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

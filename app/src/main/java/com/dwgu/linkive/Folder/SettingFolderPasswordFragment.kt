@@ -7,15 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dwgu.linkive.R
-import com.dwgu.linkive.databinding.FragmentAddFolderBottomSheetBinding
-import com.dwgu.linkive.databinding.FragmentLinkInFolderMenuBottomSheetBinding
+import com.dwgu.linkive.databinding.FragmentEditFolderPasswordBinding
+import com.dwgu.linkive.databinding.FragmentSettingFolderPasswordBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
+class SettingFolderPasswordFragment : BottomSheetDialogFragment() {
 
-    private var _binding: FragmentLinkInFolderMenuBottomSheetBinding? = null
+    private var _binding: FragmentSettingFolderPasswordBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,32 +27,22 @@ class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLinkInFolderMenuBottomSheetBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingFolderPasswordBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 폴더 썸네일 변경 버튼 클릭 시 추가 바텀 시트
-        binding.layoutFolderThumbnailEdit.setOnClickListener {
-            val bottomSheetFragment = EditFolderCoverFragment()
+
+        // 취소 버튼
+        binding.btnCancel.setOnClickListener {
+            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment()
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }
-
-        // 폴더 비밀번호 설정 / 변경 버튼 클릭 시
-        // 기존 비밀번호가 없다면 비밀번호 설정으로
-
-
-        // 비밀번호가 있다면 비밀번호 변경으로
-
-
-
-        // 삭제하기 버튼 클릭 시
-        binding.layoutRemoveFolder.setOnClickListener {
-            val bottomSheetFragment = RemoveFolderBottomSheetFragment()
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+        // 확인 버튼
+        binding.btnConfirm.setOnClickListener {
             dismiss()
         }
 
@@ -70,4 +60,6 @@ class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

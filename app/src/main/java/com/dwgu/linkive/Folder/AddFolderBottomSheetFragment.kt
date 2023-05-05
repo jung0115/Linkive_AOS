@@ -134,11 +134,6 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
                 bundle.putString("folderName", name)
                 bundle.putBoolean("btnConfirm", true)
 
-
-
-                val menuBottomSheetFragment = FolderMenuBottomSheetFragment()
-                menuBottomSheetFragment.arguments = bundle
-
                 val folderFragment = FolderFragment()
                 folderFragment.arguments = bundle
                 parentFragmentManager.beginTransaction()

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Folder.AddFolderBottomSheetFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Folder.EditFolderCoverFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:background="@drawable/shape_bottomsheet_title"
             android:paddingHorizontal="19dp"
             android:paddingVertical="6dp"
-            android:text="@string/folder_add"
+            android:text="@string/folder_cover_edit"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="14sp"/>
@@ -103,89 +103,39 @@
                 />
         </RadioGroup>
 
-        <EditText
-            android:id="@+id/edittext_folder_name"
-            android:layout_width="290dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:hint="@string/folder_name_hint"
-            android:textColorHint="@color/hint_text"
-            android:textSize="15sp"
-            android:paddingLeft="23dp"
-            android:background="@drawable/shape_edittext"
-            android:maxLength="10"
-            />
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="290dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="7dp"
-            android:background="@drawable/shape_edittext">
+            android:id="@+id/layout_select_in_link_cover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="52dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="26dp">
 
-            <EditText
-                android:id="@+id/edittext_folder_password"
-                android:layout_width="240dp"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="@string/folder_add_password_hint_selection"
-                android:maxLength="10"
-                android:paddingLeft="23dp"
-                android:textColorHint="@color/hint_text"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_in_link_cover"
+                android:textColor="@color/black"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <CheckBox
-                android:id="@+id/check_eye"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_enter_page_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginRight="19dp"
-                android:background="@drawable/selector_eye"
-                android:button="@null"
-                />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/view_password_check"
-            android:layout_width="290dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="7dp"
-            android:background="@drawable/shape_edittext"
-            android:visibility="gone"
-            >
-
-            <EditText
-                android:id="@+id/edittext_folder_password_check"
-                android:layout_width="240dp"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="@string/folder_add_password_check_hint"
-                android:maxLength="10"
-                android:paddingLeft="23dp"
-                android:textColorHint="@color/hint_text"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <CheckBox
-                android:id="@+id/check_eye_check"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginRight="19dp"
-                android:background="@drawable/selector_eye"
-                android:button="@null"
-                />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="27dp"
             android:layout_marginBottom="21dp">
             <Button
                 android:id="@+id/btn_cancel"

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Folder.FolderListAdapter.FolderListAdapter
 import com.dwgu.linkive.Folder.FolderListAdapter.FolderListItem
 import com.dwgu.linkive.Folder.SortFolder.SortFolderAdapter
+import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentFolderBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.LocalDateTime
@@ -29,8 +30,6 @@ class FolderFragment : Fragment() {
     // 폴더 리사이클러뷰 어댑터
     private lateinit var folderListAdapter: FolderListAdapter
 
-    // 폴더 관리 바텀 시트
-    val bottomSheetFragment = FolderMenuBottomSheetFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -64,15 +63,30 @@ class FolderFragment : Fragment() {
         addFolder("제주")
         addFolder("진주")
         addFolder("부산")
+        addFolder("가좌")
+        addFolder("창원")
+
 
         // 폴더리스트 어댑터 연결
         binding.recyclerviewFolderList.layoutManager = GridLayoutManager(requireContext(), 2)
         folderListAdapter = FolderListAdapter(folderOfList)
         binding.recyclerviewFolderList.adapter = folderListAdapter
 
+        // 폴더 클릭시 폴더 내부 페이지
+        folderListAdapter.setOnItemclickListner(object: FolderListAdapter.OnItemClickListner{
+            override fun onItemClick(view: View, position: Int) {
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, LinkInFolderFragment())
+                    .commit()
+            }
+        })
+
 
         // 메뉴 버튼 클릭 시 FolderMenuBottomSheet 띄움
         binding.btnFolderMenu.setOnClickListener {
+            // 폴더 관리 바텀 시트
+            val bottomSheetFragment = FolderMenuBottomSheetFragment()
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
         }
 

@@ -18,6 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Linkive_AOS"
         tools:targetApi="31">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
         <activity
             android:name=".Login.FindPasswordActivity"
             android:exported="true" >
@@ -42,15 +52,7 @@
         <activity
             android:name=".MyPage.PageSheetActivity"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-        </activity>
 
         <!-- 카카오 로그인 화면 -->
         <activity
