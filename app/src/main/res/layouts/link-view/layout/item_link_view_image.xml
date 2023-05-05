@@ -11,9 +11,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:background="@drawable/shape_link_view_img_radius"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
-        android:background="@drawable/shape_link_view_img_radius"
-        android:src="@drawable/img_link_item_thumbnail_default"/>
+        android:src="@drawable/img_link_item_thumbnail_default" />
+
+    <!-- 이미지 입력 전 -->
+    <LinearLayout
+        android:id="@+id/linearlayout_link_view_image_null"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/shape_edit_link_img_radius"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- 이미지 아이콘 -->
+        <ImageView
+            android:id="@+id/img_edit_link_image_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_link_item_form_image_gray" />
+
+        <!-- 이미지 안내 -->
+        <TextView
+            android:id="@+id/text_edit_link_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/null_image"
+            android:textColor="@color/dark_gray"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

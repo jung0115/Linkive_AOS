@@ -6,21 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dwgu.linkive.EditLink.EditLinkOption.EditLinkOptionListener
-import com.dwgu.linkive.databinding.FragmentOptionEditTextBottomBinding
+import com.dwgu.linkive.databinding.FragmentOptionEditCodeBottomBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-// 링크 편집 페이지 > 글 아이템 옵션 BottomSheet
-class OptionEditTextBottomFragment : BottomSheetDialogFragment() {
+// 링크 편집 페이지 > 코드 아이템 옵션 BottomSheet
+class OptionEditCodeBottomFragment : BottomSheetDialogFragment() {
 
     // ViewBinding Setting
-    lateinit var binding: FragmentOptionEditTextBottomBinding
+    lateinit var binding: FragmentOptionEditCodeBottomBinding
 
     // 리사이클러뷰에서의 position 값
     final val POSITION_IN_RECYCLERVIEW = "position_in_recyclerview"
 
     var position: String? = null
 
-    // 글 초기화 event 전달하기 위한 listener
+    // 코드 초기화 event 전달하기 위한 listener
     private lateinit var resetItemListener: EditLinkOptionListener
 
     override fun onAttach(context: Context) {
@@ -38,7 +38,7 @@ class OptionEditTextBottomFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentOptionEditTextBottomBinding.inflate(layoutInflater)
+        binding = FragmentOptionEditCodeBottomBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -50,11 +50,11 @@ class OptionEditTextBottomFragment : BottomSheetDialogFragment() {
         position = arguments?.getString(POSITION_IN_RECYCLERVIEW)
 
         // 내용 초기화 버튼
-        binding.relativelayoutSetText.setOnClickListener(View.OnClickListener {
+        binding.relativelayoutSetCode.setOnClickListener(View.OnClickListener {
             dismiss()
 
-            // 글 내용 초기화
-            resetItemListener.resetItemListener(position!!.toInt(), "text")
+            // 코드 내용 초기화
+            resetItemListener.resetItemListener(position!!.toInt(), "code")
         })
 
         // 아이템 삭제 버튼 선택 시 -> 삭제 확인 BottomSheet
