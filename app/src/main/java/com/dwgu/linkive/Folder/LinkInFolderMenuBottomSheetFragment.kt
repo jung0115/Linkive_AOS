@@ -2,22 +2,20 @@ package com.dwgu.linkive.Folder
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.dwgu.linkive.R
-import com.dwgu.linkive.databinding.FragmentFolderBinding
-import com.dwgu.linkive.databinding.FragmentFolderMenuBottomSheetBinding
+import com.dwgu.linkive.databinding.FragmentAddFolderBottomSheetBinding
+import com.dwgu.linkive.databinding.FragmentLinkInFolderMenuBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
-class FolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
-
-    private var _binding: FragmentFolderMenuBottomSheetBinding? = null
+    private var _binding: FragmentLinkInFolderMenuBottomSheetBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +27,35 @@ class FolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFolderMenuBottomSheetBinding.inflate(inflater, container, false)
+        _binding = FragmentLinkInFolderMenuBottomSheetBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // 폴더 썸네일 변경 버튼 클릭 시 추가 바텀 시트
+        binding.layoutFolderThumbnailEdit.setOnClickListener {
+            val bottomSheetFragment = EditFolderCoverFragment()
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+            dismiss()
+        }
+
+        // 폴더 비밀번호 설정 / 변경 버튼 클릭 시
+        // 기존 비밀번호가 없다면 비밀번호 설정으로
+
+
+        // 비밀번호가 있다면 비밀번호 변경으로
+
+
+
+        // 삭제하기 버튼 클릭 시
+        binding.layoutRemoveFolder.setOnClickListener {
+            val bottomSheetFragment = RemoveFolderBottomSheetFragment()
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+            dismiss()
+        }
+
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -40,25 +64,6 @@ class FolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
             behavior.isDraggable = false
         }
         return dialog
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // 추가하기 버튼 클릭 시 추가 바텀 시트
-        binding.layoutAddFolder.setOnClickListener {
-            val bottomSheetFragment = AddFolderBottomSheetFragment()
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-            dismiss()
-        }
-
-        // 삭제하기 버튼 클릭 시 삭제 바텀 시트
-        binding.layoutRemoveFolder.setOnClickListener {
-            val bottomSheetFragment = RemoveFolderBottomSheetFragment()
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-            dismiss()
-        }
-
     }
 
     override fun onDestroyView() {
