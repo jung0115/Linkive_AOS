@@ -40,6 +40,8 @@
 | 경상대학교 컴퓨터과학과 17학번 | 경상대학교 컴퓨터과학과 18학번 |
 | **Server**, Web | **Server**, Web |
   
+<br/>
+
 ## 🛠️ Stack
 **Android**  
 ![Kotlin](https://img.shields.io/badge/Kotlin-A333F1??style=plastic&logo=kotlin&logoColor=white)
