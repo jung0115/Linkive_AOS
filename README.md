@@ -24,7 +24,21 @@
 <strong>Android</strong>  고수민, 조정미, 하도원<br/>
 <strong>Web</strong>  고수민, 김남혁, 차봉석, 조정미, 하도원<br/>
 <strong>Server</strong>  김남혁, 차봉석<br/>
-<strong>Design</strong>  고수민, 조정미<br/><br/></p>
+<strong>Design</strong>  고수민, 조정미<br/></p>
+
+| 고수민 | 조정미 | 하도원 |                                                                                                               
+| :---: | :---: | :---: | 
+| <img width="200px" src="https://avatars.githubusercontent.com/u/72858039?v=4" /> | <img width="200px" src="https://avatars.githubusercontent.com/u/76805879?v=4" /> | <img width="200px" src="https://avatars.githubusercontent.com/u/70639119?v=4"/> |
+|   [@wpslxm20](https://github.com/wpslxm20)   |    [@jung0115](https://github.com/jung0115)  | [@ddwwon](https://github.com/ddwwon)  |
+| 경상대학교 컴퓨터과학과 20학번 | 경상대학교 컴퓨터과학과 20학번 | 경상대학교 컴퓨터과학과 20학번 |
+| **Android**, Web, Design(Web) | **Android**, Web, Design(AOS) | PM, **Android**, Web |
+
+| 김남혁 | 차봉석 |                                                                                                             
+| :---: | :---: |
+| <img width="200px" src="https://avatars.githubusercontent.com/u/11703271?v=4" /> | <img width="200px" src="https://avatars.githubusercontent.com/u/98582315?v=4" /> |
+| [@AFloppy](https://github.com/AFloppy) | [@charBS0701](https://github.com/charBS0701) |
+| 경상대학교 컴퓨터과학과 17학번 | 경상대학교 컴퓨터과학과 18학번 |
+| **Server**, Web | **Server**, Web |
   
 ## 🛠️ Stack
 **Android**  
