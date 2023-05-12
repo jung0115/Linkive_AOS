@@ -23,6 +23,7 @@ class FindIdActivity : AppCompatActivity() {
     var vaildEmail = true
     var vaildNumer = true
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFindIdBinding.inflate(layoutInflater)
