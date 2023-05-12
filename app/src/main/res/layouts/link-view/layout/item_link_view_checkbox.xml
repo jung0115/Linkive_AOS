@@ -24,6 +24,16 @@
         android:layout_marginLeft="9dp"
         android:text="할 일"
         android:textColor="@color/black"
-        android:textSize="12sp"/>
+        android:textSize="14sp"/>
+
+    <!-- 할일 내용 null -->
+    <TextView
+        android:id="@+id/text_link_view_checkbox_null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="9dp"
+        android:textColor="@color/dark_gray"
+        android:textSize="14sp"
+        android:visibility="gone"/>
 
 </LinearLayout>

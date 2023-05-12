@@ -116,9 +116,9 @@
     <string name="btn_save">저장</string>
     <string name="title_hint">제목을 입력해주세요.</string>
     <string name="text_hint">글을 입력해주세요.</string>
-    <string name="add_image">사진 추가</string>
+    <string name="add_image">이미지 추가</string>
     <string name="add_place">주소 추가</string>
-    <string name="add_link">링크 URL을 입력하세요.</string>
+    <string name="add_link">URL 추가</string>
     <string name="add_code">코드를 입력하세요.</string>
     <string name="add_checkbox">할 일을 입력하세요.</string>
     <string name="notice_not_save">저장하지 않고 나가면 변경사항을 잃게 됩니다.\n페이지를 벗어나시겠습니까?</string>
@@ -131,9 +131,15 @@
     <string name="option_checkbox">할 일 관리</string>
     <string name="delete_edit_item">아이템 삭제하기</string>
     <string name="set_image">이미지 설정/변경</string>
-    <string name="set_link_url">링크 url 초기화</string>
+    <string name="set_link_url">링크 url 설정/변경</string>
     <string name="set_place">주소 설정/변경</string>
     <string name="set_contents">내용 초기화</string>
+    <string name="null_image">이미지</string>
+    <string name="null_text">빈 글</string>
+    <string name="null_link">링크</string>
+    <string name="null_place">주소</string>
+    <string name="null_code">코드</string>
+    <string name="null_checkbox">할 일</string>
 
     <!-- Search -->
     <string name="search_title">검색</string>
@@ -146,7 +152,24 @@
     <string name="remove">삭제하기</string>
     <string name="folder_add">폴더 추가</string>
     <string name="folder_name_hint">폴더명을 입력해주세요.</string>
-    <string name="folder_add_password_hint">비밀번호를 입력해주세요. (선택)</string>
+    <string name="folder_add_password_hint_selection">비밀번호를 입력해주세요. (선택)</string>
+    <string name="folder_remove_explanation">폴더를 삭제하면\n폴더에 포함된 글도 함께 삭제됩니다.</string>
+    <string name="folder_remove_question">폴더를 삭제하시겠습니까?</string>
+    <string name="folder_add_password_check_hint">비밀번호를 한 번 더 입력해주세요.</string>
+    <string name="folder_password_error">비밀번호와 다릅니다.</string>
+    <string name="folder_thumbnail_edit">폴더 썸네일 변경</string>
+    <string name="folder_password_setting_edit">비밀번호 설정 / 변경</string>
+    <string name="select_in_link_cover">링크 커버 중에서 선택하기</string>
+    <string name="folder_cover_edit">폴더 커버 변경</string>
+    <string name="folder_cover_select">폴더 커버 선택</string>
+    <string name="folder_cover_select_explanation">커버로 사용할 링크 이미지를 선택 후\n확인 버튼을 누르면 변경이 완료됩니다.</string>
+    <string name="folder_password_setting">폴더 비밀번호 설정</string>
+    <string name="folder_password_edit">폴더 비밀번호 변경</string>
+    <string name="folder_password_setting_explanation">폴더에 비밀번호를 설정합니다.</string>
+    <string name="folder_password_setting_hint">비밀번호를 입력해주세요.</string>
+    <string name="folder_password_edit_now_hint">현재 비밀번호를 입력해주세요.</string>
+    <string name="folder_password_edit_new_hint">변경할 비밀번호를 입력해주세요.</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

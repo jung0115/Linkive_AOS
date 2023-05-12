@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     // Google Service
-    id 'com.google.gms.google-services'
+    //id 'com.google.gms.google-services'
 }
 
 android {
@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "com.dwgu.linkive"
         minSdk 23
-        targetSdk 33
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -56,6 +56,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    namespace 'com.dwgu.linkive'
 }
 
 dependencies {
@@ -66,6 +67,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.5.3'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -92,4 +94,10 @@ dependencies {
 //    implementation 'com.navercorp.nid:oauth-jdk8:5.1.0' // jdk 8
     implementation 'com.navercorp.nid:oauth:5.1.0'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
+
+
+    // jsoup
+    implementation 'org.jsoup:jsoup:1.14.2'
+    // coroutine
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 }

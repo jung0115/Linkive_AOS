@@ -18,7 +18,7 @@
         android:layout_marginBottom="30dp"
         android:background="@drawable/shape_bottom_sheet_bar_radius"/>
 
-    <!-- BottomSheet 제목 - 글 아이템 옵션 -->
+    <!-- BottomSheet 제목 - 이미지 아이템 옵션 -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
