@@ -5,19 +5,33 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/main_color</item>
         <item name="colorPrimaryVariant">@color/main_color</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
         
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/light_purple</item>
         <item name="colorSecondaryVariant">@color/light_purple</item>
-
         <item name="colorOnSecondary">@color/black</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+
         <!-- Customize your theme here. -->
 
         <!-- bottom sheet rounding을 위한-->
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>
+    </style>
+
+    <!-- bottomSheet 둥글게 -->
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+        <!-- bottomsheet editText 자판 생성 시 view가 다 보이게 -->
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/shape_bottomsheet</item>
     </style>
 </resources>

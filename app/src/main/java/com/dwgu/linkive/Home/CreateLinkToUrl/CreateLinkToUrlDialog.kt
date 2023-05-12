@@ -13,14 +13,21 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListData
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.DialogCreateLinkToUrlBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 // URL로 링크 추가 Dialog
 class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
 
     // ViewBinding
     private lateinit var binding : DialogCreateLinkToUrlBinding
+
+    // 제목 글자수
+    final val TITLE_LENGHT = 15
 
     // 폴더 선택 Spinner
     // 폴더 리스트
@@ -88,6 +95,19 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
             else {
                 Log.d(ContentValues.TAG, "URL로 링크 생성 값 확인 -------------------------------------------")
                 Log.d(ContentValues.TAG, "URL: " + linkUrl + ", folder: " + selectedFolder.toString())
+
+                // 링크 url로 페이지 정보 가져오기: 제목, 썸네일 이미지, 출처 플랫폼 등
+                var linkData: LinkListData?
+                GlobalScope.launch(Dispatchers.IO) {
+                    linkData = GetInfoForUrl(linkUrl, selectedFolder)
+
+                    if(linkData != null) {
+                        // 제목 글자수가 TITLE_LENGHT 자를 넘어가는 경우
+                        if (linkData!!.linkTitle.length > TITLE_LENGHT) {
+                            linkData!!.linkTitle = linkData!!.linkTitle.substring(0 until TITLE_LENGHT) + "..."
+                        }
+                    }
+                }
 
                 dismiss() // Dialog 닫기
             }

@@ -36,14 +36,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_folder_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="14dp"
             android:layout_marginHorizontal="14.5dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner_sort_folder"
-            tools:listitem="@layout/item_folder_of_list" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_folder_of_list"/>
 
         <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/btn_folder_menu"
