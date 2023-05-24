@@ -1,4 +1,4 @@
-package com.dwgu.linkive.HomeApi.CreateLinkMemo
+package com.dwgu.linkive.LinkMemoApi.CreateLinkMemo
 
 import com.google.gson.annotations.SerializedName
 
@@ -11,8 +11,8 @@ data class CreateLinkMemoData(
     val title: String,
 
     @SerializedName("content")    // 링크 메모 내용
-    val content: String,
+    var content: String? = null,
 
     @SerializedName("folder_num") // 폴더
-    val folder_num: Int,
+    var folder_num: Int? = null,
 )
