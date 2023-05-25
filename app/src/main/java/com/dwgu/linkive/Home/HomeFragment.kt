@@ -85,15 +85,6 @@ class HomeFragment : Fragment() {
         binding.btnCreateLinkToUrl.setOnClickListener {
             val dialog = CreateLinkToUrlDialog(requireContext())
             dialog.show()
-
-            // 링크 메모 전체 조회 api 테스트
-            //viewCreateLinkMemo()
-
-            // 회원가입 테스트
-            //testSignUp()
-
-            // 로그인 테스트
-            testLogin()
         }
     }
 
