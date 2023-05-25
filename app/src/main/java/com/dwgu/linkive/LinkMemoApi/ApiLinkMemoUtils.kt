@@ -27,6 +27,9 @@ private var refreshToken: String? = null
 
 // 링크 url 내용 조회한 걸로 링크 메모 생성
 fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData) {
+    authorization = "JWT "
+    refreshToken = ""
+
     retrofit.create(CreateLinkMemoService::class.java)
         .addLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, linkMemo)
         .enqueue(object : Callback<String> {
@@ -85,10 +88,8 @@ fun testLogin() {
                 Log.d(TAG, "테스트용 계정 로그인 -------------------------------------------")
                 Log.d(TAG, "onResponse: ${response.body().toString()}")
 
-                authorization = response.body()!!.accessToken
+                authorization = "JWT " + response.body()!!.accessToken
                 refreshToken = response.body()!!.refreshToken
-
-                viewCreateLinkMemo()
             }
 
             override fun onFailure(call: Call<token>, t: Throwable) {

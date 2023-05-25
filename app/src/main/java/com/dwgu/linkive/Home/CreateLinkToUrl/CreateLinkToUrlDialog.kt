@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListData
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.CreateLinkMemoData
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.LinkMemoContent
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiCreateLinkMemo
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.DialogCreateLinkToUrlBinding
@@ -114,7 +115,7 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
                             CreateLinkMemoData(
                                 link = linkUrl,
                                 title = linkData!!.linkTitle,
-                                content = "{}",
+                                content = LinkMemoContent(null, null),
                                 folder_num = null
                             )
                         )
