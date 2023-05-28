@@ -43,7 +43,11 @@ class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
         // 폴더 비밀번호 설정 / 변경 버튼 클릭 시
         // 기존 비밀번호가 없다면 비밀번호 설정으로
-
+        binding.layoutFolderPasswordSettingEdit.setOnClickListener {
+            val bottomSheetFragment = EditFolderPasswordFragment()
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+            dismiss()
+        }
 
         // 비밀번호가 있다면 비밀번호 변경으로
 
