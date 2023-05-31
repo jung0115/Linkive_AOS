@@ -10,7 +10,7 @@ object ApiClient {
     private var instance: Retrofit? = null
     private const val CONNECT_TIMEOUT_SEC = 20000L
 //    private const val BASE_URL = "http://54.180.108.160:8080/"
-    private const val BASE_URL = "http://linkive.site/"
+    private const val BASE_URL = "http://linkive.site/api/"
 
     fun getInstance() : Retrofit {
         if(instance == null) {
