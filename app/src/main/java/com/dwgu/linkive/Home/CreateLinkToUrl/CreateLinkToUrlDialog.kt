@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListData
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.CreateLinkMemoData
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiCreateLinkMemo
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.DialogCreateLinkToUrlBinding
 import kotlinx.coroutines.Dispatchers
@@ -101,11 +103,21 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
                 GlobalScope.launch(Dispatchers.IO) {
                     linkData = GetInfoForUrl(linkUrl, selectedFolder)
 
+                    if(linkData != null && linkData!!.linkTitle == "null") {
+                        linkData!!.linkUrl = linkUrl
+                        linkData!!.linkTitle = linkUrl.substring(0 until TITLE_LENGHT) + "..."
+                    }
+
                     if(linkData != null) {
-                        // 제목 글자수가 TITLE_LENGHT 자를 넘어가는 경우
-                        if (linkData!!.linkTitle.length > TITLE_LENGHT) {
-                            linkData!!.linkTitle = linkData!!.linkTitle.substring(0 until TITLE_LENGHT) + "..."
-                        }
+                        // 링크 메모 생성
+                        apiCreateLinkMemo(
+                            CreateLinkMemoData(
+                                link = linkUrl,
+                                title = linkData!!.linkTitle,
+                                content = "{}",
+                                folder_num = null
+                            )
+                        )
                     }
                 }
 
@@ -113,5 +125,4 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
             }
         }
     }
-
 }
