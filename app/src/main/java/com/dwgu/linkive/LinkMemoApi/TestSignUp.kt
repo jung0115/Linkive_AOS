@@ -8,14 +8,14 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface TestSignUp {
-    @POST("users/signup")
+    @POST("api/users/signup")
     fun testSignup(
         @Body params: TestUserData
     ): Call<String>
 }
 
 interface TestLogin {
-    @POST("users/login")
+    @POST("api/users/login")
     fun testLogin(
         @Body params: TestLoginData
     ): Call<token>

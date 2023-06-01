@@ -16,10 +16,11 @@ import com.dwgu.linkive.databinding.FragmentLinkViewBinding
 class LinkViewFragment : Fragment() {
 
     // ViewBinding Setting
-    lateinit var binding: FragmentLinkViewBinding
+    private var _binding: FragmentLinkViewBinding? = null
+    private val binding get() = _binding!!
 
     // 링크 View 페이지 아이템 Recyclerview
-    private val linkViewItems = mutableListOf<LinkViewItem>()
+    private var linkViewItems: MutableList<LinkViewItem>? = null
     private lateinit var linkViewAdapter: LinkViewAdapter
 
     // PageSheet 선택 정보
@@ -29,7 +30,7 @@ class LinkViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLinkViewBinding.inflate(layoutInflater)
+        _binding = FragmentLinkViewBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -112,18 +113,24 @@ class LinkViewFragment : Fragment() {
 
     // 링크 View 페이지 아이템 recyclerview 세팅
     private fun initRecycler() {
+        linkViewItems = mutableListOf<LinkViewItem>()
         linkViewAdapter = LinkViewAdapter(requireContext())
         binding.recyclerviewLinkView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewLinkView.adapter = linkViewAdapter
         binding.recyclerviewLinkView.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
-        linkViewAdapter.items = linkViewItems
+        linkViewAdapter.items = linkViewItems!!
     }
 
     // 링크 View 페이지 아이템 추가
     private fun addLinkViewItem(item: LinkViewItem) {
-        linkViewItems.apply {
+        linkViewItems!!.apply {
             add(item)
         }
         linkViewAdapter.notifyDataSetChanged()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

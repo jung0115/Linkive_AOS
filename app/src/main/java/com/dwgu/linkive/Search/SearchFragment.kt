@@ -17,7 +17,8 @@ import com.google.android.material.tabs.TabLayout
 class SearchFragment : Fragment() {
 
     // ViewBinding Setting
-    lateinit var binding: FragmentSearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     // viewPager
     lateinit var viewPagers: ViewPager
@@ -44,7 +45,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchBinding.inflate(layoutInflater)
+        _binding = FragmentSearchBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -120,5 +121,10 @@ class SearchFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

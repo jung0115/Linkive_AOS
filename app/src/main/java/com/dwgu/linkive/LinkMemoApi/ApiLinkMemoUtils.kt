@@ -3,11 +3,14 @@ package com.dwgu.linkive.LinkMemoApi.CreateLinkMemo
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.dwgu.linkive.Api.ApiClient
+import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
 import com.dwgu.linkive.LinkMemoApi.TestClient
 import com.dwgu.linkive.LinkMemoApi.TestLogin
 import com.dwgu.linkive.LinkMemoApi.TestLoginData
 import com.dwgu.linkive.LinkMemoApi.TestSignUp
 import com.dwgu.linkive.LinkMemoApi.TestUserData
+import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemo
+import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoData
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoService
 import com.dwgu.linkive.LinkMemoApi.token
 import retrofit2.Call
@@ -27,8 +30,7 @@ private var refreshToken: String? = null
 
 // 링크 url 내용 조회한 걸로 링크 메모 생성
 fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData) {
-    authorization = "JWT "
-    refreshToken = ""
+
 
     retrofit.create(CreateLinkMemoService::class.java)
         .addLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, linkMemo)
@@ -46,16 +48,31 @@ fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData) {
 }
 
 // 링크 메모 전체 조회
-fun viewCreateLinkMemo() {
+fun viewCreateLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
+    authorization = "JWT "
+    refreshToken = ""
+
     retrofit.create(ViewLinkMemoService::class.java)
         .viewLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!)
-        .enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        .enqueue(object : Callback<ViewLinkMemoData> {
+            override fun onResponse(call: Call<ViewLinkMemoData>, response: Response<ViewLinkMemoData>) {
                 Log.d(TAG, "링크 메모 조회 결과 -------------------------------------------")
                 Log.d(TAG, "onResponse: ${response.body().toString()}")
+
+                // 조회한 링크 리스트를 화면에 보여주기 위해 데이터 추가
+                val linkLists: MutableList<ViewLinkMemo> = response.body()!!.arr
+                for(linkItem in linkLists) {
+                    addLinkList(
+                        LinkListItem(
+                            linkTitle = linkItem.title,
+                            folderName = linkItem.folder_name,
+                            thumbnailImage = null,
+                            linkItemSource = null,
+                            linkItemForms = null))
+                }
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<ViewLinkMemoData>, t: Throwable) {
                 Log.d(TAG, "링크 메모 조회 결과 fail -------------------------------------------")
                 Log.e(TAG, "onFailure: ${t.message}")
             }
