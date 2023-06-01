@@ -21,20 +21,21 @@ import com.dwgu.linkive.databinding.FragmentSearchResultAllBinding
 class SearchResultAllFragment : Fragment() {
 
     // ViewBinding Setting
-    lateinit var binding: FragmentSearchResultAllBinding
+    private var _binding: FragmentSearchResultAllBinding? = null
+    private val binding get() = _binding!!
 
     // 검색어
     private var searchWord: String? = null
 
     // 검색 결과 리스트 recyclerview adapter
-    private var searchResultAllItems = mutableListOf<LinkListItem>()
+    private var searchResultAllItems: MutableList<LinkListItem>? = null
     private lateinit var searchResultAllAdapter: SearchResultAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchResultAllBinding.inflate(layoutInflater)
+        _binding = FragmentSearchResultAllBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -59,6 +60,7 @@ class SearchResultAllFragment : Fragment() {
 
     // recyclerview 세팅
     private fun initRecycler() {
+        searchResultAllItems = mutableListOf<LinkListItem>()
         // 링크 리스트 recyclerview 세팅
         searchResultAllAdapter = SearchResultAdapter(
             requireContext(),
@@ -71,12 +73,12 @@ class SearchResultAllFragment : Fragment() {
         binding.recyclerviewSearchResultAll.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerviewSearchResultAll.adapter = searchResultAllAdapter
         binding.recyclerviewSearchResultAll.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
-        searchResultAllAdapter.items = searchResultAllItems
+        searchResultAllAdapter.items = searchResultAllItems!!
     }
 
     // 검색 결과 리스트 아이템 추가
     private fun addSearchResultAllItem(searchResultAllItem: LinkListItem) {
-        searchResultAllItems.apply {
+        searchResultAllItems!!.apply {
             add(searchResultAllItem)
         }
         searchResultAllAdapter.notifyDataSetChanged()
@@ -85,5 +87,10 @@ class SearchResultAllFragment : Fragment() {
     // 링크 세부 페이지 열기
     private fun openLinkViewPage() {
         view?.findNavController()?.navigate(R.id.action_menu_search_to_linkViewFragment)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

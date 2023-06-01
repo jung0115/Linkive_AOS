@@ -17,20 +17,21 @@ import com.dwgu.linkive.databinding.FragmentSearchResultContentsBinding
 class SearchResultContentsFragment : Fragment() {
 
     // ViewBinding Setting
-    lateinit var binding: FragmentSearchResultContentsBinding
+    private var _binding: FragmentSearchResultContentsBinding? = null
+    private val binding get() = _binding!!
 
     // 검색어
     private var searchWord: String? = null
 
     // 검색 결과 리스트 recyclerview adapter
-    private var searchResultContentsItems = mutableListOf<LinkListItem>()
+    private var searchResultContentsItems: MutableList<LinkListItem>? = null
     private lateinit var searchResultContentsAdapter: SearchResultAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchResultContentsBinding.inflate(layoutInflater)
+        _binding = FragmentSearchResultContentsBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -51,6 +52,7 @@ class SearchResultContentsFragment : Fragment() {
 
     // recyclerview 세팅
     private fun initRecycler() {
+        searchResultContentsItems = mutableListOf<LinkListItem>()
         // 링크 리스트 recyclerview 세팅
         searchResultContentsAdapter = SearchResultAdapter(
             requireContext(),
@@ -63,12 +65,12 @@ class SearchResultContentsFragment : Fragment() {
         binding.recyclerviewSearchResultContents.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerviewSearchResultContents.adapter = searchResultContentsAdapter
         binding.recyclerviewSearchResultContents.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
-        searchResultContentsAdapter.items = searchResultContentsItems
+        searchResultContentsAdapter.items = searchResultContentsItems!!
     }
 
     // 검색 결과 리스트 아이템 추가
     private fun addSearchResultContentsItem(searchResultContentsItem: LinkListItem) {
-        searchResultContentsItems.apply {
+        searchResultContentsItems!!.apply {
             add(searchResultContentsItem)
         }
         searchResultContentsAdapter.notifyDataSetChanged()
@@ -77,5 +79,10 @@ class SearchResultContentsFragment : Fragment() {
     // 링크 세부 페이지 열기
     private fun openLinkViewPage() {
         view?.findNavController()?.navigate(R.id.action_menu_search_to_linkViewFragment)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

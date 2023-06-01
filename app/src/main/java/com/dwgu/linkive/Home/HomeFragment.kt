@@ -22,10 +22,11 @@ import com.dwgu.linkive.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     // ViewBinding Setting
-    lateinit var binding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     // 링크 리스트 recyclerview adapter
-    private var linkListItems = mutableListOf<LinkListItem>()
+    private var linkListItems: MutableList<LinkListItem>? = null
     private lateinit var linkListAdapter: LinkListAdapter
 
     // 링크 리스트 정렬 Spinner
@@ -40,7 +41,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(layoutInflater)
+        _binding = FragmentHomeBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -51,17 +52,13 @@ class HomeFragment : Fragment() {
         // recyclerview 세팅
         initRecycler()
 
-        // 테스트 데이터
-        addLinkListItem(LinkListItem("테스트1", "폴더1",
-            "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
-            "instagram", mutableListOf("text", "image")))
-        addLinkListItem(LinkListItem("테스트2", "폴더2", null, "twitter", mutableListOf("link", "place")))
-        addLinkListItem(LinkListItem("테스트3", null, null, "naver_blog", mutableListOf("text", "image", "link", "place", "code", "checkbox")))
-        addLinkListItem(LinkListItem("테스트4", null, null, null, null))
-        addLinkListItem(LinkListItem("테스트5", "폴더5", null, null, null))
-        addLinkListItem(LinkListItem("테스트6", null, null, "twitter", null))
-        addLinkListItem(LinkListItem("테스트7", "폴더7", null, "twitter", null))
-        addLinkListItem(LinkListItem("테스트8", null, null, "twitter", null))
+        // 링크 전체 조회 api -> 조회 후 데이터 추가
+        //testLogin()
+        viewCreateLinkMemo(
+            addLinkList = {
+                addLinkListItem(it)
+            }
+        )
 
         // 링크 리스트 정렬 Spinner
         linkListSortList.add(getString(R.string.spinner_sort_new)) // 최신순
@@ -90,6 +87,8 @@ class HomeFragment : Fragment() {
 
     // recyclerview 세팅
     private fun initRecycler() {
+        linkListItems = mutableListOf<LinkListItem>()
+
         // 링크 리스트 recyclerview 세팅
         linkListAdapter = LinkListAdapter(
             requireContext(),
@@ -100,12 +99,12 @@ class HomeFragment : Fragment() {
         binding.recyclerviewLinkList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerviewLinkList.adapter = linkListAdapter
         binding.recyclerviewLinkList.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
-        linkListAdapter.items = linkListItems
+        linkListAdapter.items = linkListItems!!
     }
 
     // 링크 리스트 아이템 추가
     private fun addLinkListItem(linkListItem: LinkListItem) {
-        linkListItems.apply {
+        linkListItems!!.apply {
             add(linkListItem)
         }
         linkListAdapter.notifyDataSetChanged()
@@ -114,5 +113,10 @@ class HomeFragment : Fragment() {
     // 링크 세부 페이지 열기
     private fun openLinkViewPage() {
         view?.findNavController()?.navigate(R.id.action_menu_home_to_linkViewFragment)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
