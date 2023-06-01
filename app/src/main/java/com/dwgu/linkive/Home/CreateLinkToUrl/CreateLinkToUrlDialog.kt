@@ -102,7 +102,7 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
                 // 링크 url로 페이지 정보 가져오기: 제목, 썸네일 이미지, 출처 플랫폼 등
                 var linkData: LinkListData?
                 GlobalScope.launch(Dispatchers.IO) {
-                    linkData = GetInfoForUrl(linkUrl, selectedFolder)
+                    linkData = GetInfoForUrl(linkUrl)
 
                     if(linkData != null && linkData!!.linkTitle == "null") {
                         linkData!!.linkUrl = linkUrl

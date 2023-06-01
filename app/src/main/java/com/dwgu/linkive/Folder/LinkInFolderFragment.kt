@@ -47,14 +47,14 @@ class LinkInFolderFragment : Fragment() {
         // 테스트 데이터
         addLinkListItem(LinkListItem("테스트1", "폴더1",
             "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
-            "instagram", mutableListOf("text", "image")))
-        addLinkListItem(LinkListItem("테스트2", "폴더2", null, "twitter", mutableListOf("link", "place")))
-        addLinkListItem(LinkListItem("테스트3", null, null, "naver_blog", mutableListOf("text", "image", "link", "place", "code", "checkbox")))
-        addLinkListItem(LinkListItem("테스트4", null, null, null, null))
-        addLinkListItem(LinkListItem("테스트5", "폴더5", null, null, null))
-        addLinkListItem(LinkListItem("테스트6", null, null, "twitter", null))
-        addLinkListItem(LinkListItem("테스트7", "폴더7", null, "twitter", null))
-        addLinkListItem(LinkListItem("테스트8", null, null, "twitter", null))
+            "instagram", mutableListOf("text", "image"), ""))
+        addLinkListItem(LinkListItem("테스트2", "폴더2", null, "twitter", mutableListOf("link", "place"), ""))
+        addLinkListItem(LinkListItem("테스트3", null, null, "naver_blog", mutableListOf("text", "image", "link", "place", "code", "checkbox"), ""))
+        addLinkListItem(LinkListItem("테스트4", null, null, null, null, ""))
+        addLinkListItem(LinkListItem("테스트5", "폴더5", null, null, null, ""))
+        addLinkListItem(LinkListItem("테스트6", null, null, "twitter", null, ""))
+        addLinkListItem(LinkListItem("테스트7", "폴더7", null, "twitter", null, ""))
+        addLinkListItem(LinkListItem("테스트8", null, null, "twitter", null, ""))
 
         //메뉴 버튼 클릭 시
         binding.btnMenu.setOnClickListener {
