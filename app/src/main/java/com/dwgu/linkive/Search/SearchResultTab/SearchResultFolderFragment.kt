@@ -46,9 +46,9 @@ class SearchResultFolderFragment : Fragment() {
         initRecycler()
 
         // 테스트 데이터
-        addSearchResultFolderItem(LinkListItem("제목입니다", "검색", null, "twitter", mutableListOf("link", "place")))
-        addSearchResultFolderItem(LinkListItem("제목입니다2", "폴더검색", null, "naver_blog", mutableListOf("link", "place")))
-        addSearchResultFolderItem(LinkListItem("테스트 검색제목", "검색", null, null, null))
+        addSearchResultFolderItem(LinkListItem("제목입니다", "검색", null, "twitter", mutableListOf("link", "place"), ""))
+        addSearchResultFolderItem(LinkListItem("제목입니다2", "폴더검색", null, "naver_blog", mutableListOf("link", "place"), ""))
+        addSearchResultFolderItem(LinkListItem("테스트 검색제목", "검색", null, null, null, ""))
     }
 
     // recyclerview 세팅

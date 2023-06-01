@@ -21,16 +21,14 @@ import retrofit2.Retrofit
 // api 통신을 위한 retrofit
 private val retrofit: Retrofit = ApiClient.getInstance()
 
-// 현재 로그인 된 사용자 jwt
-//private var authorization: String? = null
-//private var refreshToken: String? = null
-
+// 현재 로그인 된 사용자 token
 private var authorization: String? = null
 private var refreshToken: String? = null
 
 // 링크 url 내용 조회한 걸로 링크 메모 생성
 fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData) {
-
+    authorization = "JWT "
+    refreshToken = ""
 
     retrofit.create(CreateLinkMemoService::class.java)
         .addLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, linkMemo)
@@ -62,13 +60,15 @@ fun viewCreateLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
                 // 조회한 링크 리스트를 화면에 보여주기 위해 데이터 추가
                 val linkLists: MutableList<ViewLinkMemo> = response.body()!!.arr
                 for(linkItem in linkLists) {
+                    var linkItemSource: String? = getSourceForLink(linkItem.link)
                     addLinkList(
                         LinkListItem(
                             linkTitle = linkItem.title,
                             folderName = linkItem.folder_name,
                             thumbnailImage = null,
-                            linkItemSource = null,
-                            linkItemForms = null))
+                            linkItemSource = linkItemSource,
+                            linkItemForms = null,
+                            created_date = linkItem.date_created))
                 }
             }
 
@@ -78,6 +78,30 @@ fun viewCreateLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
             }
         })
 }
+
+// 썸네일 이미지 url 가져오기
+
+
+// 링크 플랫폼 정보
+fun getSourceForLink(linkUrl: String): String? {
+    // 출처 플랫폼
+    var linkItemSource: String? = null
+    // 일단 url에 해당 문자를 포함하면 해당 플랫폼 페이지인 것으로 판단 -> 그러나 아닌 경우도 있음
+    // 인스타그램은 OpenGraph를 지원하지 않음
+    if (linkUrl.contains("instagram")) {
+        linkItemSource = "instagram"
+    } else if (linkUrl.contains("twitter")) {
+        linkItemSource = "twitter"
+    } else if (linkUrl.contains("naver") && linkUrl.contains("blog")) {
+        linkItemSource = "naver_blog"
+    } else if (linkUrl.contains("google") && linkUrl.contains("play")) {
+        linkItemSource = "play_store"
+    }
+
+    return linkItemSource
+}
+
+// 링크 아이템 종류
 
 fun testSignUp() {
     val user = TestUserData("jung0987", "test1234", "test1234@naver.com", "testjm")
