@@ -1,43 +1,42 @@
 package com.dwgu.linkive.Folder
 
 import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import com.dwgu.linkive.Api.ApiClient
+import com.dwgu.linkive.Folder.FolderApi.AddFolderRequest
+import com.dwgu.linkive.Folder.FolderApi.AddFolderResponse
 import com.dwgu.linkive.Folder.FolderApi.FolderInterface
+import com.dwgu.linkive.Folder.FolderApi.LoginRequest
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentAddFolderBottomSheetBinding
-import com.dwgu.linkive.databinding.FragmentFolderMenuBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentAddFolderBottomSheetBinding? = null
     private val binding get() = _binding!!
 
-    val bundle = Bundle()
 
     // retrofit builder 선언
     private val retrofit = ApiClient.getInstance()
     private val api: FolderInterface = retrofit.create(FolderInterface::class.java)
+
+    private var accessToken: String? = null
+    private var refreshToken: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,17 +48,28 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
     ): View? {
         _binding = FragmentAddFolderBottomSheetBinding.inflate(inflater, container, false)
         val view = binding.root
+
+//        api.login(LoginRequest("sumin", "sumin!")).enqueue(object : Callback<LoginRequest> {
+//            override fun onFailure(call: Call<LoginRequest>, t: Throwable) {
+//                Log.d("실패", t.message.toString())
+//            }
+//
+//            override fun onResponse(call: Call<LoginRequest>, response: retrofit2.Response<LoginRequest>) {
+//                Log.d("성공1", response.body().toString())
+//                accessToken = response.body()?.id.toString()
+//                refreshToken = response.body()?.password.toString()
+//            }
+//        })
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.rgroupColor.setOnCheckedChangeListener { group, i ->
-//            when(i){
-//
-//            }
-//        }
+        // 초기화할 때는 비밀번호 숨김
+        binding.edittextFolderPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+        binding.edittextFolderPasswordCheck.transformationMethod = PasswordTransformationMethod.getInstance()
 
         // 비밀번호 표시/숨김
         binding.checkEye.setOnCheckedChangeListener { view, isChecked ->
@@ -81,12 +91,6 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
             binding.edittextFolderPasswordCheck.setSelection(binding.edittextFolderPasswordCheck.text.length)
         }
 
-        // 포커스 해제될 때
-//        binding.edittextFolderPassword.setOnFocusChangeListener { view, bFocus ->
-//            if(!bFocus){
-//                binding.viewPasswordCheck.visibility = View.VISIBLE
-//            }
-//        }
 
         // 비밀번호를 입력하면 확인창 뜸
         // 비밀번호 지우면 확인창 없어짐
@@ -131,10 +135,11 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
 
                 val name = binding.edittextFolderName.text.toString()
                 var color: String = "red"
-                var password: Int = 0
+                var password: Int? = null
 
-                if (binding.edittextFolderPassword.text.toString() == null){
+                if (binding.edittextFolderPassword.text.toString() != ""){
                     password = binding.edittextFolderPassword.text.toString().toInt()
+                    Log.d("password text", binding.edittextFolderPassword.text.toString())
                 }
 
                 when(binding.rgroupColor.checkedRadioButtonId){
@@ -150,26 +155,19 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
 
                 val addFolderRequest =  AddFolderRequest(name, password, color)
 
-                // 폴더 추가 api 연동
-                api.createFolder(addFolderRequest).enqueue(object: Callback<AddFolderResponse> {
+                //폴더 추가 api 연동
+                api.createFolder("JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODU2MjAxMDB9.JGnqSiSnkuSLHG6Pt5YZWiKvacpxsNv_2DpTaPmmdPw", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODYyMjEzMDB9.p0NJoSlu62xqrmSn865wbaZLDzTvirmX7gHxwzxPhFI", addFolderRequest).enqueue(object: Callback<AddFolderResponse> {
                     override fun onFailure(call: Call<AddFolderResponse>, t: Throwable) {
                         Log.d("실패", t.message.toString())
                     }
 
                     override fun onResponse( call: Call<AddFolderResponse>, response: Response<AddFolderResponse> ) {
-                        Log.d("성공", response.body().toString())
+                        Log.d("성공1", response.body().toString())
+//                        val folderFragment = FolderFragment()
+//                        folderFragment.loadData()
                     }
                 })
 
-//                bundle.putString("folderCover", color)
-//                bundle.putString("folderName", name)
-//                bundle.putBoolean("btnConfirm", true)
-
-//                val folderFragment = FolderFragment()
-//                folderFragment.arguments = bundle
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.nav_host_fragment, folderFragment)
-//                    .commit()
                 dismiss()
             }
 

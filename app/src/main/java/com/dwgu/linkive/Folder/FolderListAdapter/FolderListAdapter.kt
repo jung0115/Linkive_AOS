@@ -2,6 +2,7 @@ package com.dwgu.linkive.Folder.FolderListAdapter
 
 import android.graphics.Outline
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,11 @@ import android.view.ViewOutlineProvider
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.dwgu.linkive.Folder.FolderApi.ReadFoldersResponse
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ItemFolderOfListBinding
 
-class FolderListAdapter(private val List: List<FolderListItem>): RecyclerView.Adapter<FolderListAdapter.ViewHolder>() {
+class FolderListAdapter(private val List: ArrayList<ReadFoldersResponse>): RecyclerView.Adapter<FolderListAdapter.ViewHolder>() {
 
     //커스텀 리스너
     interface OnItemClickListner{
@@ -45,9 +47,11 @@ class FolderListAdapter(private val List: List<FolderListItem>): RecyclerView.Ad
 
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {//view->viewholder로
+
         viewHolder.binding.textviewFolderName.text = List[position].name
 
-        viewHolder.binding.imgFolderCover.setImageResource(List[position].cover)
+        // 썸네일 지정
+//        viewHolder.binding.imgFolderCover.setImageResource(List[position].thumbnail)
         roundTop(viewHolder.binding.imgFolderCover, 24f)
 
 //        // 클릭 이벤트
@@ -62,6 +66,7 @@ class FolderListAdapter(private val List: List<FolderListItem>): RecyclerView.Ad
 
     //동일
     override fun getItemCount() = List.size
+
 
     fun roundTop(iv: ImageView, curveRadius : Float)  : ImageView {
 

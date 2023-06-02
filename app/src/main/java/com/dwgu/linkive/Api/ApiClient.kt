@@ -1,15 +1,25 @@
 package com.dwgu.linkive.Api
 
+import android.util.Log
+import com.dwgu.linkive.Folder.FolderApi.FolderInterface
+import com.dwgu.linkive.Folder.FolderApi.LoginRequest
+import com.dwgu.linkive.Folder.FolderApi.SignUpRequest
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 object ApiClient {
     private var instance: Retrofit? = null
-    private const val CONNECT_TIMEOUT_SEC = 20000L
-    private const val BASE_URL = "http://linkive.site/"
+    private const val CONNECT_TIMEOUT_SEC = 30000L
+    private const val BASE_URL = "http://linkive.site/api/"
 
     fun getInstance() : Retrofit {
         if(instance == null) {
@@ -33,4 +43,24 @@ object ApiClient {
         }
         return instance!!
     }
+
+//    class AppInterceptor : Interceptor {
+//        @Throws(IOException::class)
+//        override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
+//
+//
+//
+//            val newRequest = request().newBuilder()
+//                .addHeader(
+//                    "Authorization",
+//                    "JWT $accessToken"
+//                )
+//                .addHeader(
+//                    "refresh-token",
+//                    "$refreshToken"
+//                )
+//                .build()
+//            proceed(newRequest)
+//        }
+//    }
 }
