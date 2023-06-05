@@ -48,9 +48,14 @@
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
+                <!-- 시작 페이지로 정의 -->
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
+                <!-- 다른 앱에서 공유 -->
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
 

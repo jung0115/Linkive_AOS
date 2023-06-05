@@ -25,7 +25,8 @@ import kotlinx.coroutines.launch
 
 // URL로 링크 추가 Dialog
 class CreateLinkToUrlDialog(
-    private val context: Context
+    private val context: Context,
+    private val urlForWeb: String?
     ) : DialogFragment() {
 
     // ViewBinding
@@ -67,6 +68,12 @@ class CreateLinkToUrlDialog(
 
         // URL 입력창 기본 입력 자판이 영문 자판으로 나오게
         binding.edittextInputUrl.privateImeOptions = "defaultInputmode=english"
+
+        // 다른 앱에서 공유한 경우 = url 값을 전달 받은 경우
+        // url 입력창에 url을 입력해줌
+        if(urlForWeb != null) {
+            binding.edittextInputUrl.setText(urlForWeb)
+        }
 
         // 폴더 선택 Spinner
         //Resources.getSystem().getString(R.string.default_select_folder)

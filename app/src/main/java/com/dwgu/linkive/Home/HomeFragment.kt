@@ -1,6 +1,8 @@
 package com.dwgu.linkive.Home
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +31,7 @@ class HomeFragment : Fragment() {
 
     // 링크 리스트 정렬 Spinner
     // 정렬 기준 - 최신순, 제목순
-    private val linkListSortList = mutableListOf<String>()
+    private var linkListSortList = mutableListOf<String>()
     // Spinner 어댑터
     private var linkListSortAdapter: ArrayAdapter<String>? = null
     // 선택된 정렬 기준
@@ -59,7 +61,6 @@ class HomeFragment : Fragment() {
         //apiGetKakaoAddress("카카오 부산")
 
         // 링크 전체 조회 api -> 조회 후 데이터 추가
-        //testLogin()
         apiViewLinkMemo(
             addLinkList = {
                 addLinkListItem(it)
@@ -67,6 +68,7 @@ class HomeFragment : Fragment() {
         )
 
         // 링크 리스트 정렬 Spinner
+        linkListSortList = mutableListOf<String>()
         linkListSortList.add(getString(R.string.spinner_sort_new)) // 최신순
         linkListSortList.add(getString(R.string.spinner_sort_title))   // 제목순
         linkListSortAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_link_list_sort, linkListSortList)
@@ -95,22 +97,11 @@ class HomeFragment : Fragment() {
 
         // Floating 버튼 선택 시 URL로 링크 추가 Dialog 열기
         binding.btnCreateLinkToUrl.setOnClickListener {
-            val dialog = CreateLinkToUrlDialog(
-                requireContext()
-            )
-            dialog.setRefreshHomeListener(object: CreateLinkToUrlDialog.RefreshHomeListener{
-                override fun refreshHomeListener() {
-                    // 링크 리스트 아이템 Refresh
-                    initRecycler()
-                    apiViewLinkMemo(
-                        addLinkList = {
-                            addLinkListItem(it)
-                        }
-                    )
-                }
-            })
-            dialog.show(requireActivity().supportFragmentManager, "CreateLinkToUrlDialog")
+            openCreateLinkDialog(null)
         }
+
+        // 다른 앱에서 URL 공유
+        initIntent()
     }
 
     // recyclerview 세팅
@@ -147,6 +138,43 @@ class HomeFragment : Fragment() {
     // 링크 세부 페이지 열기
     private fun openLinkViewPage() {
         view?.findNavController()?.navigate(R.id.action_menu_home_to_linkViewFragment)
+    }
+
+    // 다른 앱에서 공유하기
+    fun initIntent() {
+        // 인텐트를 얻어오고, 액션과 MIME 타입을 가져온다
+        val intent = activity?.intent
+        val action = intent?.action
+        val type = intent?.type
+
+        // 인텐트 정보가 있는 경우 실행
+        if (Intent.ACTION_SEND == action && type != null) {
+            if ("text/plain" == type) {
+
+                // 가져온 인텐트의 텍스트 정보
+                val pageUrl = intent.getStringExtra(Intent.EXTRA_TEXT)
+                openCreateLinkDialog(pageUrl)
+            }
+        }
+    }
+
+    // 링크 추가 Dialog 열기
+    fun openCreateLinkDialog(url: String?) {
+        val dialog = CreateLinkToUrlDialog(
+            requireContext(), url
+        )
+        dialog.setRefreshHomeListener(object: CreateLinkToUrlDialog.RefreshHomeListener{
+            override fun refreshHomeListener() {
+                // 링크 리스트 아이템 Refresh
+                initRecycler()
+                apiViewLinkMemo(
+                    addLinkList = {
+                        addLinkListItem(it)
+                    }
+                )
+            }
+        })
+        dialog.show(requireActivity().supportFragmentManager, "CreateLinkToUrlDialog")
     }
 
     override fun onDestroy() {
