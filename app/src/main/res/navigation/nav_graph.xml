@@ -60,6 +60,12 @@
         <action
             android:id="@+id/action_menu_mypage_to_loginActivity"
             app:destination="@id/loginActivity" />
+        <action
+            android:id="@+id/action_menu_mypage_to_showPageSheetFragment"
+            app:destination="@id/showPageSheetFragment" />
+        <action
+            android:id="@+id/action_menu_mypage_to_pageSheetFragment"
+            app:destination="@id/pageSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/linkViewFragment"
@@ -205,4 +211,14 @@
         android:id="@+id/loginActivity"
         android:name="com.dwgu.linkive.Login.LoginActivity"
         android:label="LoginActivity" />
+    <fragment
+        android:id="@+id/showPageSheetFragment"
+        android:name="com.dwgu.linkive.MyPage.ShowPageSheetFragment"
+        android:label="ShowPageSheetFragment"
+        tools:layout="@layout/fragment_show_page_sheet"/>
+    <fragment
+        android:id="@+id/pageSheetFragment"
+        android:name="com.dwgu.linkive.MyPage.PageSheetFragment"
+        android:label="fragment_page_sheet"
+        tools:layout="@layout/fragment_page_sheet" />
 </navigation>

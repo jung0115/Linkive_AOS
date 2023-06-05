@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp">
+
+    <ImageView
+        android:id="@+id/added_image"
+        android:layout_width="match_parent"
+        android:background="@drawable/button_outline_gray_10dp"
+        android:layout_height="300dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_photo_gray"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/photo"
+            android:textColor="@color/dark_gray"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+
+
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:layout_gravity="right"
+        android:layout_margin="10dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_recycler_bin"/>
+
+</FrameLayout>

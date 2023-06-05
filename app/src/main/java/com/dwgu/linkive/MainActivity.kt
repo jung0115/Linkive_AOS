@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         // NavController 설정
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+
         // Navigation Graph를 사용해서 Bottom Navigation 설정
         binding.navBottom.setupWithNavController(navController)
 
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigation()
     }
 
+    // 하단 바의 페이지를 제외하고, 하단 바 숨기기
     private fun setBottomNavigation() {
         navController.addOnDestinationChangedListener{_, destination, _ ->
             if(destination.id == R.id.menu_home ||

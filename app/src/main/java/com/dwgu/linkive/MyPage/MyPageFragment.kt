@@ -1,15 +1,20 @@
 package com.dwgu.linkive.MyPage
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.dwgu.linkive.MyPage.MyPageRecycler.BasicPageSheetAdapter
+import com.dwgu.linkive.MyPage.MyPageRecycler.CustomPageSheetAdapter
+import com.dwgu.linkive.MyPage.MyPageRecycler.PageSheetItem
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentMyPageBinding
+
 
 class  MyPageFragment : Fragment() {
 
@@ -32,43 +37,26 @@ class  MyPageFragment : Fragment() {
     ): View? {
         binding = FragmentMyPageBinding.inflate(layoutInflater)
 
-        basicPageSheetList.apply {
-            add(PageSheetItem(1, "여행"))
-            add(PageSheetItem(2, "공부"))
-            add(PageSheetItem(3, "개발"))
-            add(PageSheetItem(4, "일기"))
-            add(PageSheetItem(5, "체크\n리스트"))
-        }
-
-        customPageSheetList.apply {
-            add(PageSheetItem(1, "대구"))
-            add(PageSheetItem(2, "부산"))
-        }
-
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        basicPageSheetAdapter = BasicPageSheetAdapter(
-            this.basicPageSheetList,
-            sheetClick = {
-                Log.d("msg", "기본 페이지 확인으로 이동")
-                view?.findNavController()?.navigate(R.id.action_menu_mypage_to_pageSheetActivity)
-            }
-        )
+        // recyclerview 세팅
+        initRecycler()
 
-        customPageSheetAdapter = CustomPageSheetAdapter(
-            this.customPageSheetList,
-            sheetClick = {
-                Log.d("msg", "커스텀 페이지 확인으로 이동")
-                view?.findNavController()?.navigate(R.id.action_menu_mypage_to_pageSheetActivity)
-            }
-        )
+        addBasicPageSheetItem(PageSheetItem(1, "여행"))
+        addBasicPageSheetItem(PageSheetItem(2, "공부"))
+        addBasicPageSheetItem(PageSheetItem(3, "개발"))
+        addBasicPageSheetItem(PageSheetItem(4, "일기"))
+        addBasicPageSheetItem(PageSheetItem(5, "체크\n리스트"))
 
-        binding.basicBtnRecycler.adapter = basicPageSheetAdapter
-        binding.customBtnRecycler.adapter = customPageSheetAdapter
+        addCustomPageSheetItem(PageSheetItem(1, "애니"))
+        addCustomPageSheetItem(PageSheetItem(2, "맛집"))
+        addCustomPageSheetItem(PageSheetItem(3, "숙소"))
+        addCustomPageSheetItem(PageSheetItem(4, "+"))
 
         setOnClickListener()
     }
@@ -83,7 +71,8 @@ class  MyPageFragment : Fragment() {
         // 문의하기
         binding.btnInquiry.setOnClickListener {
             Log.d("msg", "문의하기 화면으로 이동")
-            view?.findNavController()?.navigate(R.id.action_menu_mypage_to_inquiryFragment)
+//            view?.findNavController()?.navigate(R.id.action_menu_mypage_to_inquiryFragment)
+            view?.findNavController()?.navigate(R.id.action_menu_mypage_to_pageSheetFragment)
         }
 
         // 로그아웃
@@ -92,6 +81,8 @@ class  MyPageFragment : Fragment() {
 
 
             // 로그아웃 후, 로그인 화면으로 이동
+            Toast.makeText(requireContext(), "로그아웃!", Toast.LENGTH_SHORT).show()
+            Log.d("msg", "logout")
             view?.findNavController()?.navigate(R.id.action_menu_mypage_to_loginActivity)
         }
 
@@ -100,5 +91,56 @@ class  MyPageFragment : Fragment() {
             Log.d("msg", "회원 탈퇴 화면으로 이동")
             view?.findNavController()?.navigate(R.id.action_menu_mypage_to_quitFragment)
         }
+    }
+
+    // 리사이클러 초기화
+    private fun initRecycler() {
+        basicPageSheetAdapter = BasicPageSheetAdapter(
+            requireContext(),
+            sheetClick = {
+                moveToPageSheet()
+            }
+        )
+
+        binding.basicBtnRecycler.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.basicBtnRecycler.adapter = basicPageSheetAdapter
+        binding.basicBtnRecycler.isNestedScrollingEnabled = false
+        basicPageSheetAdapter.data = basicPageSheetList
+
+        customPageSheetAdapter = CustomPageSheetAdapter(
+            requireContext(),
+            sheetClick = {
+                moveToPageSheet()
+            }
+        )
+
+        binding.customBtnRecycler.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.customBtnRecycler.adapter = customPageSheetAdapter
+        binding.customBtnRecycler.isNestedScrollingEnabled = false
+        customPageSheetAdapter.data = customPageSheetList
+    }
+
+    private fun addBasicPageSheetItem(item: PageSheetItem) {
+        basicPageSheetList.apply {
+            add(item)
+        }
+        basicPageSheetAdapter.notifyDataSetChanged()
+    }
+
+    private fun addCustomPageSheetItem(item: PageSheetItem) {
+        customPageSheetList.apply {
+            add(item)
+        }
+        customPageSheetAdapter.notifyDataSetChanged()
+    }
+
+    private fun moveToPageSheet() {
+        Log.d("msg", "moveToPageSheet")
+        view?.findNavController()?.navigate(R.id.action_menu_mypage_to_showPageSheetFragment)
+//        requireActivity()
+//            .supportFragmentManager
+//            .beginTransaction()
+//            .add(R.id.nav_host_fragment, ShowPageSheetFragment())
+//            .commit()
     }
 }

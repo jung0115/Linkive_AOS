@@ -30,7 +30,6 @@
     <string name="NAVER_CLIENT_ID">zC68uefjzaWg9If8Uupu</string>
     <string name="NAVER_CLIENT_SECRET">mqBRym4ONK</string>
     <string name="social_login_info_naver_client_name">네이버 아이디 로그인</string>
-
     <!-- Home -->
     <string name="home_title">홈</string>
 
@@ -147,8 +146,4 @@
     <string name="folder_add">폴더 추가</string>
     <string name="folder_name_hint">폴더명을 입력해주세요.</string>
     <string name="folder_add_password_hint">비밀번호를 입력해주세요. (선택)</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>
