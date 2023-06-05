@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 
 class LinkListAdapter(
     private val context: Context,
-    val onClickLinkItem: () -> Unit
+    private val onClickLinkItem: () -> Unit
     ) :
     RecyclerView.Adapter<LinkListAdapter.LinkListViewHolder>() {
 

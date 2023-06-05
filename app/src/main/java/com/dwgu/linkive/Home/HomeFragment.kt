@@ -12,10 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
-import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.testLogin
-import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.testSignUp
-import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.viewCreateLinkMemo
-import com.dwgu.linkive.LinkView.LinkViewFragment
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetAllFolders
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiViewLinkMemo
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentHomeBinding
 
@@ -52,9 +50,17 @@ class HomeFragment : Fragment() {
         // recyclerview 세팅
         initRecycler()
 
+        // 테스트 데이터
+        /*addLinkListItem(LinkListItem("테스트1", "폴더1",
+            "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
+            "instagram", mutableListOf("text", "image"), ""))*/
+
+        // 주소 검색 테스트
+        //apiGetKakaoAddress("카카오 부산")
+
         // 링크 전체 조회 api -> 조회 후 데이터 추가
         //testLogin()
-        viewCreateLinkMemo(
+        apiViewLinkMemo(
             addLinkList = {
                 addLinkListItem(it)
             }
@@ -80,8 +86,21 @@ class HomeFragment : Fragment() {
 
         // Floating 버튼 선택 시 URL로 링크 추가 Dialog 열기
         binding.btnCreateLinkToUrl.setOnClickListener {
-            val dialog = CreateLinkToUrlDialog(requireContext())
-            dialog.show()
+            val dialog = CreateLinkToUrlDialog(
+                requireContext()
+            )
+            dialog.setRefreshHomeListener(object: CreateLinkToUrlDialog.RefreshHomeListener{
+                override fun refreshHomeListener() {
+                    // 링크 리스트 아이템 Refresh
+                    initRecycler()
+                    apiViewLinkMemo(
+                        addLinkList = {
+                            addLinkListItem(it)
+                        }
+                    )
+                }
+            })
+            dialog.show(requireActivity().supportFragmentManager, "CreateLinkToUrlDialog")
         }
     }
 
