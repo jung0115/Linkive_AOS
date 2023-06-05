@@ -5,14 +5,9 @@ import android.util.Log
 import com.dwgu.linkive.Api.ApiClient
 import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
-import com.dwgu.linkive.LinkMemoApi.TestLogin
-import com.dwgu.linkive.LinkMemoApi.TestLoginData
-import com.dwgu.linkive.LinkMemoApi.TestSignUp
-import com.dwgu.linkive.LinkMemoApi.TestUserData
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemo
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoData
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoService
-import com.dwgu.linkive.LinkMemoApi.token
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -146,41 +141,4 @@ fun getSourceForLink(linkUrl: String): String? {
     return linkItemSource
 }
 
-// 링크 아이템 종류
-
-fun testSignUp() {
-    val user = TestUserData("jung0987", "test1234", "test1234@naver.com", "testjm")
-    retrofit.create(TestSignUp::class.java)
-        .testSignup(user)
-        .enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                Log.d(TAG, "테스트용 계정 가입 -------------------------------------------")
-                Log.d(TAG, "onResponse: ${response.body().toString()}")
-            }
-
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.d(TAG, "테스트용 계정 가입 fail -------------------------------------------")
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
-}
-
-fun testLogin() {
-    val user = TestLoginData("jung0987", "test1234")
-    retrofit.create(TestLogin::class.java)
-        .testLogin(user)
-        .enqueue(object : Callback<token> {
-            override fun onResponse(call: Call<token>, response: Response<token>) {
-                Log.d(TAG, "테스트용 계정 로그인 -------------------------------------------")
-                Log.d(TAG, "onResponse: ${response.body().toString()}")
-
-                authorization = "JWT " + response.body()!!.accessToken
-                refreshToken = response.body()!!.refreshToken
-            }
-
-            override fun onFailure(call: Call<token>, t: Throwable) {
-                Log.d(TAG, "테스트용 계정 로그인 fail -------------------------------------------")
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
-}
+// 사용된 링크 아이템 종류 아이콘
