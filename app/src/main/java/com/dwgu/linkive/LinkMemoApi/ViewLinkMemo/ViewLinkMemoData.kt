@@ -11,7 +11,7 @@ data class ViewLinkMemoData(
 
 data class ViewLinkMemo(
     @SerializedName("memo_num")      // 링크 메모 id
-    val arr: Int,
+    val memo_num: Int,
 
     @SerializedName("owner")         // 작성자 id
     val owner: Int,

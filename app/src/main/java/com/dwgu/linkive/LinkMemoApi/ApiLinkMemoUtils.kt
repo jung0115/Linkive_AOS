@@ -3,8 +3,8 @@ package com.dwgu.linkive.LinkMemoApi.CreateLinkMemo
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.dwgu.linkive.Api.ApiClient
+import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
-import com.dwgu.linkive.LinkMemoApi.TestClient
 import com.dwgu.linkive.LinkMemoApi.TestLogin
 import com.dwgu.linkive.LinkMemoApi.TestLoginData
 import com.dwgu.linkive.LinkMemoApi.TestSignUp
@@ -13,10 +13,12 @@ import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemo
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoData
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoService
 import com.dwgu.linkive.LinkMemoApi.token
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+
 
 // api 통신을 위한 retrofit
 private val retrofit: Retrofit = ApiClient.getInstance()
@@ -25,30 +27,54 @@ private val retrofit: Retrofit = ApiClient.getInstance()
 private var authorization: String? = null
 private var refreshToken: String? = null
 
+
 // 링크 url 내용 조회한 걸로 링크 메모 생성
-fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData) {
-    authorization = "JWT "
-    refreshToken = ""
+fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData, refreshHomeListener: CreateLinkToUrlDialog.RefreshHomeListener) {
+
 
     retrofit.create(CreateLinkMemoService::class.java)
         .addLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, linkMemo)
-        .enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        .enqueue(object : Callback<CreateLinkMemoResponse> {
+            override fun onResponse(call: Call<CreateLinkMemoResponse>, response: Response<CreateLinkMemoResponse>) {
                 Log.d(TAG, "링크 메모 추가 결과 -------------------------------------------")
                 Log.d(TAG, "onResponse: ${response.body().toString()}")
+
+                // 메인 페이지 링크 리스트 Refresh
+                refreshHomeListener.refreshHomeListener()
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<CreateLinkMemoResponse>, t: Throwable) {
                 Log.d(TAG, "링크 메모 추가 결과 fail -------------------------------------------")
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
 }
 
-// 링크 메모 전체 조회
-fun viewCreateLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
-    authorization = "JWT "
-    refreshToken = ""
+// 폴더 전체 조회
+fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
+
+
+    retrofit.create(GetAllFolderService::class.java)
+        .getAllFolders(authorization = authorization!!, refreshToken = refreshToken!!)
+        .enqueue(object : Callback<GetAllFolderData> {
+            override fun onResponse(call: Call<GetAllFolderData>, response: Response<GetAllFolderData>) {
+                Log.d(TAG, "폴더 전체 조회 결과 -------------------------------------------")
+                Log.d(TAG, "onResponse: ${response.body().toString()}")
+
+                // 조회한 폴더 데이터 보내기
+                setFolders(response.body()!!.folderList)
+            }
+
+            override fun onFailure(call: Call<GetAllFolderData>, t: Throwable) {
+                Log.d(TAG, "폴더 전체 조회 결과 fail -------------------------------------------")
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+}
+
+// 링크 메모 전체 조회 -> 메인 페이지 링크 리스트에 추가
+fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
+
 
     retrofit.create(ViewLinkMemoService::class.java)
         .viewLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!)
@@ -61,11 +87,17 @@ fun viewCreateLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
                 val linkLists: MutableList<ViewLinkMemo> = response.body()!!.arr
                 for(linkItem in linkLists) {
                     var linkItemSource: String? = getSourceForLink(linkItem.link)
+
+                    // 썸네일 이미지
+                    var thumbnailUrl: String? = null
+                    if(linkItem.content != null)
+                        thumbnailUrl = getThumbnailUrl(linkItem.content.arr)
+
                     addLinkList(
                         LinkListItem(
                             linkTitle = linkItem.title,
                             folderName = linkItem.folder_name,
-                            thumbnailImage = null,
+                            thumbnailImage = thumbnailUrl,
                             linkItemSource = linkItemSource,
                             linkItemForms = null,
                             created_date = linkItem.date_created))
@@ -80,7 +112,21 @@ fun viewCreateLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
 }
 
 // 썸네일 이미지 url 가져오기
+fun getThumbnailUrl(arr: MutableList<String>?): String? {
+    if(arr != null) {
+        for(item in arr) {
+            // 아이템 내용을 json 형태로 변환
+            var json: JSONObject? = null
+            json = JSONObject(item)
+            // 이미지 아이템일 경우
+            if(json.getString("type") == "image") {
+                return json.getString("value")
+            }
+        }
+    }
 
+    return null
+}
 
 // 링크 플랫폼 정보
 fun getSourceForLink(linkUrl: String): String? {
