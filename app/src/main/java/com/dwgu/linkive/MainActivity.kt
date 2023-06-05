@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
 
         // 최상위 화면을 제외하고는 BottomNavigation Bar 없애기
         setBottomNavigation()
-
-
     }
 
     private fun setBottomNavigation() {

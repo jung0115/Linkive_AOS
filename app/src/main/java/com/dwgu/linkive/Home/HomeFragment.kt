@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
@@ -112,7 +113,7 @@ class HomeFragment : Fragment() {
         linkListAdapter = LinkListAdapter(
             requireContext(),
             onClickLinkItem = {
-                openLinkViewPage()
+                openLinkViewPage(it)
             }
         )
         binding.recyclerviewLinkList.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -136,8 +137,9 @@ class HomeFragment : Fragment() {
     }
 
     // 링크 세부 페이지 열기
-    private fun openLinkViewPage() {
-        view?.findNavController()?.navigate(R.id.action_menu_home_to_linkViewFragment)
+    private fun openLinkViewPage(memoNum: Int) {
+        val bundle = bundleOf("memo_num" to memoNum)
+        view?.findNavController()?.navigate(R.id.action_menu_home_to_linkViewFragment, bundle)
     }
 
     // 다른 앱에서 공유하기

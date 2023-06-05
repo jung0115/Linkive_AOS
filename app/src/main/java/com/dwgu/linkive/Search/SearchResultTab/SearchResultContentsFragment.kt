@@ -46,8 +46,8 @@ class SearchResultContentsFragment : Fragment() {
         initRecycler()
 
         // 테스트 데이터
-        addSearchResultContentsItem(LinkListItem("제목입니다", "검색", null, "twitter", mutableListOf("link", "place"), ""))
-        addSearchResultContentsItem(LinkListItem("테스트 검색제목", "검색", null, null, null, ""))
+        addSearchResultContentsItem(LinkListItem(1, "제목입니다", "검색", null, "twitter", mutableListOf("link", "place"), ""))
+        addSearchResultContentsItem(LinkListItem(1, "테스트 검색제목", "검색", null, null, null, ""))
     }
 
     // recyclerview 세팅

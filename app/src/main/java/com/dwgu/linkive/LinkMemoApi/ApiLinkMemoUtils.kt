@@ -5,9 +5,18 @@ import android.util.Log
 import com.dwgu.linkive.Api.ApiClient
 import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
+import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.DetailLinkMemoService
+import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoBaseInfo
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemo
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoData
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoService
+import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewCheckboxItem
+import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewCodeItem
+import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewImageItem
+import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewItem
+import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewLinkItem
+import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewPlaceItem
+import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewTextItem
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,7 +53,7 @@ fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData, refreshHomeListener: CreateL
         })
 }
 
-// 폴더 전체 조회
+// 폴더 전체 조회 - 링크 추가 시
 fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
 
 
@@ -89,6 +98,7 @@ fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
 
                     addLinkList(
                         LinkListItem(
+                            memoNum = linkItem.memo_num,
                             linkTitle = linkItem.title,
                             folderName = linkItem.folder_name,
                             thumbnailImage = thumbnailUrl,
@@ -142,3 +152,100 @@ fun getSourceForLink(linkUrl: String): String? {
 }
 
 // 사용된 링크 아이템 종류 아이콘
+
+// 메모 번호로 링크 내용 조회
+fun apiDetailLinkMemo(
+    memoNum: Int,
+    setLinkViewInfo: (baseInfo: LinkMemoBaseInfo) -> Unit,
+    addLinkViewItem: (detailItem: LinkViewItem) -> Unit,
+    ) {
+
+    retrofit.create(DetailLinkMemoService::class.java)
+        .detailLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, memosNum = memoNum)
+        .enqueue(object : Callback<ViewLinkMemo> {
+            override fun onResponse(call: Call<ViewLinkMemo>, response: Response<ViewLinkMemo>) {
+                Log.d(TAG, "메모 번호로 링크 내용 조회  -------------------------------------------")
+                Log.d(TAG, "onResponse: ${response.body().toString()}")
+
+                var linkMemo: ViewLinkMemo = response.body()!!
+                var arr = linkMemo.content!!.arr
+
+                // 출처 플랫폼
+                var linkItemSource: String? = getSourceForLink(linkMemo.link)
+                // pageSheet 선택 버튼 보여줄지 유무
+                var unselectPageSheet = true
+                if(arr != null && arr.size > 1) unselectPageSheet = false
+                // 기본 정보 세팅: 링크 URL, 제목, 플랫폼, 폴더명
+                setLinkViewInfo(
+                    LinkMemoBaseInfo(
+                        linkMemo.link,
+                        linkMemo.title,
+                        linkItemSource,
+                        linkMemo.folder_name,
+                        unselectPageSheet // pageSheet 선택 버튼 보여줄지 유무
+                    )
+                )
+
+                // 메모 content 내용 추가
+                if(arr != null) {
+                    for(item in arr) {
+                        // 아이템 내용을 json 형태로 변환
+                        var jsonContent: JSONObject? = null
+                        jsonContent = JSONObject(item)
+                        // 글 아이템일 경우
+                        if(jsonContent.getString("type") == "text") {
+                            addLinkViewItem(
+                                LinkViewTextItem(jsonContent.getString("value")) // 글 내용
+                            )
+                        }
+                        // 이미지 아이템일 경우
+                        else if(jsonContent.getString("type") == "image") {
+                            addLinkViewItem(
+                                LinkViewImageItem(jsonContent.getString("value")) // 이미지 url
+                            )
+                        }
+                        // 주소 아이템일 경우
+                        else if(jsonContent.getString("type") == "place") {
+                            addLinkViewItem(
+                                LinkViewPlaceItem(
+                                    jsonContent.getString("road_address"), // 도로명 주소
+                                    jsonContent.getString("land_address")  // 지번 주소
+                                )
+                            )
+                        }
+                        // 링크 아이템일 경우
+                        else if(jsonContent.getString("type") == "link") {
+                            addLinkViewItem(
+                                LinkViewLinkItem(
+                                    jsonContent.getString("title"), // 링크 제목
+                                    jsonContent.getString("url")    // 링크 url
+                                )
+                            )
+                        }
+                        // 코드 아이템일 경우
+                        else if(jsonContent.getString("type") == "code") {
+                            addLinkViewItem(
+                                LinkViewCodeItem(
+                                    jsonContent.getString("value") // 코드 내용
+                                )
+                            )
+                        }
+                        // 체크리스트 아이템일 경우
+                        else if(jsonContent.getString("type") == "checkbox") {
+                            addLinkViewItem(
+                                LinkViewCheckboxItem(
+                                    jsonContent.getString("value"),                 // 할 일 내용
+                                    jsonContent.getString("is_checked").toBoolean() // 체크 유무
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ViewLinkMemo>, t: Throwable) {
+                Log.d(TAG, "메모 번호로 링크 내용 조회 fail -------------------------------------------")
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+}
