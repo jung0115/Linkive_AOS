@@ -2,6 +2,7 @@ package com.dwgu.linkive.Folder
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,10 +45,20 @@ class FolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 추가하기 버튼 클릭 시 추가 바텀 시트
         binding.layoutAddFolder.setOnClickListener {
             val bottomSheetFragment = AddFolderBottomSheetFragment()
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+            dismiss()
         }
+
+        // 삭제하기 버튼 클릭 시 삭제 바텀 시트
+        binding.layoutRemoveFolder.setOnClickListener {
+            val bottomSheetFragment = RemoveFolderBottomSheetFragment()
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+            dismiss()
+        }
+
     }
 
     override fun onDestroyView() {

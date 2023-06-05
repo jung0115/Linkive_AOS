@@ -13,14 +13,23 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListData
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.CreateLinkMemoData
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiCreateLinkMemo
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.DialogCreateLinkToUrlBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 // URL로 링크 추가 Dialog
 class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
 
     // ViewBinding
     private lateinit var binding : DialogCreateLinkToUrlBinding
+
+    // 제목 글자수
+    final val TITLE_LENGHT = 15
 
     // 폴더 선택 Spinner
     // 폴더 리스트
@@ -89,9 +98,31 @@ class CreateLinkToUrlDialog(context: Context) : Dialog(context) {
                 Log.d(ContentValues.TAG, "URL로 링크 생성 값 확인 -------------------------------------------")
                 Log.d(ContentValues.TAG, "URL: " + linkUrl + ", folder: " + selectedFolder.toString())
 
+                // 링크 url로 페이지 정보 가져오기: 제목, 썸네일 이미지, 출처 플랫폼 등
+                var linkData: LinkListData?
+                GlobalScope.launch(Dispatchers.IO) {
+                    linkData = GetInfoForUrl(linkUrl, selectedFolder)
+
+                    if(linkData != null && linkData!!.linkTitle == "null") {
+                        linkData!!.linkUrl = linkUrl
+                        linkData!!.linkTitle = linkUrl.substring(0 until TITLE_LENGHT) + "..."
+                    }
+
+                    if(linkData != null) {
+                        // 링크 메모 생성
+                        apiCreateLinkMemo(
+                            CreateLinkMemoData(
+                                link = linkUrl,
+                                title = linkData!!.linkTitle,
+                                content = "{}",
+                                folder_num = null
+                            )
+                        )
+                    }
+                }
+
                 dismiss() // Dialog 닫기
             }
         }
     }
-
 }

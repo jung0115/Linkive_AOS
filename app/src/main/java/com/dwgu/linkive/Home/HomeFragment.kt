@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.testLogin
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.testSignUp
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.viewCreateLinkMemo
 import com.dwgu.linkive.LinkView.LinkViewFragment
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentHomeBinding
@@ -81,6 +85,15 @@ class HomeFragment : Fragment() {
         binding.btnCreateLinkToUrl.setOnClickListener {
             val dialog = CreateLinkToUrlDialog(requireContext())
             dialog.show()
+
+            // 링크 메모 전체 조회 api 테스트
+            //viewCreateLinkMemo()
+
+            // 회원가입 테스트
+            //testSignUp()
+
+            // 로그인 테스트
+            testLogin()
         }
     }
 
@@ -109,10 +122,6 @@ class HomeFragment : Fragment() {
 
     // 링크 세부 페이지 열기
     private fun openLinkViewPage() {
-        requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-            .add(R.id.nav_host_fragment, LinkViewFragment())
-            .commit()
+        view?.findNavController()?.navigate(R.id.action_menu_home_to_linkViewFragment)
     }
 }

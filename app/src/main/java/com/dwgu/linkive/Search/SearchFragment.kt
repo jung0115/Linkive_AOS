@@ -1,11 +1,13 @@
 package com.dwgu.linkive.Search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager.widget.ViewPager
 import com.dwgu.linkive.Search.SearchResultTab.*
 import com.dwgu.linkive.databinding.FragmentSearchBinding
@@ -23,6 +25,20 @@ class SearchFragment : Fragment() {
 
     // 검색어
     private var searchWord: String? = null
+
+    // 검색 페이지 접속할 때마다 새로고침
+    // 안 하니까 검색어가 그대로 있거나 결과가 쌓이는 문제 발생
+    override fun onResume() {
+        super.onResume()
+        //Log.d("Test", "-------------------------")
+
+        // 검색어 삭제
+        binding.edittextSearchInput.text = null
+        searchWord = null
+
+        // viewPager 다시 세팅
+        initViewPager()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
