@@ -19,7 +19,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-
 // api 통신을 위한 retrofit
 private val retrofit: Retrofit = ApiClient.getInstance()
 
