@@ -2,6 +2,7 @@ package com.dwgu.linkive.Home.HomeLinkListRecycler
 
 // 링크 리스트 아이템 Data
 data class LinkListItem(
+    val memoNum: Int,                        // 메모 번호
     val linkTitle : String,                  // 제목
     val folderName : String?,                // 폴더명
     val thumbnailImage: String?,             // 이미지 주소 url

@@ -46,10 +46,10 @@ class SearchResultTitleFragment : Fragment() {
         initRecycler()
 
         // 테스트 데이터
-        addSearchResultTitleItem(LinkListItem("검색 테스트", "폴더1",
+        addSearchResultTitleItem(LinkListItem(1, "검색 테스트", "폴더1",
             "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
             "instagram", mutableListOf("text", "image"), ""))
-        addSearchResultTitleItem(LinkListItem("테스트 검색제목", "검색", null, null, null, ""))
+        addSearchResultTitleItem(LinkListItem(1, "테스트 검색제목", "검색", null, null, null, ""))
     }
 
     // recyclerview 세팅
