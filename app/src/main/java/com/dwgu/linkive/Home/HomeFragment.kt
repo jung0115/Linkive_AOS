@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater)
 
         return binding.root
@@ -71,12 +71,21 @@ class HomeFragment : Fragment() {
         linkListSortList.add(getString(R.string.spinner_sort_title))   // 제목순
         linkListSortAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner_link_list_sort, linkListSortList)
         binding.spinnerLinkListSort.adapter = linkListSortAdapter
+        selectLinkListSort = getString(R.string.spinner_sort_new)
 
         // 정렬 Spinner 누르면 정렬 기준 선택 리스트 나타남
         binding.spinnerLinkListSort.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // 선택된 정렬 기준
                 selectLinkListSort = binding.spinnerLinkListSort.getSelectedItem().toString()
+
+                // 최신순 정렬
+                if(selectLinkListSort == getString(R.string.spinner_sort_new))
+                    linkListItems!!.sortByDescending { it.created_date }
+                // 제목순 정렬
+                else
+                    linkListItems!!.sortByDescending { it.linkTitle }
+                linkListAdapter.notifyDataSetChanged()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -126,6 +135,12 @@ class HomeFragment : Fragment() {
         linkListItems!!.apply {
             add(linkListItem)
         }
+        // 최신순 정렬
+        if(selectLinkListSort == getString(R.string.spinner_sort_new))
+            linkListItems!!.sortByDescending { it.created_date }
+        // 제목순 정렬
+        else
+            linkListItems!!.sortByDescending { it.linkTitle }
         linkListAdapter.notifyDataSetChanged()
     }
 
