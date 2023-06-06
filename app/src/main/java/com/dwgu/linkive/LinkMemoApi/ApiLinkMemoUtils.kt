@@ -9,9 +9,12 @@ import com.dwgu.linkive.LinkMemoApi.DeleteLinkMemo.DeleteLinkMemoRequest
 import com.dwgu.linkive.LinkMemoApi.DeleteLinkMemo.DeleteLinkMemoService
 import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.DetailLinkMemoService
 import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoBaseInfo
+import com.dwgu.linkive.LinkMemoApi.EditLinkMemo.EditLinkMemoData
+import com.dwgu.linkive.LinkMemoApi.EditLinkMemo.EditLinkMemoService
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemo
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoData
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemoService
+import com.dwgu.linkive.LinkView.LinkViewMenuListener.LinkViewMenuListener
 import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewCheckboxItem
 import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewCodeItem
 import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewImageItem
@@ -61,7 +64,7 @@ fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData, refreshHomeListener: CreateL
         })
 }
 
-// 폴더 전체 조회 - 링크 추가 시
+// 폴더 전체 조회
 fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
 
     retrofit.create(GetAllFolderService::class.java)
@@ -84,7 +87,6 @@ fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
 
 // 링크 메모 전체 조회 -> 메인 페이지 링크 리스트에 추가
 fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
-
     retrofit.create(ViewLinkMemoService::class.java)
         .viewLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!)
         .enqueue(object : Callback<ViewLinkMemoData> {
@@ -187,6 +189,7 @@ fun apiDetailLinkMemo(
                         linkMemo.link,
                         linkMemo.title,
                         linkItemSource,
+                        linkMemo.folder_num,
                         linkMemo.folder_name,
                         unselectPageSheet // pageSheet 선택 버튼 보여줄지 유무
                     )
@@ -269,6 +272,66 @@ fun apiDeleteLinkMemo(memoNum: Int) {
 
             override fun onFailure(call: Call<String>, t: Throwable) {
                 Log.d(TAG, "메모 번호로 링크 삭제 fail -------------------------------------------")
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+}
+
+// 폴더 이동
+fun apiMoveFolder(
+    memoNum: Int,
+    folderNum: Int,
+    reopenLinkViewListener: LinkViewMenuListener?) {
+    // 링크 메모 내용 조회
+    retrofit.create(DetailLinkMemoService::class.java)
+        .detailLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, memosNum = memoNum)
+        .enqueue(object : Callback<ViewLinkMemo> {
+            override fun onResponse(call: Call<ViewLinkMemo>, response: Response<ViewLinkMemo>) {
+                Log.d(TAG, "폴더 이동 전 링크 내용 조회  -------------------------------------------")
+                Log.d(TAG, "onResponse: ${response.body().toString()}")
+
+                val oriLinkMemo = response.body()
+                if(oriLinkMemo != null) {
+                    // 수정할 내용
+                    val editLinkMemo = EditLinkMemoData(
+                        memoNum,
+                        oriLinkMemo.link,
+                        oriLinkMemo.title,
+                        oriLinkMemo.content,
+                        folderNum
+                    )
+
+                    // 링크 메모 수정
+                    apiEditLinkMemo(editLinkMemo, reopenLinkViewListener)
+                }
+            }
+
+            override fun onFailure(call: Call<ViewLinkMemo>, t: Throwable) {
+                Log.d(TAG, "폴더 이동 전 링크 내용 조회 fail -------------------------------------------")
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+}
+
+// 링크 메모 편집
+fun apiEditLinkMemo(
+    editLinkMemo: EditLinkMemoData,
+    reopenLinkViewListener: LinkViewMenuListener?) {
+    retrofit.create(EditLinkMemoService::class.java)
+        .editLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, editLinkMemo)
+        .enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                Log.d(TAG, "링크 메모 편집 결과 -------------------------------------------")
+                Log.d(TAG, "onResponse: ${response.body().toString()}")
+
+                // 링크 세부 페이지 Reopen
+                if(reopenLinkViewListener != null) {
+                    reopenLinkViewListener.reopenLinkViewListener(editLinkMemo.memo_num)
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d(TAG, "링크 메모 편집 결과 fail -------------------------------------------")
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })

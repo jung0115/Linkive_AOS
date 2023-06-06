@@ -1,17 +1,17 @@
 package com.dwgu.linkive.LinkView
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiDetailLinkMemo
 import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoBaseInfo
 import com.dwgu.linkive.LinkView.LinkViewBottomSheet.ManageLinkBottomFragment
 import com.dwgu.linkive.LinkView.LinkViewBottomSheet.SelectPagesheetBottomFragment
-import com.dwgu.linkive.LinkView.LinkViewMenuListener.LinkViewMenuListener
 import com.dwgu.linkive.LinkView.LinkViewRecycler.*
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentLinkViewBinding
@@ -29,16 +29,20 @@ class LinkViewFragment : Fragment() {
 
     final val URL_OF_LINK_MEMO = "url_of_link_memo"
     final val NUM_OF_LINK_MEMO = "memo_num"
+    final val NUM_OF_FOLDER = "folder_num"
 
     // 링크 URL
     private var linkUrl: String? = null
     // 링크 메모 번호
     private var memoNum: Int? = null
 
+    // 폴더 번호
+    private var folderNum: Int = -1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLinkViewBinding.inflate(layoutInflater)
 
         return binding.root
@@ -72,6 +76,7 @@ class LinkViewFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString(URL_OF_LINK_MEMO, linkUrl)
             bundle.putInt(NUM_OF_LINK_MEMO, memoNum!!)
+            bundle.putInt(NUM_OF_FOLDER, folderNum)
             bottomSheet.arguments = bundle
 
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
@@ -102,9 +107,12 @@ class LinkViewFragment : Fragment() {
 
         // 폴더
         // 폴더가 존재하는 경우
-        if(baseInfo.folder != null) {
+        if(baseInfo.folderNum != null) {
             binding.imgLinkViewFolder.setImageResource(R.drawable.ic_folder_exist) // 폴더 존재 아이콘
-            binding.textviewLinkViewFolder.text = baseInfo.folder                           // 폴더명
+            binding.textviewLinkViewFolder.text = baseInfo.folderName              // 폴더명
+
+            // 폴더 번호
+            folderNum = baseInfo.folderNum!!
         }
 
         // PageSheet 미선택 상태이고, 내용이 1개 이하일 때

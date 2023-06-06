@@ -16,14 +16,17 @@ class ManageLinkBottomFragment : BottomSheetDialogFragment() {
     // ViewBinding Setting
     lateinit var binding: FragmentManageLinkBottomBinding
 
-    // 해당 링크 페이지의 url, 메모 번호 값 전달
+    // 해당 링크 페이지의 url, 메모 번호, 폴더 번호 값 전달
     final val URL_OF_LINK_MEMO = "url_of_link_memo"
     final val NUM_OF_LINK_MEMO = "memo_num"
+    final val NUM_OF_FOLDER = "folder_num"
 
     // 링크 URL
     private var linkUrl: String? = null
     // 링크 메모 번호
     private var memoNum: Int? = null
+    // 폴더 번호
+    private var folderNum: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +46,9 @@ class ManageLinkBottomFragment : BottomSheetDialogFragment() {
         // 링크 메모 번호
         memoNum = requireArguments().getInt(NUM_OF_LINK_MEMO)
 
+        // 링크 폴더 번호
+        folderNum = requireArguments().getInt(NUM_OF_FOLDER)
+
         // 페이지 수정 버튼 선택 시 -> 링크 편집 페이지
         binding.relativelayoutEditPage.setOnClickListener(View.OnClickListener {
             // 현재 BottomSheet 닫기
@@ -60,6 +66,11 @@ class ManageLinkBottomFragment : BottomSheetDialogFragment() {
 
             // 폴더 선택 BottomSheet 열기
             val bottomSheet = MoveFolderBottomFragment()
+            // 링크 메모 번호, 폴더 번호 전달
+            val bundle = Bundle()
+            bundle.putInt(NUM_OF_LINK_MEMO, memoNum!!)
+            bundle.putInt(NUM_OF_FOLDER, folderNum!!)
+            bottomSheet.arguments = bundle
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         })
 
