@@ -26,6 +26,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    final val NUM_OF_LINK_MEMO = "memo_num"
+
     // 링크 리스트 recyclerview adapter
     private var linkListItems: MutableList<LinkListItem>? = null
     private lateinit var linkListAdapter: LinkListAdapter
@@ -140,7 +142,7 @@ class HomeFragment : Fragment() {
 
     // 링크 세부 페이지 열기
     private fun openLinkViewPage(memoNum: Int) {
-        val bundle = bundleOf("memo_num" to memoNum)
+        val bundle = bundleOf(NUM_OF_LINK_MEMO to memoNum)
         view?.findNavController()?.navigate(R.id.action_menu_home_to_linkViewFragment, bundle)
     }
 

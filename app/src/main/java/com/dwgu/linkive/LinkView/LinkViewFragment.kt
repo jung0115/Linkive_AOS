@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiDetailLinkMemo
 import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoBaseInfo
 import com.dwgu.linkive.LinkView.LinkViewBottomSheet.ManageLinkBottomFragment
 import com.dwgu.linkive.LinkView.LinkViewBottomSheet.SelectPagesheetBottomFragment
+import com.dwgu.linkive.LinkView.LinkViewMenuListener.LinkViewMenuListener
 import com.dwgu.linkive.LinkView.LinkViewRecycler.*
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentLinkViewBinding
@@ -24,6 +26,9 @@ class LinkViewFragment : Fragment() {
     // 링크 View 페이지 아이템 Recyclerview
     private var linkViewItems: MutableList<LinkViewItem>? = null
     private lateinit var linkViewAdapter: LinkViewAdapter
+
+    final val URL_OF_LINK_MEMO = "url_of_link_memo"
+    final val NUM_OF_LINK_MEMO = "memo_num"
 
     // 링크 URL
     private var linkUrl: String? = null
@@ -43,7 +48,7 @@ class LinkViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 세부 페이지에 보여줄 링크 메모 번호
-        memoNum = requireArguments().getInt("memo_num")
+        memoNum = requireArguments().getInt(NUM_OF_LINK_MEMO)
 
         // server에서 메모 번호로 내용 조회
         apiDetailLinkMemo(
@@ -56,8 +61,6 @@ class LinkViewFragment : Fragment() {
             }
         )
 
-
-
         // recyclerview 세팅
         initRecycler()
 
@@ -65,9 +68,10 @@ class LinkViewFragment : Fragment() {
         binding.btnLinkViewManage.setOnClickListener {
             val bottomSheet = ManageLinkBottomFragment()
 
-            // 해당 링크 페이지의 url 값 전달
+            // 해당 링크 페이지의 url 값, 링크 메모 번호 전달
             val bundle = Bundle()
-            bundle.putString("url_of_link_memo", linkUrl)
+            bundle.putString(URL_OF_LINK_MEMO, linkUrl)
+            bundle.putInt(NUM_OF_LINK_MEMO, memoNum!!)
             bottomSheet.arguments = bundle
 
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
@@ -130,6 +134,8 @@ class LinkViewFragment : Fragment() {
         }
         linkViewAdapter.notifyDataSetChanged()
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

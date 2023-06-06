@@ -5,6 +5,8 @@ import android.util.Log
 import com.dwgu.linkive.Api.ApiClient
 import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
+import com.dwgu.linkive.LinkMemoApi.DeleteLinkMemo.DeleteLinkMemoRequest
+import com.dwgu.linkive.LinkMemoApi.DeleteLinkMemo.DeleteLinkMemoService
 import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.DetailLinkMemoService
 import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoBaseInfo
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemo
@@ -255,3 +257,19 @@ fun apiDetailLinkMemo(
 }
 
 // 메모 번호로 링크 메모 삭제
+fun apiDeleteLinkMemo(memoNum: Int) {
+    val deleteMemo = DeleteLinkMemoRequest(memoNum)
+    retrofit.create(DeleteLinkMemoService::class.java)
+        .deleteLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, params = deleteMemo)
+        .enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                Log.d(TAG, "메모 번호로 링크 삭제 -------------------------------------------")
+                Log.d(TAG, "onResponse: ${response.body().toString()}")
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d(TAG, "메모 번호로 링크 삭제 fail -------------------------------------------")
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+}
