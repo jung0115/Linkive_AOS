@@ -55,7 +55,9 @@ class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
         // 삭제하기 버튼 클릭 시
         binding.layoutRemoveFolder.setOnClickListener {
-            val bottomSheetFragment = RemoveFolderBottomSheetFragment()
+
+            // 여기 파라미터 수정해야 함!!!
+            val bottomSheetFragment = RemoveFolderBottomSheetFragment(1)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }

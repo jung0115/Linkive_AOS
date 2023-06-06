@@ -2,8 +2,6 @@ package com.dwgu.linkive.Api
 
 import android.util.Log
 import com.dwgu.linkive.Folder.FolderApi.FolderInterface
-import com.dwgu.linkive.Folder.FolderApi.LoginRequest
-import com.dwgu.linkive.Folder.FolderApi.SignUpRequest
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -43,24 +41,4 @@ object ApiClient {
         }
         return instance!!
     }
-
-//    class AppInterceptor : Interceptor {
-//        @Throws(IOException::class)
-//        override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
-//
-//
-//
-//            val newRequest = request().newBuilder()
-//                .addHeader(
-//                    "Authorization",
-//                    "JWT $accessToken"
-//                )
-//                .addHeader(
-//                    "refresh-token",
-//                    "$refreshToken"
-//                )
-//                .build()
-//            proceed(newRequest)
-//        }
-//    }
 }

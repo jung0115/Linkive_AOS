@@ -20,14 +20,11 @@ interface FolderInterface {
     )
     : Call<ReadFoldersList>
 
-    // 지우기
-    @POST("users/signup")
-    fun signUp(
-        @Body signUpRequest: SignUpRequest
-    ) : Call<String>
-
-    @POST("users/login")
-    fun login(
-        @Body loginRequest: LoginRequest
-    ) : Call<LoginRequest>
+    @POST("folders/delete")
+    fun removeFolder(
+        @Header("Authorization") accessToken: String?,
+        @Header("refresh-token") refreshToken: String?,
+        @Body folderRequest: RemoveFolderRequest
+    )
+    : Call<String>
 }

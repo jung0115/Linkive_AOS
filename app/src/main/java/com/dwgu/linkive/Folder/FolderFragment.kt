@@ -21,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FolderFragment : Fragment() {
+class FolderFragment : Fragment(), SetFolderListListener {
     private var _binding: FragmentFolderBinding? = null
     private val binding get() = _binding!!
 
@@ -29,20 +29,19 @@ class FolderFragment : Fragment() {
     private val retrofit = ApiClient.getInstance()
     private val api: FolderInterface = retrofit.create(FolderInterface::class.java)
 
-//    private var accessToken: String? = null
-//    private var refreshToken: String? = null
-
     //폴더 리스트
-    private var folderOfList = arrayListOf<ReadFoldersResponse>()
+    private var folderOfList = arrayListOf<ReadFoldersList.ReadFoldersResponse>()
 
     // 폴더 정렬 스피너 어댑터
     private lateinit var sortFolderAdapter: SortFolderAdapter
     // 폴더 리사이클러뷰 어댑터
     private lateinit var folderListAdapter: FolderListAdapter
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadData()
+
     }
 
     override fun onCreateView(
@@ -52,44 +51,50 @@ class FolderFragment : Fragment() {
         _binding = FragmentFolderBinding.inflate(inflater, container, false)
         val view = binding.root
 
-//        api.signUp(SignUpRequest("sumin", "sumin!", "sumin@naver.com", "sumin")).enqueue(object : Callback<String> {
-//            override fun onFailure(call: Call<String>, t: Throwable) {
-//                Log.d("실패", t.message.toString())
-//            }
-//
-//            override fun onResponse(call: Call<String>, response: Response<String>) {
-//                Log.d("성공", response.body().toString())
-//            }
-//        })
-
-
-
 //        api.login(LoginRequest("sumin", "sumin!")).enqueue(object : Callback<LoginRequest> {
 //            override fun onFailure(call: Call<LoginRequest>, t: Throwable) {
 //                Log.d("실패", t.message.toString())
 //            }
 //
-//            override fun onResponse(call: Call<LoginRequest>, response: retrofit2.Response<LoginRequest>) {
+//            override fun onResponse(call: Call<LoginRequest>, response: Response<LoginRequest>) {
 //                Log.d("성공", response.body().toString())
 //                accessToken = response.body()?.id.toString()
 //                refreshToken = response.body()?.password.toString()
 //            }
 //        })
-
-
         return view
     }
 
-    private fun setFolderAdapter(List: ArrayList<ReadFoldersResponse>){
+    fun setFolderAdapter(List: ArrayList<ReadFoldersList.ReadFoldersResponse>, mode: Int = 0){
         // 폴더리스트 어댑터 연결
         binding.recyclerviewFolderList.layoutManager = GridLayoutManager(requireContext(), 2)
         Log.d("folderOfList 연결", List.toString())
-        folderListAdapter = FolderListAdapter(List)
+        folderListAdapter = FolderListAdapter(requireContext(), List, mode)
         binding.recyclerviewFolderList.adapter = folderListAdapter
-//        binding.recyclerviewFolderList.setHasFixedSize(false)
+
+        // 폴더 클릭시 폴더 내부 페이지
+        folderListAdapter.setOnItemclickListner(object: FolderListAdapter.OnItemClickListner{
+            override fun onItemClick(view: View, position: Int, mode: Int, folderNum: Int) {
+                if (mode == 0) {
+                    // view 모드
+                    parentFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.nav_host_fragment, LinkInFolderFragment())
+                        .commit()
+
+                }
+                // 편집 모드 새로 만들기
+                // x 표시 뜨고 클릭하면 삭제 바텀 시트 뜨게 하기
+                else {
+                    val bottomSheetFragment = RemoveFolderBottomSheetFragment(folderNum)
+                    bottomSheetFragment.setListener(this@FolderFragment)
+                    bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+                }
+            }
+        })
     }
 
-    fun loadData() {
+    private fun loadData() {
         // 폴더 리스트 가져오기 api 연동
         api.readFolder("JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODU2MjAxMDB9.JGnqSiSnkuSLHG6Pt5YZWiKvacpxsNv_2DpTaPmmdPw", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODYyMjEzMDB9.p0NJoSlu62xqrmSn865wbaZLDzTvirmX7gHxwzxPhFI")
             .enqueue(object: Callback<ReadFoldersList> {
@@ -97,61 +102,43 @@ class FolderFragment : Fragment() {
                     Log.d("실패", t.message.toString())
                 }
                 override fun onResponse(call: Call<ReadFoldersList>, response: Response<ReadFoldersList>) {
-                    Log.d("성공", response.body().toString())
-                    if (response.body() != null) {
-                        response.body()?.let {
-                            folderOfList = response.body()?.get()!!
-                            Log.d("folderOfList 반환", folderOfList.toString())
-//                            folderListAdapter.notifyDataSetChanged()
+                    response.takeIf { it.isSuccessful }
+                        ?.body()
+                        ?.let { it ->
+                            folderOfList = it.folderList as ArrayList<ReadFoldersList.ReadFoldersResponse>
                             setFolderAdapter(folderOfList)
                         }
-                    }
-//                var a :ReadFoldersList = ReadFoldersList(arrayListOf(ReadFoldersResponse(1, 1, "name", "", false, 0)))
-//                a.get()
                 }
             })
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //폴더 어댑터 연결
-        binding.recyclerviewFolderList.layoutManager = GridLayoutManager(requireContext(), 2)
-        Log.d("folderOfList 연결", folderOfList.toString())
-        folderListAdapter = FolderListAdapter(folderOfList)
-        binding.recyclerviewFolderList.adapter = folderListAdapter
+
+//        폴더 어댑터 연결
+        setFolderAdapter(folderOfList)
 
         // 폴더 정렬 스피너 어댑터 연결
-//        val sortFolderAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.item_sort_folder, android.R.layout.simple_spinner_dropdown_item)
-//        binding.spinnerSortFolder.adapter = sortFolderAdapter
         val data: ArrayList<String> = arrayListOf()
         data.add("생성순")
         data.add("가나다순")
         sortFolderAdapter = SortFolderAdapter(requireContext(), data)
         binding.spinnerSortFolder.adapter = sortFolderAdapter
 
-
-
-
-        // 폴더 클릭시 폴더 내부 페이지
-        folderListAdapter.setOnItemclickListner(object: FolderListAdapter.OnItemClickListner{
-            override fun onItemClick(view: View, position: Int) {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.nav_host_fragment, LinkInFolderFragment())
-                    .commit()
-            }
-        })
-
+        // 폴더 리스트 가져오기
+        loadData()
 
         // 메뉴 버튼 클릭 시 FolderMenuBottomSheet 띄움
         binding.btnFolderMenu.setOnClickListener {
             // 폴더 관리 바텀 시트
             val bottomSheetFragment = FolderMenuBottomSheetFragment()
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+            // 폴더 추가 및 삭제 바텀 시트에서 loadData()를 사용하기 위함
+            bottomSheetFragment.setListener(this)
+            bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
         }
-
 
         // 정렬 스피너의 값이 바뀌면
         binding.spinnerSortFolder.onItemSelectedListener = object :
@@ -168,34 +155,21 @@ class FolderFragment : Fragment() {
                     folderListAdapter.notifyDataSetChanged()
                 }
             }
-
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
 
-
-
     }
-
-    //폴더 추가 메소드
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    private fun addFolder(name: String){
-//        val item = FolderListItem(name, createdDate = LocalDateTime.now())
-//        folderOfList.add(item)
-//    }
-//    override fun onResume() {
-//        super.onResume()
-////        loadData()
-//        Log.d("onResume", "폴더 추가")
-//    }
-//    fun func1(){
-////        Log.d("메소드 테스트", "")
-////        loadData()
-////    }
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun setFolderList() {
+        loadData()
+    }
+
+    override fun setRemove() {
+        setFolderAdapter(folderOfList, 1)
     }
 }

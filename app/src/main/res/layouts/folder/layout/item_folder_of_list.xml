@@ -10,6 +10,7 @@
     android:elevation="3dp">
 
 
+
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/img_folder_cover"
         android:layout_width="match_parent"
@@ -36,7 +37,8 @@
             android:src="@drawable/ic_lock_folder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/textview_folder_name"
@@ -51,17 +53,44 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textview_count_link"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/layout_folder_property"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/img_folder_cover"
-        android:text="+2"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        />
+        app:layout_constraintTop_toTopOf="@+id/img_folder_cover">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            />
+
+        <TextView
+            android:id="@+id/textview_count_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/img_remove_folder"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_remove_folder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

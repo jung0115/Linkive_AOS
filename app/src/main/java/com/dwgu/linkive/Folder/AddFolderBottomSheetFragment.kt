@@ -1,6 +1,8 @@
 package com.dwgu.linkive.Folder
 
 import android.app.Dialog
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,11 +13,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.dwgu.linkive.Api.ApiClient
-import com.dwgu.linkive.Folder.FolderApi.AddFolderRequest
-import com.dwgu.linkive.Folder.FolderApi.AddFolderResponse
-import com.dwgu.linkive.Folder.FolderApi.FolderInterface
-import com.dwgu.linkive.Folder.FolderApi.LoginRequest
+import com.dwgu.linkive.Folder.FolderApi.*
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentAddFolderBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -35,8 +35,27 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
     private val retrofit = ApiClient.getInstance()
     private val api: FolderInterface = retrofit.create(FolderInterface::class.java)
 
-    private var accessToken: String? = null
-    private var refreshToken: String? = null
+//    interface SetFolderListListener {
+//        fun setFolderList()
+//    }
+
+    // 폴더리스트 interface
+    private lateinit var setFolderListListener: SetFolderListListener
+
+    fun setListener(listener: SetFolderListListener){
+        setFolderListListener = listener
+    }
+
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        try {
+//            setFolderListListener = context as SetFolderListListener
+//        } catch (e: ClassCastException) {
+//            throw ClassCastException(
+//                context.toString()
+//            )
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,7 +139,6 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
         // 확인 버튼
         binding.btnConfirm.setOnClickListener {
 
-
             // 폴더명 필수 입력
             if (binding.edittextFolderName.text.isEmpty()){
                 Toast.makeText(requireContext(), R.string.folder_name_hint, Toast.LENGTH_SHORT).show()
@@ -135,25 +153,26 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
 
                 val name = binding.edittextFolderName.text.toString()
                 var color: String = "red"
-                var password: Int? = null
+                var password: String? = null
 
                 if (binding.edittextFolderPassword.text.toString() != ""){
-                    password = binding.edittextFolderPassword.text.toString().toInt()
+                    password = binding.edittextFolderPassword.text.toString()
                     Log.d("password text", binding.edittextFolderPassword.text.toString())
                 }
 
                 when(binding.rgroupColor.checkedRadioButtonId){
-                    R.id.rbtn_red -> color = "red"
-                    R.id.rbtn_orange -> color = "orange"
-                    R.id.rbtn_yellow -> color = "yellow"
-                    R.id.rbtn_green -> color = "green"
-                    R.id.rbtn_blue -> color = "blue"
-                    R.id.rbtn_navy -> color = "navy"
-                    R.id.rbtn_purple -> color = "purple"
-                    R.id.rbtn_gray -> color = "gray"
+                    R.id.rbtn_red -> color = "bgcolor_red.png"
+                    R.id.rbtn_orange -> color = "bgcolor_orange.png"
+                    R.id.rbtn_yellow -> color = "bgcolor_yellow.png"
+                    R.id.rbtn_green -> color = "bgcolor_green.png"
+                    R.id.rbtn_blue -> color = "bgcolor_blue.png"
+                    R.id.rbtn_navy -> color = "bgcolor_navy.png"
+                    R.id.rbtn_purple -> color = "bgcolor_purple.png"
+                    R.id.rbtn_gray -> color = "bgcolor_gray.png"
                 }
 
                 val addFolderRequest =  AddFolderRequest(name, password, color)
+                Log.d("폴더 추가 password", password.toString())
 
                 //폴더 추가 api 연동
                 api.createFolder("JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODU2MjAxMDB9.JGnqSiSnkuSLHG6Pt5YZWiKvacpxsNv_2DpTaPmmdPw", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODYyMjEzMDB9.p0NJoSlu62xqrmSn865wbaZLDzTvirmX7gHxwzxPhFI", addFolderRequest).enqueue(object: Callback<AddFolderResponse> {
@@ -163,17 +182,11 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
 
                     override fun onResponse( call: Call<AddFolderResponse>, response: Response<AddFolderResponse> ) {
                         Log.d("성공1", response.body().toString())
-//                        val folderFragment = FolderFragment()
-//                        folderFragment.loadData()
+                        setFolderListListener.setFolderList()
                     }
                 })
-
                 dismiss()
             }
-
-
-
-
         }
     }
 
@@ -184,6 +197,7 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
         }
         return dialog
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
