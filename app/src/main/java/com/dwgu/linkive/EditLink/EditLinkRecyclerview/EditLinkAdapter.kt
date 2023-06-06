@@ -3,6 +3,8 @@ package com.dwgu.linkive.EditLink.EditLinkRecyclerview
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Paint
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -230,6 +232,19 @@ class EditLinkAdapter (
                 // 글 아이템 옵션 BottomSheet 열기
                 onClickItemOption(mutableListOf("text", item.position.toString()))
             }
+
+            // 텍스트 입력
+            binding.edittextEditLinkText.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    item.editLinkText = binding.edittextEditLinkText.text.toString()
+                }
+            })
         }
     }
 
@@ -335,6 +350,19 @@ class EditLinkAdapter (
                 // 코드 아이템 옵션 BottomSheet 열기
                 onClickItemOption(mutableListOf("code", item.position.toString()))
             }
+
+            // 코드 입력 시
+            binding.edittextEditLinkCode.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    item.editLinkCode = binding.edittextEditLinkCode.text.toString()
+                }
+            })
         }
     }
 
@@ -399,6 +427,19 @@ class EditLinkAdapter (
                 // 할 일 아이템 옵션 BottomSheet 열기
                 onClickItemOption(mutableListOf("checkbox", item.position.toString()))
             }
+
+            // 할 일 입력 시
+            binding.edittextEditLinkCheckbox.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    item.editLinkCheckboxText = binding.edittextEditLinkCheckbox.text.toString()
+                }
+            })
         }
     }
 }

@@ -22,12 +22,16 @@ import com.dwgu.linkive.EditLink.EditLinkOption.EditLinkOptionListener
 import com.dwgu.linkive.EditLink.EditLinkOption.SetEditLinkBottomFragment
 import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
 import com.dwgu.linkive.EditLink.EditLinkOption.SetEditPlaceBottomFragment
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.LinkMemoContent
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiEditLinkMemoContent
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetAllPageSheet
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetEditLinkMemo
 import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoEditBaseInfo
 import com.dwgu.linkive.LinkMemoApi.GetAllPageSheet.GetPageSheetData
+import com.dwgu.linkive.LinkView.LinkViewMenuListener.LinkViewMenuListener
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityEditLinkBinding
+import org.json.JSONObject
 
 
 class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
@@ -76,8 +80,6 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
         // recyclerview 세팅
         initRecycler()
-
-        // PageSheet 선택 안 한 상태로 편집 페이지 들어오면 '자유'로 선택해두기
 
         // PageSheet 선택 Spinner -------------------------------------------------------------------
         pagesheetAdapter = ArrayAdapter(this, R.layout.item_spinner_select_pagesheet, pagesheetList)
@@ -146,9 +148,29 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
         // 저장 버튼 선택 시 --------------------------------------------------------------------------------------
         binding.btnSaveEditLinkPage.setOnClickListener {
-            Toast.makeText(this, getString(R.string.toast_edit_done), Toast.LENGTH_SHORT).show()
-            // 페이지 닫기
-            finish()
+            val editTitle = binding.edittextEditLinkTitle.text.toString()
+            // 제목이 없을 경우 경고
+            if(editTitle == null || editTitle.length == 0) {
+                Toast.makeText(this@EditLinkActivity, getString(R.string.not_null_title), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                // 편집 내용 정리해서 가져오기
+                val editContent: LinkMemoContent = getEditContent()
+
+                // 편집 결과 server에 반영
+                apiEditLinkMemoContent(
+                    memoNum = memoNum!!,
+                    title = editTitle,
+                    content = editContent,
+                    finish = {
+                        finish()
+                    }
+                )
+
+                Toast.makeText(this, getString(R.string.toast_edit_done), Toast.LENGTH_SHORT).show()
+                // 페이지 닫기
+                //finish()
+            }
         }
 
         // 아이템 추가 --------------------------------------------------------------------------------------------
@@ -246,11 +268,13 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         }
 
         // 페이지 시트
+        // PageSheet 선택 안 한 상태로 편집 페이지 들어오면 '자유'로 선택해두기
         for(i in 0 until allPagesheet!!.size) {
             // 현재 페이지에 적용된 페이지 시트
             if(allPagesheet!![i].pagesheet_num == baseInfo.pagesheetNum) {
                 selectPagesheet = allPagesheet!![i].name
                 binding.spinnerSelectPagesheet.setSelection(i)
+                break
             }
         }
     }
@@ -478,6 +502,76 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
                 Log.d("msg", "gallery error")
             }
         }
+    }
+
+    // 편집 content 내용
+    fun getEditContent() : LinkMemoContent {
+        val editContent: LinkMemoContent = LinkMemoContent()
+
+        // PageSheet
+        // 선택된 페이지 시트가 "자유"가 아닌 경우
+        if(selectPagesheet != getString(R.string.pagesheet_free)) {
+            for(pageSheet in allPagesheet!!) {
+                // 현재 페이지에 적용된 페이지 시트
+                if(pageSheet.name == selectPagesheet) {
+                    editContent.pagesheet_num = pageSheet.pagesheet_num
+                    break
+                }
+            }
+        }
+
+        // 내용
+        var arr: MutableList<String> = mutableListOf<String>()
+        for (content in editLinkAdapter.items) {
+            var item: JSONObject = JSONObject()
+            // 이미지
+            if(content is EditLinkImageItem) {
+                if(content.editLinkImage == null) content.editLinkImage = ""
+                item.put("type", "image")
+                item.put("value", content.editLinkImage)
+            }
+            // 글
+            else if(content is EditLinkTextItem) {
+                if(content.editLinkText == null) content.editLinkText = ""
+                item.put("type", "text")
+                item.put("value", content.editLinkText)
+            }
+            // 링크
+            else if(content is EditLinkLinkItem) {
+                if(content.editLinkLinkTitle == null) content.editLinkLinkTitle = ""
+                if(content.editLinkLinkUrl == null) content.editLinkLinkUrl = ""
+                item.put("type", "link")
+                item.put("title", content.editLinkLinkTitle)
+                item.put("url", content.editLinkLinkUrl)
+            }
+            // 장소
+            else if(content is EditLinkPlaceItem) {
+                if(content.editLinkPlace1 == null) content.editLinkPlace1 = ""
+                if(content.editLinkPlace2 == null) content.editLinkPlace2 = ""
+                item.put("type", "place")
+                item.put("road_address", content.editLinkPlace1)
+                item.put("land_address", content.editLinkPlace2)
+            }
+            // 코드
+            else if(content is EditLinkCodeItem) {
+                if(content.editLinkCode == null) content.editLinkCode = ""
+                item.put("type", "code")
+                item.put("value", content.editLinkCode)
+            }
+            // 체크리스트
+            else if(content is EditLinkCheckboxItem) {
+                if(content.editLinkCheckboxText == null) content.editLinkCheckboxText = ""
+                var isChecked: String = "N"
+                if(content.editLinkCheckboxChecked) isChecked = "Y"
+                item.put("type", "checkbox")
+                item.put("value", content.editLinkCheckboxText)
+                item.put("is_checked", isChecked)
+            }
+            arr.add(item.toString())
+        }
+        editContent.arr = arr
+
+        return editContent
     }
 
     override fun onDestroy() {

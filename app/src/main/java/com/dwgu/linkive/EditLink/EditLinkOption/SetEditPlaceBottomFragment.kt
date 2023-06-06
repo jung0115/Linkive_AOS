@@ -149,8 +149,9 @@ class SetEditPlaceBottomFragment : BottomSheetDialogFragment() {
                         position = position!!.toInt()
                     )
                 )
+                dismiss()
+                break
             }
-            dismiss()
         }
     }
 }

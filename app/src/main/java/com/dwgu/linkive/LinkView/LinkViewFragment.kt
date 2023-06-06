@@ -38,6 +38,27 @@ class LinkViewFragment : Fragment() {
     // 폴더 번호
     private var folderNum: Int = -1
 
+    override fun onResume() {
+        super.onResume()
+
+        // 세부 페이지에 보여줄 링크 메모 번호
+        memoNum = requireArguments().getInt(NUM_OF_LINK_MEMO)
+
+        // recyclerview 세팅
+        initRecycler()
+
+        // server에서 메모 번호로 내용 조회
+        apiDetailLinkMemo(
+            memoNum!!,
+            setLinkViewInfo = {
+                setLinkViewInformation(it)
+            },
+            addLinkViewItem = {
+                addLinkViewItem(it)
+            }
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,20 +73,6 @@ class LinkViewFragment : Fragment() {
 
         // 세부 페이지에 보여줄 링크 메모 번호
         memoNum = requireArguments().getInt(NUM_OF_LINK_MEMO)
-
-        // server에서 메모 번호로 내용 조회
-        apiDetailLinkMemo(
-            memoNum!!,
-            setLinkViewInfo = {
-                setLinkViewInformation(it)
-            },
-            addLinkViewItem = {
-                addLinkViewItem(it)
-            }
-        )
-
-        // recyclerview 세팅
-        initRecycler()
 
         // 제목 오른쪽 점 3개 버튼 선택 시 BottomSheet 나오게
         binding.btnLinkViewManage.setOnClickListener {

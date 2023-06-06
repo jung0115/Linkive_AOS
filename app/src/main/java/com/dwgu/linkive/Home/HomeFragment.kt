@@ -147,13 +147,14 @@ class HomeFragment : Fragment() {
 
         // 인텐트 정보가 있는 경우 실행
         if (Intent.ACTION_SEND == action && type != null) {
-            if ("text/plain" == type) {
+            if ("text/plain" == type ) {
 
                 // 가져온 인텐트의 텍스트 정보
                 val pageUrl = intent.getStringExtra(Intent.EXTRA_TEXT)
-                openCreateLinkDialog(pageUrl)
-                //activity?.intent?.action = null
-                activity?.intent?.type = null
+                if(pageUrl != "") {
+                    intent.putExtra(Intent.EXTRA_TEXT, "")
+                    openCreateLinkDialog(pageUrl)
+                }
             }
         }
     }

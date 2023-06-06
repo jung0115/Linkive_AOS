@@ -219,7 +219,7 @@ fun apiDetailLinkMemo(
                         // 글 아이템일 경우
                         if(jsonContent.getString("type") == "text") {
                             var text: String? = jsonContent.getString("value")
-                            if(text == "null") text = null
+                            if(text == "null" || text!!.length == 0) text = null
                             addLinkViewItem(
                                 LinkViewTextItem(text) // 글 내용
                             )
@@ -227,7 +227,7 @@ fun apiDetailLinkMemo(
                         // 이미지 아이템일 경우
                         else if(jsonContent.getString("type") == "image") {
                             var imageUrl: String? = jsonContent.getString("value")
-                            if(imageUrl == "null") imageUrl = null
+                            if(imageUrl == "null" || imageUrl!!.length == 0) imageUrl = null
                             addLinkViewItem(
                                 LinkViewImageItem(imageUrl) // 이미지 url
                             )
@@ -236,8 +236,8 @@ fun apiDetailLinkMemo(
                         else if(jsonContent.getString("type") == "place") {
                             var roadAddress: String? = jsonContent.getString("road_address") // 도로명 주소
                             var landAddress: String? = jsonContent.getString("land_address") // 지번 주소
-                            if(roadAddress == "null") roadAddress = null
-                            if(landAddress == "null") landAddress = null
+                            if(roadAddress == "null" || roadAddress!!.length == 0) roadAddress = null
+                            if(landAddress == "null" || landAddress!!.length == 0) landAddress = null
                             addLinkViewItem(
                                 LinkViewPlaceItem(
                                     roadAddress, // 도로명 주소
@@ -249,8 +249,8 @@ fun apiDetailLinkMemo(
                         else if(jsonContent.getString("type") == "link") {
                             var title: String? = jsonContent.getString("title") // 링크 제목
                             var url: String? = jsonContent.getString("url") // 링크 url
-                            if(title == "null") title = null
-                            if(url == "null") url = null
+                            if(title == "null" || title!!.length == 0) title = null
+                            if(url == "null" || url!!.length == 0) url = null
                             addLinkViewItem(
                                 LinkViewLinkItem(
                                     title, // 링크 제목
@@ -261,7 +261,7 @@ fun apiDetailLinkMemo(
                         // 코드 아이템일 경우
                         else if(jsonContent.getString("type") == "code") {
                             var code: String? = jsonContent.getString("value")
-                            if(code == "null") code = null
+                            if(code == "null" || code!!.length == 0) code = null
                             addLinkViewItem(
                                 LinkViewCodeItem(
                                     code // 코드 내용
@@ -271,11 +271,15 @@ fun apiDetailLinkMemo(
                         // 체크리스트 아이템일 경우
                         else if(jsonContent.getString("type") == "checkbox") {
                             var todo: String? = jsonContent.getString("value")
-                            if(todo == "null") todo = null
+                            if(todo == "null" || todo!!.length == 0) todo = null
+
+                            var isChecked: Boolean = false
+                            if(jsonContent.getString("is_checked") == "Y") isChecked = true
+
                             addLinkViewItem(
                                 LinkViewCheckboxItem(
-                                    todo,                                                 // 할 일 내용
-                                    jsonContent.getString("is_checked").toBoolean() // 체크 유무
+                                    todo,     // 할 일 내용
+                                    isChecked // 체크 유무
                                 )
                             )
                         }
@@ -333,7 +337,7 @@ fun apiMoveFolder(
                     )
 
                     // 링크 메모 수정
-                    apiEditLinkMemo(editLinkMemo, reopenLinkViewListener)
+                    apiEditLinkMemo(editLinkMemo, reopenLinkViewListener, finish = null)
                 }
             }
 
@@ -344,10 +348,48 @@ fun apiMoveFolder(
         })
 }
 
+// 링크 메모 편집 내용
+fun apiEditLinkMemoContent(
+    memoNum: Int,
+    title: String,
+    content: LinkMemoContent,
+    finish: () -> Unit) {
+    // 링크 메모 내용 조회
+    retrofit.create(DetailLinkMemoService::class.java)
+        .detailLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, memosNum = memoNum)
+        .enqueue(object : Callback<ViewLinkMemo> {
+            override fun onResponse(call: Call<ViewLinkMemo>, response: Response<ViewLinkMemo>) {
+                Log.d(TAG, "링크 메모 편집 전 링크 내용 조회  -------------------------------------------")
+                Log.d(TAG, "onResponse: ${response.body().toString()}")
+
+                val oriLinkMemo = response.body()!!
+                apiEditLinkMemo(
+                    editLinkMemo = EditLinkMemoData(
+                        memo_num = memoNum,                 // 메모 번호
+                        link = oriLinkMemo.link,            // 링크 URL
+                        title = title,                      // 제목
+                        content = content,                  // 내용
+                        folder_num = oriLinkMemo.folder_num // 폴더 번호
+                    ),
+                    reopenLinkViewListener = null,
+                    finish = {
+                        finish()
+                    }
+                )
+            }
+
+            override fun onFailure(call: Call<ViewLinkMemo>, t: Throwable) {
+                Log.d(TAG, "링크 메모 편집 전 링크 내용 조회 fail -------------------------------------------")
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+}
+
 // 링크 메모 편집
 fun apiEditLinkMemo(
     editLinkMemo: EditLinkMemoData,
-    reopenLinkViewListener: LinkViewMenuListener?) {
+    reopenLinkViewListener: LinkViewMenuListener?,
+    finish: (() -> Unit)?) {
     retrofit.create(EditLinkMemoService::class.java)
         .editLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, editLinkMemo)
         .enqueue(object : Callback<String> {
@@ -358,6 +400,10 @@ fun apiEditLinkMemo(
                 // 링크 세부 페이지 Reopen
                 if(reopenLinkViewListener != null) {
                     reopenLinkViewListener.reopenLinkViewListener(editLinkMemo.memo_num)
+                }
+                // 링크 편집 페이지 닫기
+                if(finish != null) {
+                    finish()
                 }
             }
 
@@ -424,7 +470,7 @@ fun apiGetEditLinkMemo(
                         // 글 아이템일 경우
                         if(jsonContent.getString("type") == "text") {
                             var text: String? = jsonContent.getString("value")
-                            if(text == "null") text = null
+                            if(text == "null" || text!!.length == 0) text = null
                             addLinkEditItem(
                                 EditLinkTextItem(text, i) // 글 내용
                             )
@@ -432,7 +478,7 @@ fun apiGetEditLinkMemo(
                         // 이미지 아이템일 경우
                         else if(jsonContent.getString("type") == "image") {
                             var imageUrl: String? = jsonContent.getString("value")
-                            if(imageUrl == "null") imageUrl = null
+                            if(imageUrl == "null" || imageUrl!!.length == 0) imageUrl = null
                             addLinkEditItem(
                                 EditLinkImageItem(imageUrl, null, i) // 이미지 url
                             )
@@ -441,8 +487,8 @@ fun apiGetEditLinkMemo(
                         else if(jsonContent.getString("type") == "place") {
                             var roadAddress: String? = jsonContent.getString("road_address") // 도로명 주소
                             var landAddress: String? = jsonContent.getString("land_address") // 지번 주소
-                            if(roadAddress == "null") roadAddress = null
-                            if(landAddress == "null") landAddress = null
+                            if(roadAddress == "null" || roadAddress!!.length == 0) roadAddress = null
+                            if(landAddress == "null" || landAddress!!.length == 0) landAddress = null
                             addLinkEditItem(
                                 EditLinkPlaceItem(
                                     roadAddress, // 도로명 주소
@@ -455,8 +501,8 @@ fun apiGetEditLinkMemo(
                         else if(jsonContent.getString("type") == "link") {
                             var title: String? = jsonContent.getString("title") // 링크 제목
                             var url: String? = jsonContent.getString("url") // 링크 url
-                            if(title == "null") title = null
-                            if(url == "null") url = null
+                            if(title == "null" || title!!.length == 0) title = null
+                            if(url == "null" || url!!.length == 0) url = null
                             addLinkEditItem(
                                 EditLinkLinkItem(
                                     title, // 링크 제목
@@ -468,7 +514,7 @@ fun apiGetEditLinkMemo(
                         // 코드 아이템일 경우
                         else if(jsonContent.getString("type") == "code") {
                             var code: String? = jsonContent.getString("value")
-                            if(code == "null") code = null
+                            if(code == "null" || code!!.length == 0) code = null
                             addLinkEditItem(
                                 EditLinkCodeItem(
                                     code, // 코드 내용
@@ -479,11 +525,15 @@ fun apiGetEditLinkMemo(
                         // 체크리스트 아이템일 경우
                         else if(jsonContent.getString("type") == "checkbox") {
                             var todo: String? = jsonContent.getString("value")
-                            if(todo == "null") todo = null
+                            if(todo == "null" || todo!!.length == 0) todo = null
+
+                            var isChecked: Boolean = false
+                            if(jsonContent.getString("is_checked") == "Y") isChecked = true
+
                             addLinkEditItem(
                                 EditLinkCheckboxItem(
-                                    todo,                                                  // 할 일 내용
-                                    jsonContent.getString("is_checked").toBoolean(), // 체크 유무
+                                    todo,      // 할 일 내용
+                                    isChecked, // 체크 유무
                                     i
                                 )
                             )
