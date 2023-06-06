@@ -57,6 +57,9 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     // 제목 글자수 입력 제한
     private val titleLimit = 15
 
+    // 아이템 갯수 제한
+    private val itemLimit = 50
+
     final val NUM_OF_LINK_MEMO = "memo_num"
     // 링크 메모 번호
     private var memoNum: Int? = null
@@ -151,51 +154,81 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         // 아이템 추가 --------------------------------------------------------------------------------------------
         // 글 아이템 추가
         binding.btnAddItemText.setOnClickListener {
-            // 글 아이템 추가
-            addEditLinkItem(EditLinkTextItem(null, editLinkItems!!.size))
+            if(editLinkItems!!.size > itemLimit) {
+                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                // 글 아이템 추가
+                addEditLinkItem(EditLinkTextItem(null, editLinkItems!!.size))
 
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+                // 최하단으로 스크롤 이동
+                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            }
         }
         // 이미지 아이템 추가
         binding.btnAddItemImage.setOnClickListener {
-            // 이미지 아이템 추가
-            addEditLinkItem(EditLinkImageItem(null, null, editLinkItems!!.size))
+            if(editLinkItems!!.size > itemLimit) {
+                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                // 이미지 아이템 추가
+                addEditLinkItem(EditLinkImageItem(null, null, editLinkItems!!.size))
 
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+                // 최하단으로 스크롤 이동
+                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            }
         }
         // 링크 아이템 추가
         binding.btnAddItemLink.setOnClickListener {
-            // 링크 아이템 추가
-            addEditLinkItem(EditLinkLinkItem(null, null, editLinkItems!!.size))
+            if(editLinkItems!!.size > itemLimit) {
+                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                // 링크 아이템 추가
+                addEditLinkItem(EditLinkLinkItem(null, null, editLinkItems!!.size))
 
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+                // 최하단으로 스크롤 이동
+                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            }
         }
         // 장소(위치) 아이템 추가
         binding.btnAddItemPlace.setOnClickListener {
-            // 장소(위치) 아이템 추가
-            addEditLinkItem(EditLinkPlaceItem(null, null, editLinkItems!!.size))
+            if(editLinkItems!!.size > itemLimit) {
+                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                // 장소(위치) 아이템 추가
+                addEditLinkItem(EditLinkPlaceItem(null, null, editLinkItems!!.size))
 
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+                // 최하단으로 스크롤 이동
+                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            }
         }
         // 체크박스(할 일) 아이템 추가
         binding.btnAddItemCheckbox.setOnClickListener {
-            // 할 일 아이템 추가
-            addEditLinkItem(EditLinkCheckboxItem(null, false, editLinkItems!!.size))
+            if(editLinkItems!!.size > itemLimit) {
+                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                // 할 일 아이템 추가
+                addEditLinkItem(EditLinkCheckboxItem(null, false, editLinkItems!!.size))
 
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+                // 최하단으로 스크롤 이동
+                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            }
         }
         // 코드 아이템 추가
         binding.btnAddItemCode.setOnClickListener {
-            // 코드 아이템 추가
-            addEditLinkItem(EditLinkCodeItem(null, editLinkItems!!.size))
+            if(editLinkItems!!.size > itemLimit) {
+                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                // 코드 아이템 추가
+                addEditLinkItem(EditLinkCodeItem(null, editLinkItems!!.size))
 
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+                // 최하단으로 스크롤 이동
+                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            }
         }
     }
 
