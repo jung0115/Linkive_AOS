@@ -68,6 +68,15 @@ class LoginActivity : AppCompatActivity() {
         mbinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 이미 로그인된 경우
+        if(GloabalApplication.prefs.getString("accessToken", "") != "" &&
+            GloabalApplication.prefs.getString("refreshToken", "") != "") {
+            // 메인 화면으로 이동
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         // Google Login
         auth = FirebaseAuth.getInstance()
 
@@ -341,6 +350,7 @@ class LoginActivity : AppCompatActivity() {
                 // 메인 화면으로 이동
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         })
     }

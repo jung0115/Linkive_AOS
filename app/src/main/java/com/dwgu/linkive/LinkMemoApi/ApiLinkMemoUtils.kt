@@ -253,3 +253,5 @@ fun apiDetailLinkMemo(
             }
         })
 }
+
+// 메모 번호로 링크 메모 삭제
