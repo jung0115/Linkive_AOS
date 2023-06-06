@@ -1,21 +1,17 @@
 package com.dwgu.linkive
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.dwgu.linkive.Api.ApiClient
-import com.dwgu.linkive.Login.loginService.LoginInterface
-import com.dwgu.linkive.Login.loginService.PreferenceUtil
 import com.dwgu.linkive.databinding.ActivityMainBinding
-import retrofit2.Retrofit
 
-// ApiClient의 instance 불러오기
-private val retrofit: Retrofit = ApiClient.getInstance()
-// Retrofit의 interface 구현
-private val api: LoginInterface = retrofit.create(LoginInterface::class.java)
+
 class MainActivity : AppCompatActivity() {
 
     // ViewBinding Setting
@@ -32,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         // NavController 설정
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-
         // Navigation Graph를 사용해서 Bottom Navigation 설정
         binding.navBottom.setupWithNavController(navController)
 
@@ -43,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigation()
     }
 
-    // 하단 바의 페이지를 제외하고, 하단 바 숨기기
     private fun setBottomNavigation() {
         navController.addOnDestinationChangedListener{_, destination, _ ->
             if(destination.id == R.id.menu_home ||
@@ -57,6 +51,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
+    // 메인 화면(=하단바로 바로 들어가지는 페이지)들에서 이전 버튼 2번 누르면 앱 종료
+    var waitTime = 0L
+    override fun onBackPressed() {
+        if(navController.currentDestination?.id == R.id.menu_home ||
+            navController.currentDestination?.id == R.id.menu_search ||
+            navController.currentDestination?.id == R.id.menu_folder ||
+            navController.currentDestination?.id == R.id.menu_mypage) {
+            if (System.currentTimeMillis() - waitTime >= 1500) {
+                waitTime = System.currentTimeMillis()
+                Toast.makeText(this, getString(R.string.toast_back_main_page), Toast.LENGTH_SHORT).show()
+            } else {
+                finish() // 액티비티 종료
+            }
+        }
+        else{
+            super.onBackPressed()
+        }
+    }
 }

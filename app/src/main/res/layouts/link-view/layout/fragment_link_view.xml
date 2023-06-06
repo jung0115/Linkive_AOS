@@ -104,6 +104,7 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <!-- PageSheet 미선택 시 나오는 부분 -->
@@ -112,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:background="@drawable/shape_unselect_pagesheet_dash"
