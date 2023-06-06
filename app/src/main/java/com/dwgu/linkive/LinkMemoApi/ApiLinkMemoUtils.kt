@@ -17,6 +17,7 @@ import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewItem
 import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewLinkItem
 import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewPlaceItem
 import com.dwgu.linkive.LinkView.LinkViewRecycler.LinkViewTextItem
+import com.dwgu.linkive.Login.GloabalApplication
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,11 +31,16 @@ private val retrofit: Retrofit = ApiClient.getInstance()
 private var authorization: String? = null
 private var refreshToken: String? = null
 
+// token 정보 세팅
+fun setTokenForMemo() {
+    authorization = "JWT " + GloabalApplication.prefs.getString("accessToken", "")
+    refreshToken = GloabalApplication.prefs.getString("refreshToken", "")
+
+    //Log.d("Test token", authorization + ", " + refreshToken)
+}
 
 // 링크 url 내용 조회한 걸로 링크 메모 생성
 fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData, refreshHomeListener: CreateLinkToUrlDialog.RefreshHomeListener) {
-
-
     retrofit.create(CreateLinkMemoService::class.java)
         .addLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, linkMemo)
         .enqueue(object : Callback<CreateLinkMemoResponse> {
@@ -55,8 +61,6 @@ fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData, refreshHomeListener: CreateL
 
 // 폴더 전체 조회 - 링크 추가 시
 fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
-
-
     retrofit.create(GetAllFolderService::class.java)
         .getAllFolders(authorization = authorization!!, refreshToken = refreshToken!!)
         .enqueue(object : Callback<GetAllFolderData> {
@@ -77,8 +81,6 @@ fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
 
 // 링크 메모 전체 조회 -> 메인 페이지 링크 리스트에 추가
 fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
-
-
     retrofit.create(ViewLinkMemoService::class.java)
         .viewLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!)
         .enqueue(object : Callback<ViewLinkMemoData> {

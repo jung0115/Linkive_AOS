@@ -17,6 +17,7 @@ import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetAllFolders
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiViewLinkMemo
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.setTokenForMemo
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentHomeBinding
 
@@ -61,6 +62,8 @@ class HomeFragment : Fragment() {
         // 주소 검색 테스트
         //apiGetKakaoAddress("카카오 부산")
 
+        // token 세팅
+        setTokenForMemo()
         // 링크 전체 조회 api -> 조회 후 데이터 추가
         apiViewLinkMemo(
             addLinkList = {
