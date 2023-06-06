@@ -61,6 +61,7 @@ fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData, refreshHomeListener: CreateL
 
 // 폴더 전체 조회 - 링크 추가 시
 fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
+
     retrofit.create(GetAllFolderService::class.java)
         .getAllFolders(authorization = authorization!!, refreshToken = refreshToken!!)
         .enqueue(object : Callback<GetAllFolderData> {
@@ -81,6 +82,7 @@ fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
 
 // 링크 메모 전체 조회 -> 메인 페이지 링크 리스트에 추가
 fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
+
     retrofit.create(ViewLinkMemoService::class.java)
         .viewLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!)
         .enqueue(object : Callback<ViewLinkMemoData> {

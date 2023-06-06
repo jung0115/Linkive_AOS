@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.CreateLinkToUrl.CreateLinkToUrlDialog
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
-import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetAllFolders
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiViewLinkMemo
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.setTokenForMemo
 import com.dwgu.linkive.R
