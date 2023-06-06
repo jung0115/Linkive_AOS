@@ -65,8 +65,12 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     private val itemLimit = 50
 
     final val NUM_OF_LINK_MEMO = "memo_num"
+    final val NUM_OF_PAGESHEET = "pagesheet_num"
+
     // 링크 메모 번호
     private var memoNum: Int? = null
+    // 선택된 pageSheet 번호
+    private var pagesheet_num: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +81,8 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
         // 메모 번호
         memoNum = intent.getIntExtra(NUM_OF_LINK_MEMO, 0)
+        // PageSheet layout
+        pagesheet_num = intent.getIntExtra(NUM_OF_PAGESHEET, 0)
 
         // recyclerview 세팅
         initRecycler()
@@ -90,12 +96,21 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // 선택된 PageSheet
                 selectPagesheet = binding.spinnerSelectPagesheet.getSelectedItem().toString()
+
+                // 페이지 시트 아이템 추가
+                for(pagesheet in allPagesheet!!) {
+                    if(selectPagesheet == pagesheet.name) {
+                        addPagesheetItems(pagesheet.pagesheet_num)
+                        break
+                    }
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
         }
+
 
         // 페이지시트 전체 조회
         apiGetAllPageSheet(
@@ -176,81 +191,27 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         // 아이템 추가 --------------------------------------------------------------------------------------------
         // 글 아이템 추가
         binding.btnAddItemText.setOnClickListener {
-            if(editLinkItems!!.size > itemLimit) {
-                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
-            }
-            else {
-                // 글 아이템 추가
-                addEditLinkItem(EditLinkTextItem(null, editLinkItems!!.size))
-
-                // 최하단으로 스크롤 이동
-                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
-            }
+            addTextItem()
         }
         // 이미지 아이템 추가
         binding.btnAddItemImage.setOnClickListener {
-            if(editLinkItems!!.size > itemLimit) {
-                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
-            }
-            else {
-                // 이미지 아이템 추가
-                addEditLinkItem(EditLinkImageItem(null, null, editLinkItems!!.size))
-
-                // 최하단으로 스크롤 이동
-                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
-            }
+            addImageItem()
         }
         // 링크 아이템 추가
         binding.btnAddItemLink.setOnClickListener {
-            if(editLinkItems!!.size > itemLimit) {
-                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
-            }
-            else {
-                // 링크 아이템 추가
-                addEditLinkItem(EditLinkLinkItem(null, null, editLinkItems!!.size))
-
-                // 최하단으로 스크롤 이동
-                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
-            }
+            addLinkItem()
         }
         // 장소(위치) 아이템 추가
         binding.btnAddItemPlace.setOnClickListener {
-            if(editLinkItems!!.size > itemLimit) {
-                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
-            }
-            else {
-                // 장소(위치) 아이템 추가
-                addEditLinkItem(EditLinkPlaceItem(null, null, editLinkItems!!.size))
-
-                // 최하단으로 스크롤 이동
-                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
-            }
+            addPlaceItem()
         }
         // 체크박스(할 일) 아이템 추가
         binding.btnAddItemCheckbox.setOnClickListener {
-            if(editLinkItems!!.size > itemLimit) {
-                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
-            }
-            else {
-                // 할 일 아이템 추가
-                addEditLinkItem(EditLinkCheckboxItem(null, false, editLinkItems!!.size))
-
-                // 최하단으로 스크롤 이동
-                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
-            }
+            addCheckboxItem()
         }
         // 코드 아이템 추가
         binding.btnAddItemCode.setOnClickListener {
-            if(editLinkItems!!.size > itemLimit) {
-                Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
-            }
-            else {
-                // 코드 아이템 추가
-                addEditLinkItem(EditLinkCodeItem(null, editLinkItems!!.size))
-
-                // 최하단으로 스크롤 이동
-                binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
-            }
+            addCodeItem()
         }
     }
 
@@ -319,6 +280,107 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         }
 
         pagesheetAdapter!!.notifyDataSetChanged()
+
+        // 선택된 페이지 시트가 자유가 아닌 경우
+        if(pagesheet_num != null && pagesheet_num != -1) addPagesheetItems(pagesheet_num!!)
+    }
+
+    // 페이지시트 아이템 추가
+    private fun addPagesheetItems(pagesheetNum: Int) {
+        editLinkItems = mutableListOf<EditLinkItem>()
+        editLinkAdapter.items = editLinkItems!!
+        for(pagesheet in allPagesheet!!) {
+            if(pagesheet.pagesheet_num == pagesheetNum) {
+                for(item in pagesheet.layout) {
+                    if(item == "image") addImageItem()
+                    else if(item == "text") addTextItem()
+                    else if(item == "link") addLinkItem()
+                    else if(item == "code") addCodeItem()
+                    else if(item == "place") addPlaceItem()
+                    else if(item == "checkbox") addCheckboxItem()
+                }
+                break
+            }
+        }
+    }
+
+    // 아이템 추가
+    private fun addImageItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 이미지 아이템 추가
+            addEditLinkItem(EditLinkImageItem(null, null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 글 아이템 추가
+    private fun addTextItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 글 아이템 추가
+            addEditLinkItem(EditLinkTextItem(null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 링크 아이템 추가
+    private fun addLinkItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 링크 아이템 추가
+            addEditLinkItem(EditLinkLinkItem(null, null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 장소 아이템 추가
+    private fun addPlaceItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 장소(위치) 아이템 추가
+            addEditLinkItem(EditLinkPlaceItem(null, null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 코드 아이템 추가
+    private fun addCodeItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 코드 아이템 추가
+            addEditLinkItem(EditLinkCodeItem(null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 체크리스트 아이템 추가
+    private fun addCheckboxItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 할 일 아이템 추가
+            addEditLinkItem(EditLinkCheckboxItem(null, false, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
     }
 
     // 아이템 옵션 BottomSheet 열기

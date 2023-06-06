@@ -78,7 +78,7 @@ class LinkViewFragment : Fragment() {
         binding.btnLinkViewManage.setOnClickListener {
             val bottomSheet = ManageLinkBottomFragment()
 
-            // 해당 링크 페이지의 url 값, 링크 메모 번호 전달
+            // 해당 링크 페이지의 url 값, 링크 메모 번호, 폴더 번호 전달
             val bundle = Bundle()
             bundle.putString(URL_OF_LINK_MEMO, linkUrl)
             bundle.putInt(NUM_OF_LINK_MEMO, memoNum!!)
@@ -91,6 +91,12 @@ class LinkViewFragment : Fragment() {
         // PageSheet 미선택 상태에서 PageSheet 선택 버튼
         binding.btnSelectPagesheet.setOnClickListener {
             val bottomSheet = SelectPagesheetBottomFragment()
+
+            // 해당 링크 페이지의 링크 메모 번호 전달
+            val bundle = Bundle()
+            bundle.putInt(NUM_OF_LINK_MEMO, memoNum!!)
+            bottomSheet.arguments = bundle
+
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         }
     }
