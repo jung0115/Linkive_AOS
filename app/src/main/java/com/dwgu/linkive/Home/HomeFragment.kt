@@ -55,14 +55,6 @@ class HomeFragment : Fragment() {
         // recyclerview 세팅
         initRecycler()
 
-        // 테스트 데이터
-        /*addLinkListItem(LinkListItem("테스트1", "폴더1",
-            "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
-            "instagram", mutableListOf("text", "image"), ""))*/
-
-        // 주소 검색 테스트
-        //apiGetKakaoAddress("카카오 부산")
-
         // token 세팅
         setTokenForMemo()
         // 링크 전체 조회 api -> 조회 후 데이터 추가

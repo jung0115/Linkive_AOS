@@ -1,12 +1,10 @@
 package com.dwgu.linkive.EditLink.EditLinkOption
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +12,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.dwgu.linkive.Home.CreateLinkToUrl.GetInfoForUrl
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListData
+import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentSetEditLinkBottomBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 // 링크 편집 > 링크 item > URL로 링크 추가 Dialog
@@ -93,7 +91,7 @@ class SetEditLinkBottomFragment : BottomSheetDialogFragment() {
 
         // url을 입력하지 않은 경우
         if(linkUrl == null || linkUrl.equals("")) {
-            Toast.makeText(context, "URL을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.search_link_url), Toast.LENGTH_SHORT).show()
         }
         // url을 입력한 경우
         else {

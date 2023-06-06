@@ -21,9 +21,9 @@ import com.dwgu.linkive.EditLink.EditLinkBottomSheet.*
 import com.dwgu.linkive.EditLink.EditLinkOption.EditLinkOptionListener
 import com.dwgu.linkive.EditLink.EditLinkOption.SetEditLinkBottomFragment
 import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
+import com.dwgu.linkive.EditLink.EditLinkOption.SetEditPlaceBottomFragment
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetAllPageSheet
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetEditLinkMemo
-import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoBaseInfo
 import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoEditBaseInfo
 import com.dwgu.linkive.LinkMemoApi.GetAllPageSheet.GetPageSheetData
 import com.dwgu.linkive.R
@@ -299,6 +299,17 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
+        // 주소(장소) 검색 BottomSheet
+        else if(itemInfo[0] == "place_search") {
+            val bottomSheet = SetEditPlaceBottomFragment()
+
+            // recycleview에서의 position 값 전달
+            val bundle = Bundle()
+            bundle.putString("position_in_recyclerview", itemInfo[1])
+            bottomSheet.arguments = bundle
+
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
         // 링크 아이템 옵션 BottomSheet
         else if(itemInfo[0] == "link") {
             val bottomSheet = OptionEditLinkBottomFragment()
@@ -385,6 +396,12 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     // 링크 편집 페이지 > 링크 아이템 내용 적용 (url에서 가져온 내용)
     override fun setLinkItemListener(position: Int, linkTile: String?, linkUrl: String?) {
         editLinkItems!![position] = EditLinkLinkItem(linkTile, linkUrl, position)
+        editLinkAdapter.notifyDataSetChanged()
+    }
+
+    // 링크 편집 페이지 > 장소 아이템 내용 적용 (카카오 api에서 가져온 내용)
+    override fun setPlaceItemListener(placeItem: EditLinkPlaceItem) {
+        editLinkItems!![placeItem.position] = placeItem
         editLinkAdapter.notifyDataSetChanged()
     }
 

@@ -242,7 +242,7 @@ class EditLinkAdapter (
                 // 도로명 주소
                 binding.textEditLinkPlace1View.text = item.editLinkPlace1
                 // 지번 주소
-                binding.textEditLinkPlace1View.text = "지번: " + item.editLinkPlace2
+                binding.textEditLinkPlace2View.text = "지번: " + item.editLinkPlace2
 
                 // Edit 모드 가리고, View 모드 보여주기
                 binding.relativelayoutEditLinkPlace.visibility = View.GONE
@@ -253,7 +253,7 @@ class EditLinkAdapter (
                 // 도로명 주소
                 binding.textEditLinkPlace1View.text = null
                 // 지번 주소
-                binding.textEditLinkPlace1View.text = null
+                binding.textEditLinkPlace2View.text = null
 
                 // Edit 모드 보여주고, View 모드 가리기
                 binding.relativelayoutEditLinkPlace.visibility = View.VISIBLE
@@ -267,6 +267,10 @@ class EditLinkAdapter (
             }
 
             // 주소 입력 버튼 선택 시
+            binding.btnInputEditLinkPlace.setOnClickListener {
+                // 주소 검색 BottomSheet 열기
+                onClickItemOption(mutableListOf("place_search", item.position.toString()))
+            }
         }
     }
 

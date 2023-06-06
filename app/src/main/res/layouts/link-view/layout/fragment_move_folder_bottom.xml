@@ -44,9 +44,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_move_folder"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_move_folder"/>
 
