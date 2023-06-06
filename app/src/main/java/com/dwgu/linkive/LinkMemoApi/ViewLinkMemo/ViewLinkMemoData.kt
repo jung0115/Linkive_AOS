@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 // 링크 메모 조회 데이터
 data class ViewLinkMemoData(
     @SerializedName("memoList")
-    val arr: MutableList<ViewLinkMemo>,
+    val memoList: MutableList<ViewLinkMemo>,
 )
 
 data class ViewLinkMemo(

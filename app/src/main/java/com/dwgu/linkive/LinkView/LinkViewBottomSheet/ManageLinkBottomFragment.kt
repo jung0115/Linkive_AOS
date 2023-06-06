@@ -56,6 +56,7 @@ class ManageLinkBottomFragment : BottomSheetDialogFragment() {
 
             // 링크 편집 페이지 열기
             val editLinkActivity = Intent(requireContext(), EditLinkActivity::class.java)
+            editLinkActivity.putExtra(NUM_OF_LINK_MEMO, memoNum)
             startActivity(editLinkActivity)
         })
 

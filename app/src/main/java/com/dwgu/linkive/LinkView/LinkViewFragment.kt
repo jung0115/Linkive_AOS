@@ -35,7 +35,6 @@ class LinkViewFragment : Fragment() {
     private var linkUrl: String? = null
     // 링크 메모 번호
     private var memoNum: Int? = null
-
     // 폴더 번호
     private var folderNum: Int = -1
 

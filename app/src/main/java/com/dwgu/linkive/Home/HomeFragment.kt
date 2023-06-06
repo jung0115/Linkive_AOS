@@ -160,6 +160,8 @@ class HomeFragment : Fragment() {
                 // 가져온 인텐트의 텍스트 정보
                 val pageUrl = intent.getStringExtra(Intent.EXTRA_TEXT)
                 openCreateLinkDialog(pageUrl)
+                //activity?.intent?.action = null
+                activity?.intent?.type = null
             }
         }
     }
