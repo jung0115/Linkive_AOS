@@ -42,6 +42,11 @@ data class findPw(
     @SerializedName("id") var id: String
 )
 
+data class newPw(
+    @SerializedName("id") var id: String,
+    @SerializedName("newPassword") var pw: String
+)
+
 data class changeInfoPw(
     @SerializedName("newNickname") var newNickname: String,
     @SerializedName("newId") var newId: String,
