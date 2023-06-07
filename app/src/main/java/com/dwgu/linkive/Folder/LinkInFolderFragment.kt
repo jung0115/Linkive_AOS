@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.dwgu.linkive.Folder.FolderApi.ReadFoldersList
 import com.dwgu.linkive.Folder.LinkInFolderAdapter.LinkInFolderAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
@@ -15,7 +16,7 @@ import com.dwgu.linkive.databinding.FragmentFolderBinding
 import com.dwgu.linkive.databinding.FragmentHomeBinding
 import com.dwgu.linkive.databinding.FragmentLinkInFolderBinding
 
-class LinkInFolderFragment : Fragment() {
+class LinkInFolderFragment(private val folder: ReadFoldersList.ReadFoldersResponse) : Fragment() {
 
     // 링크 리스트 recyclerview adapter
     private var linkListItems = mutableListOf<LinkListItem>()
@@ -45,21 +46,21 @@ class LinkInFolderFragment : Fragment() {
         initRecycler()
 
         // 테스트 데이터
-        addLinkListItem(LinkListItem("테스트1", "폴더1",
+        addLinkListItem(LinkListItem(1, "테스트1", "폴더1",
             "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
-            "instagram", mutableListOf("text", "image")))
-        addLinkListItem(LinkListItem("테스트2", "폴더2", null, "twitter", mutableListOf("link", "place")))
-        addLinkListItem(LinkListItem("테스트3", null, null, "naver_blog", mutableListOf("text", "image", "link", "place", "code", "checkbox")))
-        addLinkListItem(LinkListItem("테스트4", null, null, null, null))
-        addLinkListItem(LinkListItem("테스트5", "폴더5", null, null, null))
-        addLinkListItem(LinkListItem("테스트6", null, null, "twitter", null))
-        addLinkListItem(LinkListItem("테스트7", "폴더7", null, "twitter", null))
-        addLinkListItem(LinkListItem("테스트8", null, null, "twitter", null))
+            "instagram", mutableListOf("text", "image"), ""))
+        addLinkListItem(LinkListItem(1, "테스트2", "폴더2", null, "twitter", mutableListOf("link", "place"), ""))
+        addLinkListItem(LinkListItem(1, "테스트3", null, null, "naver_blog", mutableListOf("text", "image", "link", "place", "code", "checkbox"), ""))
+        addLinkListItem(LinkListItem(1, "테스트4", null, null, null, null, ""))
+        addLinkListItem(LinkListItem(1, "테스트5", "폴더5", null, null, null, ""))
+        addLinkListItem(LinkListItem(1, "테스트6", null, null, "twitter", null, ""))
+        addLinkListItem(LinkListItem(1, "테스트7", "폴더7", null, "twitter", null, ""))
+        addLinkListItem(LinkListItem(1, "테스트8", null, null, "twitter", null, ""))
 
         //메뉴 버튼 클릭 시
         binding.btnMenu.setOnClickListener {
             // 폴더 관리 바텀 시트
-            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment()
+            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment(folder)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
         }
     }

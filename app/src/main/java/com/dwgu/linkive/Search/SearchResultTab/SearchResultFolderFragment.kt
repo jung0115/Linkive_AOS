@@ -17,20 +17,21 @@ import com.dwgu.linkive.databinding.FragmentSearchResultFolderBinding
 class SearchResultFolderFragment : Fragment() {
 
     // ViewBinding Setting
-    lateinit var binding: FragmentSearchResultFolderBinding
+    private var _binding: FragmentSearchResultFolderBinding? = null
+    private val binding get() = _binding!!
 
     // 검색어
     private var searchWord: String? = null
 
     // 검색 결과 리스트 recyclerview adapter
-    private var searchResultFolderItems = mutableListOf<LinkListItem>()
+    private var searchResultFolderItems: MutableList<LinkListItem>? = null
     private lateinit var searchResultFolderAdapter: SearchResultAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchResultFolderBinding.inflate(layoutInflater)
+        _binding = FragmentSearchResultFolderBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -45,13 +46,14 @@ class SearchResultFolderFragment : Fragment() {
         initRecycler()
 
         // 테스트 데이터
-        addSearchResultFolderItem(LinkListItem("제목입니다", "검색", null, "twitter", mutableListOf("link", "place")))
-        addSearchResultFolderItem(LinkListItem("제목입니다2", "폴더검색", null, "naver_blog", mutableListOf("link", "place")))
-        addSearchResultFolderItem(LinkListItem("테스트 검색제목", "검색", null, null, null))
+        addSearchResultFolderItem(LinkListItem(1, "제목입니다", "검색", null, "twitter", mutableListOf("link", "place"), ""))
+        addSearchResultFolderItem(LinkListItem(1, "제목입니다2", "폴더검색", null, "naver_blog", mutableListOf("link", "place"), ""))
+        addSearchResultFolderItem(LinkListItem(1, "테스트 검색제목", "검색", null, null, null, ""))
     }
 
     // recyclerview 세팅
     private fun initRecycler() {
+        searchResultFolderItems = mutableListOf<LinkListItem>()
         // 링크 리스트 recyclerview 세팅
         searchResultFolderAdapter = SearchResultAdapter(
             requireContext(),
@@ -64,12 +66,12 @@ class SearchResultFolderFragment : Fragment() {
         binding.recyclerviewSearchResultFolder.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerviewSearchResultFolder.adapter = searchResultFolderAdapter
         binding.recyclerviewSearchResultFolder.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
-        searchResultFolderAdapter.items = searchResultFolderItems
+        searchResultFolderAdapter.items = searchResultFolderItems!!
     }
 
     // 검색 결과 리스트 아이템 추가
     private fun addSearchResultFolderItem(searchResultFolderItem: LinkListItem) {
-        searchResultFolderItems.apply {
+        searchResultFolderItems!!.apply {
             add(searchResultFolderItem)
         }
         searchResultFolderAdapter.notifyDataSetChanged()
@@ -78,5 +80,10 @@ class SearchResultFolderFragment : Fragment() {
     // 링크 세부 페이지 열기
     private fun openLinkViewPage() {
         view?.findNavController()?.navigate(R.id.action_menu_search_to_linkViewFragment)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

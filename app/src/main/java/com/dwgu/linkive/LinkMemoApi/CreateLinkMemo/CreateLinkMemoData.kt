@@ -11,8 +11,21 @@ data class CreateLinkMemoData(
     val title: String,
 
     @SerializedName("content")    // 링크 메모 내용
-    var content: String? = null,
+    var content: LinkMemoContent? = null,
 
     @SerializedName("folder_num") // 폴더
     var folder_num: Int? = null,
 )
+
+data class LinkMemoContent(
+    @SerializedName("pagesheet_num") // 페이지 시트
+    val pagesheet_num: Int? = null,
+
+    @SerializedName("arr") // 내용
+    val arr: MutableList<String>? = null,
+)
+
+data class CreateLinkMemoResponse(
+    @SerializedName("memo_num")
+    val memo_num: Int,
+);

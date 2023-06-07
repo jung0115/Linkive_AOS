@@ -28,7 +28,8 @@ import com.dwgu.linkive.databinding.ActivityEditLinkBinding
 class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
     // ViewBinding Setting
-    lateinit var binding: ActivityEditLinkBinding
+    private var _binding: ActivityEditLinkBinding? = null
+    private val binding get() = _binding!!
 
     // PageSheet 선택 Spinner
     // PageSheet 리스트
@@ -39,7 +40,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     private var selectPagesheet: String? = null
 
     // 링크 edit 페이지 아이템 Recyclerview
-    private val editLinkItems = mutableListOf<EditLinkItem>()
+    private var editLinkItems: MutableList<EditLinkItem>? = null
     // recyclerview adapter
     private lateinit var editLinkAdapter: EditLinkAdapter
     // recyclerview 아이템 이동 콜백 변수 : 드래그 시 이동하는 거
@@ -52,7 +53,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         super.onCreate(savedInstanceState)
 
         // ViewBinding
-        binding = ActivityEditLinkBinding.inflate(layoutInflater)
+        _binding = ActivityEditLinkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // recyclerview 세팅
@@ -149,7 +150,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             addEditLinkItem(EditLinkTextItem(null))
 
             // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
         }
         // 이미지 아이템 추가
         binding.btnAddItemImage.setOnClickListener {
@@ -157,7 +158,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             addEditLinkItem(EditLinkImageItem(null, null))
 
             // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
         }
         // 링크 아이템 추가
         binding.btnAddItemLink.setOnClickListener {
@@ -165,7 +166,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             addEditLinkItem(EditLinkLinkItem(null, null))
 
             // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
         }
         // 장소(위치) 아이템 추가
         binding.btnAddItemPlace.setOnClickListener {
@@ -173,7 +174,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             addEditLinkItem(EditLinkPlaceItem(null, null))
 
             // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
         }
         // 체크박스(할 일) 아이템 추가
         binding.btnAddItemCheckbox.setOnClickListener {
@@ -181,7 +182,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             addEditLinkItem(EditLinkCheckboxItem(null, false))
 
             // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
         }
         // 코드 아이템 추가
         binding.btnAddItemCode.setOnClickListener {
@@ -189,12 +190,13 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             addEditLinkItem(EditLinkCodeItem(null))
 
             // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems.size)
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
         }
     }
 
     // 링크 Edit 페이지 아이템 recyclerview 세팅
     private fun initRecycler() {
+        editLinkItems = mutableListOf<EditLinkItem>()
         editLinkAdapter = EditLinkAdapter(
             this,
             onClickItemOption = {
@@ -211,12 +213,12 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         binding.recyclerviewEditLink.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerviewEditLink.adapter = editLinkAdapter
         //binding.recyclerviewEditLink.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
-        editLinkAdapter.items = editLinkItems
+        editLinkAdapter.items = editLinkItems!!
     }
 
     // 링크 Edit 페이지 아이템 추가
     private fun addEditLinkItem(item: EditLinkItem) {
-        editLinkItems.add(item)
+        editLinkItems!!.add(item)
         editLinkAdapter.notifyDataSetChanged()
     }
 
@@ -304,13 +306,13 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
     // 아이템 삭제
     override fun deleteItemListener(position: Int) {
-        editLinkItems.removeAt(position)
+        editLinkItems!!.removeAt(position)
         editLinkAdapter.notifyDataSetChanged()
     }
 
     // 갤러리에서 이미지 선택한 거 반영해주기
     override fun selectImageListener(position: Int, imageUri: Uri) {
-        editLinkItems[position] = EditLinkImageItem(null, imageUri)
+        editLinkItems!![position] = EditLinkImageItem(null, imageUri)
         editLinkAdapter.notifyDataSetChanged()
     }
 
@@ -318,29 +320,29 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     override fun resetItemListener(position: Int, itemType: String) {
         // 글 리셋
         if(itemType == "text") {
-            editLinkItems[position] = EditLinkTextItem(null)
+            editLinkItems!![position] = EditLinkTextItem(null)
             editLinkAdapter.notifyDataSetChanged()
         }
         // 코드 리셋
         else if(itemType == "code") {
-            editLinkItems[position] = EditLinkCodeItem(null)
+            editLinkItems!![position] = EditLinkCodeItem(null)
             editLinkAdapter.notifyDataSetChanged()
         }
         // 링크 리셋
         else if(itemType == "link") {
-            editLinkItems[position] = EditLinkLinkItem(null, null)
+            editLinkItems!![position] = EditLinkLinkItem(null, null)
             editLinkAdapter.notifyDataSetChanged()
         }
         // 할 일 리셋
         else if(itemType == "checkbox") {
-            editLinkItems[position] = EditLinkCheckboxItem(null, false)
+            editLinkItems!![position] = EditLinkCheckboxItem(null, false)
             editLinkAdapter.notifyDataSetChanged()
         }
     }
 
     // 링크 편집 페이지 > 링크 아이템 내용 적용 (url에서 가져온 내용)
     override fun setLinkItemListener(position: Int, linkTile: String?, linkUrl: String?) {
-        editLinkItems[position] = EditLinkLinkItem(linkTile, linkUrl)
+        editLinkItems!![position] = EditLinkLinkItem(linkTile, linkUrl)
         editLinkAdapter.notifyDataSetChanged()
     }
 
@@ -384,5 +386,10 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
                 Log.d("msg", "gallery error")
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

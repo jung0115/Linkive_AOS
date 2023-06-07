@@ -5,10 +5,11 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+// 프로퍼티를 선언하고, 저장한 키값을 불러온다.
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
-    // 자동완성 사용 시: 32
-    // 앱 실행 시: 33
-//    compileSdk 32
     compileSdk 33
 
     defaultConfig {
@@ -19,6 +20,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // 프로젝트 내에서 언제든지 사용이 가능한 변수들이다.
+        // 타입 - 키 - 값으로 저장된다.
+        buildConfigField "String", "KAKAO_MAP_API_KEY", properties['kakao_map_api_key']
     }
 
     buildTypes {
@@ -36,8 +41,8 @@ android {
                     'src/main/res/layouts/home',
                     'src/main/res/layouts/link-view',
                     'src/main/res/layouts/edit-link',
-                    'src/main/res/layouts/folder',
                     'src/main/res/layouts/search',
+                    'src/main/res/layouts/folder',
                     'src/main/res/layouts/my-page',
                     'src/main/res/layouts',
                     'src/main/res'
@@ -61,16 +66,16 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-runtime-ktx:2.5.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Kakao login module
     implementation "com.kakao.sdk:v2-user:2.13.0"
