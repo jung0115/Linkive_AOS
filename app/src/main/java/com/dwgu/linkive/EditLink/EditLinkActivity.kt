@@ -1,9 +1,12 @@
 package com.dwgu.linkive.EditLink
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,21 +20,36 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwgu.linkive.EditLink.DragToMoveItem.ItemTouchCallback
-import com.dwgu.linkive.EditLink.EditLinkBottomSheet.*
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.NoticeNotSaveBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditCheckboxBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditCodeBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditImageBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditLinkBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditPlaceBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditTextBottomFragment
 import com.dwgu.linkive.EditLink.EditLinkOption.EditLinkOptionListener
 import com.dwgu.linkive.EditLink.EditLinkOption.SetEditLinkBottomFragment
-import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
 import com.dwgu.linkive.EditLink.EditLinkOption.SetEditPlaceBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkAdapter
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkCheckboxItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkCodeItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkImageItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkLinkItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkPlaceItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkTextItem
+import com.dwgu.linkive.ImageUploadApi.SetImage
+import com.dwgu.linkive.ImageUploadApi.absolutelyPath
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.LinkMemoContent
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiEditLinkMemoContent
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetAllPageSheet
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetEditLinkMemo
 import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoEditBaseInfo
 import com.dwgu.linkive.LinkMemoApi.GetAllPageSheet.GetPageSheetData
-import com.dwgu.linkive.LinkView.LinkViewMenuListener.LinkViewMenuListener
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityEditLinkBinding
 import org.json.JSONObject
+import java.io.File
 
 
 class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
@@ -39,6 +57,10 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     // ViewBinding Setting
     private var _binding: ActivityEditLinkBinding? = null
     private val binding get() = _binding!!
+
+    private val PERMISSIONS_REQUEST = 1
+    private val PERMISSION_READ_STORAGE: String = Manifest.permission.READ_EXTERNAL_STORAGE
+    private val PERMISSION_WRITE_STORAGE: String = Manifest.permission.WRITE_EXTERNAL_STORAGE
 
     // PageSheet 선택 Spinner
     // PageSheet 리스트
@@ -249,7 +271,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
                 openItemOptionBottomSheet(it)
             },
             onClickSelectImage = {
-                navigatePhotos(it)
+                openGallery(it)
             }
         )
         // 드래그 이동 adapter
@@ -482,12 +504,6 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         editLinkAdapter.notifyDataSetChanged()
     }
 
-    // 갤러리에서 이미지 선택한 거 반영해주기
-    override fun selectImageListener(position: Int, imageUri: Uri) {
-        editLinkItems!![position] = EditLinkImageItem(null, imageUri, position)
-        editLinkAdapter.notifyDataSetChanged()
-    }
-
     // 링크 편집 페이지 글, 코드, 링크, 할 일 내용 리셋
     override fun resetItemListener(position: Int, itemType: String) {
         // 글 리셋
@@ -532,6 +548,20 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
+    // 갤러리에서 이미지 선택한 거 반영해주기
+    override fun selectImageListener(position: Int, imageUri: Uri) {
+        editLinkItems!![position] = EditLinkImageItem(null, imageUri, position)
+        editLinkAdapter.notifyDataSetChanged()
+    }
+
+    private fun openGallery(position: Int) {
+        if (hasPermission()) {
+            navigatePhotos(position)
+        } else {
+            requestPermission()
+        }
+    }
+
     private var selectImagePosition: Int? = null
     // 갤러리 오픈
     private fun navigatePhotos(position: Int) {
@@ -539,6 +569,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
+        setResult(9999999, intent);
         startActivityForResult(intent, 2000)
     }
 
@@ -553,8 +584,21 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             2000 -> {
                 val selectedImageURI: Uri? = data?.data
                 if (selectedImageURI != null) {
+
+
+                    val file = File(absolutelyPath(selectedImageURI, this))
                     // 선택한 이미지 전달
                     selectImageListener(selectImagePosition!!.toInt(), selectedImageURI)
+
+                    //val imgBody = uploadImage(selectedImageURI, this)
+
+                    /*apiImageUpload(
+                        selectImagePosition!!.toInt(),
+                        imgBody,
+                        responseImageUrl = {
+                            responseImageUrl(it)
+                        }
+                    )*/
 
                 } else {
                     Log.d("msg", "gallery error")
@@ -564,6 +608,40 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
                 Log.d("msg", "gallery error")
             }
         }
+    }
+
+    private fun hasPermission(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return checkSelfPermission(PERMISSION_READ_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(PERMISSION_WRITE_STORAGE) == PackageManager.PERMISSION_GRANTED
+        } else {
+            return true
+        }
+    }
+
+    private fun requestPermission() {
+        Log.d("Test", "권한 요청 ----------------------------------------------------")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.d("Test", "권한 요청2 ----------------------------------------------------")
+            if (shouldShowRequestPermissionRationale(PERMISSION_READ_STORAGE) ||
+                shouldShowRequestPermissionRationale(PERMISSION_WRITE_STORAGE)
+            ) {
+                Toast.makeText(
+                    this,
+                    "갤러리 접근 권한이 필요합니다", Toast.LENGTH_LONG
+                ).show()
+            }
+            requestPermissions(
+                arrayOf<String>(PERMISSION_READ_STORAGE, PERMISSION_WRITE_STORAGE),
+                PERMISSIONS_REQUEST
+            )
+        }
+    }
+
+    // 갤러리에서 선택한 이미지 서버에 올리고 반영
+    fun responseImageUrl(image: SetImage) {
+        editLinkItems!![image.position] = EditLinkImageItem(image.imageUrl, null, image.position)
+        editLinkAdapter.notifyDataSetChanged()
     }
 
     // 편집 content 내용

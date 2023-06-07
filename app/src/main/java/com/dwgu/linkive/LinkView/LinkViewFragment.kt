@@ -27,9 +27,9 @@ class LinkViewFragment : Fragment() {
     private var linkViewItems: MutableList<LinkViewItem>? = null
     private lateinit var linkViewAdapter: LinkViewAdapter
 
-    final val URL_OF_LINK_MEMO = "url_of_link_memo"
-    final val NUM_OF_LINK_MEMO = "memo_num"
-    final val NUM_OF_FOLDER = "folder_num"
+    private final val URL_OF_LINK_MEMO = "url_of_link_memo"
+    private final val NUM_OF_LINK_MEMO = "memo_num"
+    private final val NUM_OF_FOLDER = "folder_num"
 
     // 링크 URL
     private var linkUrl: String? = null

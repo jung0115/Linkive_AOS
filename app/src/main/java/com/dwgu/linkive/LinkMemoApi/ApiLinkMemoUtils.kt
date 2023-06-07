@@ -204,6 +204,8 @@ fun apiDetailLinkMemo(
     addLinkViewItem: (detailItem: LinkViewItem) -> Unit,
     ) {
 
+    setTokenForMemo()
+
     retrofit.create(DetailLinkMemoService::class.java)
         .detailLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, memosNum = memoNum)
         .enqueue(object : Callback<ViewLinkMemo> {
