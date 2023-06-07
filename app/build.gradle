@@ -2,23 +2,28 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     // Google Service
-    //id 'com.google.gms.google-services'
+    id 'com.google.gms.google-services'
 }
 
+// 프로퍼티를 선언하고, 저장한 키값을 불러온다.
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
-    // 자동완성 사용 시: 32
-    // 앱 실행 시: 33
-//    compileSdk 32
     compileSdk 33
 
     defaultConfig {
         applicationId "com.dwgu.linkive"
         minSdk 23
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // 프로젝트 내에서 언제든지 사용이 가능한 변수들이다.
+        // 타입 - 키 - 값으로 저장된다.
+        buildConfigField "String", "KAKAO_MAP_API_KEY", properties['kakao_map_api_key']
     }
 
     buildTypes {
@@ -36,8 +41,8 @@ android {
                     'src/main/res/layouts/home',
                     'src/main/res/layouts/link-view',
                     'src/main/res/layouts/edit-link',
-                    'src/main/res/layouts/folder',
                     'src/main/res/layouts/search',
+                    'src/main/res/layouts/folder',
                     'src/main/res/layouts/my-page',
                     'src/main/res/layouts',
                     'src/main/res'
@@ -95,7 +100,10 @@ dependencies {
     implementation 'com.navercorp.nid:oauth:5.1.0'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
 
-
+    // Retrofit2, okHttp3, RxKotlin, gson 의존성 추가
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    
     // jsoup
     implementation 'org.jsoup:jsoup:1.14.2'
     // coroutine

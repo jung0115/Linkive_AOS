@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 
 // URL을 이용해서 웹페이지 정보 가져오기
-suspend fun GetInfoForUrl(url: String, folder: String?): LinkListData? {
+suspend fun GetInfoForUrl(url: String): LinkListData? {
     var ogMap: HashMap<String, String> = hashMapOf()
 
     // 페이지에서 가져온 데이터 정리
@@ -76,31 +76,16 @@ suspend fun GetInfoForUrl(url: String, folder: String?): LinkListData? {
                         title = ogMap.get("description").toString().substring(0 until TITLE_LENGHT) + "..."
                     }
 
-                    // 폴더명 - folderName
-                    var folderName = folder
-                    if (folderName == null) folderName = "폴더 없음"
-
                     // 이미지 url - ogMap.get("image").toString()
                     var thumbnailImage = ogMap.get("image").toString()
 
                     // 내용 - ogMap.get("description").toString()
 
-                    // 출처 플랫폼
-                    var linkItemSource: String? = null
-                    // 일단 url에 해당 문자를 포함하면 해당 플랫폼 페이지인 것으로 판단 -> 그러나 아닌 경우도 있음
-                    if (linkUrl.contains("instagram")) {
-                        linkItemSource = "instagram"
-                    } else if (linkUrl.contains("twitter")) {
-                        linkItemSource = "twitter"
-                    } else if (linkUrl.contains("naver") && linkUrl.contains("blog")) {
-                        linkItemSource = "naver-blog"
-                    }
-
                     // 인스타그램은 OpenGraph를 지원하지 않음
                     // 트위터, 네이버 블로그는 OpenGraph 지원
 
                     linkData =
-                        LinkListData(linkUrl, title, folderName, thumbnailImage, linkItemSource)
+                        LinkListData(linkUrl, title, thumbnailImage)
 
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -114,27 +99,11 @@ suspend fun GetInfoForUrl(url: String, folder: String?): LinkListData? {
                     // 제목 - 내용을 가져올 수 없으므로 url 첫 TITLE_LENGHT 글자를 제목으로
                     var title = linkUrl.substring(0 until TITLE_LENGHT) + "..."
 
-                    // 폴더명 - folderName
-                    var folderName = folder
-                    if (folderName == null) folderName = "폴더 없음"
-
                     // 이미지 url - 내용을 가져올 수 없으므로 비워두기
                     var thumbnailImage = null
 
-                    // 출처 플랫폼
-                    var linkItemSource: String? = null
-                    // 일단 url에 해당 문자를 포함하면 해당 플랫폼 페이지인 것으로 판단 -> 그러나 아닌 경우도 있음
-                    // 인스타그램은 OpenGraph를 지원하지 않음
-                    if (linkUrl.contains("instagram")) {
-                        linkItemSource = "instagram"
-                    } else if (linkUrl.contains("twitter")) {
-                        linkItemSource = "twitter"
-                    } else if (linkUrl.contains("naver") && linkUrl.contains("blog")) {
-                        linkItemSource = "naver-blog"
-                    }
-
                     linkData =
-                        LinkListData(linkUrl, title, folderName, thumbnailImage, linkItemSource)
+                        LinkListData(linkUrl, title, thumbnailImage)
 
                     //return@let
                 }

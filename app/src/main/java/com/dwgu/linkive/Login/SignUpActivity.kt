@@ -9,9 +9,17 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.dwgu.linkive.Api.ApiClient
+import com.dwgu.linkive.Login.loginService.LoginInterface
+import com.dwgu.linkive.Login.loginService.result
+import com.dwgu.linkive.Login.loginService.signUp
 import com.dwgu.linkive.MainActivity
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivitySignUpBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 import kotlin.concurrent.timer
 
 class SignUpActivity : AppCompatActivity() {
@@ -36,6 +44,11 @@ class SignUpActivity : AppCompatActivity() {
     // 타이머 변수
     private var min = 3
     private var sec = 60
+
+    // ApiClient의 instance 불러오기
+    private val retrofit: Retrofit = ApiClient.getInstance()
+    // Retrofit의 interface 구현
+    private val api: LoginInterface = retrofit.create(LoginInterface::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,10 +146,9 @@ class SignUpActivity : AppCompatActivity() {
                 password = binding.inputPassword.text.toString()
                 checkPassword = binding.inputCheckPassword.text.toString()
 
-                // 회원가입 완료 및 메인 화면으로 이동
-                Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                // SignUp api 호출
+                postSignUp(id, password, email, nickName)
+
             } else {
                 Toast.makeText(this, "모든 항목을 작성해주세요.", Toast.LENGTH_SHORT).show()
             }
@@ -290,7 +302,29 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     fun flagCheck(): Boolean {
-        checkAgreeFlag = binding.checkAgree.isChecked
-        return nickNameFlag && emailFlag && idFlag && passwordFlag && checkAgreeFlag
+//        checkAgreeFlag = binding.checkAgree.isChecked
+//        return nickNameFlag && emailFlag && idFlag && passwordFlag && checkAgreeFlag
+        return true
+    }
+
+    // SignUp api
+    private fun postSignUp(id: String, password: String, email: String, nickName: String) {
+        var data = signUp(id, password, email, nickName)
+        api.postSignUp(data).enqueue(object:Callback<result>{
+            override fun onFailure(call: Call<result>, t: Throwable) {
+                Log.d("sign up fail", t.toString())
+
+                Toast.makeText(this@SignUpActivity, "중복된 이메일입니다.", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<result>, response: Response<result>) {
+                Log.d("sign up success", response.message())
+
+                // 회원가입 완료 및 메인 화면으로 이동
+                Toast.makeText(this@SignUpActivity, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@SignUpActivity, MainActivity::class.java)
+                startActivity(intent)
+            }
+        })
     }
 }

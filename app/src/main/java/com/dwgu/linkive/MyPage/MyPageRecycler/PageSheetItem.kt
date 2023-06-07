@@ -1,4 +1,4 @@
-package com.dwgu.linkive.MyPage
+package com.dwgu.linkive.MyPage.MyPageRecycler
 
 data class PageSheetItem(
     val id: Int,
