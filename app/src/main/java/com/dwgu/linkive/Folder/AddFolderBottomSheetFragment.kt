@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.dwgu.linkive.Api.ApiClient
 import com.dwgu.linkive.Folder.FolderApi.*
+import com.dwgu.linkive.Login.GloabalApplication
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentAddFolderBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -35,9 +36,9 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
     private val retrofit = ApiClient.getInstance()
     private val api: FolderInterface = retrofit.create(FolderInterface::class.java)
 
-//    interface SetFolderListListener {
-//        fun setFolderList()
-//    }
+    // 토큰 값
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
 
     // 폴더리스트 interface
     private lateinit var setFolderListListener: SetFolderListListener
@@ -46,19 +47,10 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
         setFolderListListener = listener
     }
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        try {
-//            setFolderListListener = context as SetFolderListListener
-//        } catch (e: ClassCastException) {
-//            throw ClassCastException(
-//                context.toString()
-//            )
-//        }
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        accessToken = "JWT ${GloabalApplication.prefs.getString("accessToken", "")}"
+        refreshToken = GloabalApplication.prefs.getString("refreshToken", "")
     }
 
     override fun onCreateView(
@@ -175,7 +167,7 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
                 Log.d("폴더 추가 password", password.toString())
 
                 //폴더 추가 api 연동
-                api.createFolder("JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODU2MjAxMDB9.JGnqSiSnkuSLHG6Pt5YZWiKvacpxsNv_2DpTaPmmdPw", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODYyMjEzMDB9.p0NJoSlu62xqrmSn865wbaZLDzTvirmX7gHxwzxPhFI", addFolderRequest).enqueue(object: Callback<AddFolderResponse> {
+                api.createFolder(accessToken, refreshToken, addFolderRequest).enqueue(object: Callback<AddFolderResponse> {
                     override fun onFailure(call: Call<AddFolderResponse>, t: Throwable) {
                         Log.d("실패", t.message.toString())
                     }

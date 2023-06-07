@@ -14,6 +14,7 @@ import com.dwgu.linkive.Api.ApiClient
 import com.dwgu.linkive.Folder.FolderApi.*
 import com.dwgu.linkive.Folder.FolderListAdapter.FolderListAdapter
 import com.dwgu.linkive.Folder.SortFolder.SortFolderAdapter
+import com.dwgu.linkive.Login.GloabalApplication
 import com.dwgu.linkive.R
 
 import com.dwgu.linkive.databinding.FragmentFolderBinding
@@ -37,11 +38,15 @@ class FolderFragment : Fragment(), SetFolderListListener {
     // 폴더 리사이클러뷰 어댑터
     private lateinit var folderListAdapter: FolderListAdapter
 
+    // 토큰 값
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        accessToken = "JWT ${GloabalApplication.prefs.getString("accessToken", "")}"
+        refreshToken = GloabalApplication.prefs.getString("refreshToken", "")
     }
 
     override fun onCreateView(
@@ -51,17 +56,6 @@ class FolderFragment : Fragment(), SetFolderListListener {
         _binding = FragmentFolderBinding.inflate(inflater, container, false)
         val view = binding.root
 
-//        api.login(LoginRequest("sumin", "sumin!")).enqueue(object : Callback<LoginRequest> {
-//            override fun onFailure(call: Call<LoginRequest>, t: Throwable) {
-//                Log.d("실패", t.message.toString())
-//            }
-//
-//            override fun onResponse(call: Call<LoginRequest>, response: Response<LoginRequest>) {
-//                Log.d("성공", response.body().toString())
-//                accessToken = response.body()?.id.toString()
-//                refreshToken = response.body()?.password.toString()
-//            }
-//        })
         return view
     }
 
@@ -96,7 +90,7 @@ class FolderFragment : Fragment(), SetFolderListListener {
 
     private fun loadData() {
         // 폴더 리스트 가져오기 api 연동
-        api.readFolder("JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODU2MjAxMDB9.JGnqSiSnkuSLHG6Pt5YZWiKvacpxsNv_2DpTaPmmdPw", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODYyMjEzMDB9.p0NJoSlu62xqrmSn865wbaZLDzTvirmX7gHxwzxPhFI")
+        api.readFolder(accessToken, refreshToken)
             .enqueue(object: Callback<ReadFoldersList> {
                 override fun onFailure(call: Call<ReadFoldersList>, t: Throwable) {
                     Log.d("실패", t.message.toString())

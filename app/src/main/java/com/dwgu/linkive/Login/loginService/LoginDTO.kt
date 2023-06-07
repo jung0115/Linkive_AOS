@@ -1,6 +1,6 @@
 package com.dwgu.linkive.Login.loginService
 
-import com.google.android.material.appbar.AppBarLayout.LayoutParams.ScrollEffect
+//import com.google.android.material.appbar.AppBarLayout.LayoutParams.ScrollEffect
 import com.google.gson.annotations.SerializedName
 
 data class login(

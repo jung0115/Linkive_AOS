@@ -5,11 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentCheckFolderPasswordBinding
 import com.dwgu.linkive.databinding.FragmentLinkInFolderBinding
 
-class CheckFolderPasswordFragment : Fragment() {
+class CheckFolderPasswordFragment : DialogFragment() {
 
     private var _binding: FragmentCheckFolderPasswordBinding? = null
     private val binding get() = _binding!!
@@ -26,6 +27,21 @@ class CheckFolderPasswordFragment : Fragment() {
         _binding = FragmentCheckFolderPasswordBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //취소 버튼
+        binding.btnCancel.setOnClickListener {
+            dismiss()
+        }
+
+        //확인 버튼
+        binding.btnConfirm.setOnClickListener {
+
+            dismiss()
+        }
     }
 
     override fun onDestroyView() {

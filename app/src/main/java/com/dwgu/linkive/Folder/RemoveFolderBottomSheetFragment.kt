@@ -12,6 +12,7 @@ import com.dwgu.linkive.Folder.FolderApi.AddFolderResponse
 import com.dwgu.linkive.Folder.FolderApi.FolderInterface
 import com.dwgu.linkive.Folder.FolderApi.ReadFoldersList
 import com.dwgu.linkive.Folder.FolderApi.RemoveFolderRequest
+import com.dwgu.linkive.Login.GloabalApplication
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentFolderBinding
 import com.dwgu.linkive.databinding.FragmentFolderMenuBottomSheetBinding
@@ -36,13 +37,18 @@ class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFo
     // 폴더리스트 interface
     private lateinit var setFolderListListener: SetFolderListListener
 
+    // 토큰 값
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
+
     fun setListener(listener: SetFolderListListener){
         setFolderListListener = listener
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        accessToken = "JWT ${GloabalApplication.prefs.getString("accessToken", "")}"
+        refreshToken = GloabalApplication.prefs.getString("refreshToken", "")
     }
 
     override fun onCreateView(
@@ -83,8 +89,7 @@ class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFo
 
             val removeFolderRequest = RemoveFolderRequest(folder.folderNum)
 
-            api.removeFolder("JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODU2MjAxMDB9.JGnqSiSnkuSLHG6Pt5YZWiKvacpxsNv_2DpTaPmmdPw", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODYyMjEzMDB9.p0NJoSlu62xqrmSn865wbaZLDzTvirmX7gHxwzxPhFI"
-                , removeFolderRequest).enqueue(object:
+            api.removeFolder(accessToken, refreshToken, removeFolderRequest).enqueue(object:
                 Callback<String> {
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     Log.d("폴더 삭제 실패", t.message.toString())
