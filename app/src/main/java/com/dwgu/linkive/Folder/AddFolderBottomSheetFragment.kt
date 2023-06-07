@@ -1,35 +1,56 @@
 package com.dwgu.linkive.Folder
 
 import android.app.Dialog
-import android.graphics.Color
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import com.dwgu.linkive.Api.ApiClient
+import com.dwgu.linkive.Folder.FolderApi.*
+import com.dwgu.linkive.Login.GloabalApplication
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentAddFolderBottomSheetBinding
-import com.dwgu.linkive.databinding.FragmentFolderMenuBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentAddFolderBottomSheetBinding? = null
     private val binding get() = _binding!!
 
-    val bundle = Bundle()
+
+    // retrofit builder 선언
+    private val retrofit = ApiClient.getInstance()
+    private val api: FolderInterface = retrofit.create(FolderInterface::class.java)
+
+    // 토큰 값
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
+
+    // 폴더리스트 interface
+    private lateinit var setFolderListListener: SetFolderListListener
+
+    fun setListener(listener: SetFolderListListener){
+        setFolderListListener = listener
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        accessToken = "JWT ${GloabalApplication.prefs.getString("accessToken", "")}"
+        refreshToken = GloabalApplication.prefs.getString("refreshToken", "")
     }
 
     override fun onCreateView(
@@ -38,17 +59,28 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
     ): View? {
         _binding = FragmentAddFolderBottomSheetBinding.inflate(inflater, container, false)
         val view = binding.root
+
+//        api.login(LoginRequest("sumin", "sumin!")).enqueue(object : Callback<LoginRequest> {
+//            override fun onFailure(call: Call<LoginRequest>, t: Throwable) {
+//                Log.d("실패", t.message.toString())
+//            }
+//
+//            override fun onResponse(call: Call<LoginRequest>, response: retrofit2.Response<LoginRequest>) {
+//                Log.d("성공1", response.body().toString())
+//                accessToken = response.body()?.id.toString()
+//                refreshToken = response.body()?.password.toString()
+//            }
+//        })
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.rgroupColor.setOnCheckedChangeListener { group, i ->
-//            when(i){
-//
-//            }
-//        }
+        // 초기화할 때는 비밀번호 숨김
+        binding.edittextFolderPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+        binding.edittextFolderPasswordCheck.transformationMethod = PasswordTransformationMethod.getInstance()
 
         // 비밀번호 표시/숨김
         binding.checkEye.setOnCheckedChangeListener { view, isChecked ->
@@ -70,12 +102,6 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
             binding.edittextFolderPasswordCheck.setSelection(binding.edittextFolderPasswordCheck.text.length)
         }
 
-        // 포커스 해제될 때
-//        binding.edittextFolderPassword.setOnFocusChangeListener { view, bFocus ->
-//            if(!bFocus){
-//                binding.viewPasswordCheck.visibility = View.VISIBLE
-//            }
-//        }
 
         // 비밀번호를 입력하면 확인창 뜸
         // 비밀번호 지우면 확인창 없어짐
@@ -104,6 +130,7 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
         }
         // 확인 버튼
         binding.btnConfirm.setOnClickListener {
+
             // 폴더명 필수 입력
             if (binding.edittextFolderName.text.isEmpty()){
                 Toast.makeText(requireContext(), R.string.folder_name_hint, Toast.LENGTH_SHORT).show()
@@ -117,34 +144,41 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
             else {
 
                 val name = binding.edittextFolderName.text.toString()
-                var color: Int = R.color.cover_red
+                var color: String = "red"
+                var password: String? = null
 
-                when(binding.rgroupColor.checkedRadioButtonId){
-                    R.id.rbtn_red -> color = R.color.cover_red
-                    R.id.rbtn_orange -> color = R.color.cover_orange
-                    R.id.rbtn_yellow -> color = R.color.cover_yellow
-                    R.id.rbtn_green -> color = R.color.cover_green
-                    R.id.rbtn_blue -> color = R.color.cover_blue
-                    R.id.rbtn_navy -> color = R.color.cover_navy
-                    R.id.rbtn_purple -> color = R.color.cover_purple
-                    R.id.rbtn_gray -> color = R.color.cover_gray
+                if (binding.edittextFolderPassword.text.toString() != ""){
+                    password = binding.edittextFolderPassword.text.toString()
+                    Log.d("password text", binding.edittextFolderPassword.text.toString())
                 }
 
-                bundle.putInt("folderCover", color)
-                bundle.putString("folderName", name)
-                bundle.putBoolean("btnConfirm", true)
+                when(binding.rgroupColor.checkedRadioButtonId){
+                    R.id.rbtn_red -> color = "bgcolor_red.png"
+                    R.id.rbtn_orange -> color = "bgcolor_orange.png"
+                    R.id.rbtn_yellow -> color = "bgcolor_yellow.png"
+                    R.id.rbtn_green -> color = "bgcolor_green.png"
+                    R.id.rbtn_blue -> color = "bgcolor_blue.png"
+                    R.id.rbtn_navy -> color = "bgcolor_navy.png"
+                    R.id.rbtn_purple -> color = "bgcolor_purple.png"
+                    R.id.rbtn_gray -> color = "bgcolor_gray.png"
+                }
 
-                val folderFragment = FolderFragment()
-                folderFragment.arguments = bundle
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.nav_host_fragment, folderFragment)
-                    .commit()
+                val addFolderRequest =  AddFolderRequest(name, password, color)
+                Log.d("폴더 추가 password", password.toString())
+
+                //폴더 추가 api 연동
+                api.createFolder(accessToken, refreshToken, addFolderRequest).enqueue(object: Callback<AddFolderResponse> {
+                    override fun onFailure(call: Call<AddFolderResponse>, t: Throwable) {
+                        Log.d("실패", t.message.toString())
+                    }
+
+                    override fun onResponse( call: Call<AddFolderResponse>, response: Response<AddFolderResponse> ) {
+                        Log.d("성공1", response.body().toString())
+                        setFolderListListener.setFolderList()
+                    }
+                })
                 dismiss()
             }
-
-
-
-
         }
     }
 
@@ -155,6 +189,7 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
         }
         return dialog
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

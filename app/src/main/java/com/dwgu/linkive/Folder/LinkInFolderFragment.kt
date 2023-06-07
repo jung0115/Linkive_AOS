@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.dwgu.linkive.Folder.FolderApi.ReadFoldersList
 import com.dwgu.linkive.Folder.LinkInFolderAdapter.LinkInFolderAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
@@ -15,7 +16,7 @@ import com.dwgu.linkive.databinding.FragmentFolderBinding
 import com.dwgu.linkive.databinding.FragmentHomeBinding
 import com.dwgu.linkive.databinding.FragmentLinkInFolderBinding
 
-class LinkInFolderFragment : Fragment() {
+class LinkInFolderFragment(private val folder: ReadFoldersList.ReadFoldersResponse) : Fragment() {
 
     // 링크 리스트 recyclerview adapter
     private var linkListItems = mutableListOf<LinkListItem>()
@@ -59,7 +60,7 @@ class LinkInFolderFragment : Fragment() {
         //메뉴 버튼 클릭 시
         binding.btnMenu.setOnClickListener {
             // 폴더 관리 바텀 시트
-            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment()
+            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment(folder)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
         }
     }
