@@ -74,19 +74,19 @@ class FolderFragment : Fragment(), SetFolderListListener {
 
         // 폴더 클릭시 폴더 내부 페이지
         folderListAdapter.setOnItemclickListner(object: FolderListAdapter.OnItemClickListner{
-            override fun onItemClick(view: View, position: Int, mode: Int, folderNum: Int) {
+            override fun onItemClick(view: View, position: Int, mode: Int, folder: ReadFoldersList.ReadFoldersResponse) {
                 if (mode == 0) {
                     // view 모드
                     parentFragmentManager
                         .beginTransaction()
-                        .replace(R.id.nav_host_fragment, LinkInFolderFragment())
+                        .replace(R.id.nav_host_fragment, LinkInFolderFragment(folder))
                         .commit()
 
                 }
                 // 편집 모드 새로 만들기
                 // x 표시 뜨고 클릭하면 삭제 바텀 시트 뜨게 하기
                 else {
-                    val bottomSheetFragment = RemoveFolderBottomSheetFragment(folderNum)
+                    val bottomSheetFragment = RemoveFolderBottomSheetFragment(folder)
                     bottomSheetFragment.setListener(this@FolderFragment)
                     bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
                 }

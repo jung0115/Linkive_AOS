@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.dwgu.linkive.Api.ApiClient
 import com.dwgu.linkive.Folder.FolderApi.AddFolderResponse
 import com.dwgu.linkive.Folder.FolderApi.FolderInterface
+import com.dwgu.linkive.Folder.FolderApi.ReadFoldersList
 import com.dwgu.linkive.Folder.FolderApi.RemoveFolderRequest
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentFolderBinding
@@ -23,7 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class RemoveFolderBottomSheetFragment(private val folderNum: Int) : BottomSheetDialogFragment() {
+class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFoldersResponse) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentRemoveFolderBottomSheetBinding? = null
     private val binding get() = _binding!!
@@ -64,6 +65,9 @@ class RemoveFolderBottomSheetFragment(private val folderNum: Int) : BottomSheetD
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 폴더명 세팅
+        binding.textviewFolderName.text = folder.name
+
 
         // 취소 버튼
         binding.btnCancel.setOnClickListener {
@@ -77,7 +81,7 @@ class RemoveFolderBottomSheetFragment(private val folderNum: Int) : BottomSheetD
         // 확인 버튼
         binding.btnConfirm.setOnClickListener {
 
-            val removeFolderRequest = RemoveFolderRequest(folderNum)
+            val removeFolderRequest = RemoveFolderRequest(folder.folderNum)
 
             api.removeFolder("JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODU2MjAxMDB9.JGnqSiSnkuSLHG6Pt5YZWiKvacpxsNv_2DpTaPmmdPw", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InN1bWluIiwiZW1haWwiOiJzdW1pbkBuYXZlci5jb20iLCJuaWNrbmFtZSI6InN1bWluIiwiaWF0IjoxNjg1NjE2NTAwLCJleHAiOjE2ODYyMjEzMDB9.p0NJoSlu62xqrmSn865wbaZLDzTvirmX7gHxwzxPhFI"
                 , removeFolderRequest).enqueue(object:
@@ -87,7 +91,7 @@ class RemoveFolderBottomSheetFragment(private val folderNum: Int) : BottomSheetD
                 }
 
                 override fun onResponse(call: Call<String>, response: Response<String>) {
-                    Log.d("folder_num", folderNum.toString())
+                    Log.d("folder_num", folder.folderNum.toString())
                     Log.d("폴더 삭제 성공", response.body().toString())
                     // 삭제 모드에서 view 모드로 전환
                     // 해당 폴더가 삭제된 상태로 List 초기화

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dwgu.linkive.Folder.FolderApi.ReadFoldersList
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentAddFolderBottomSheetBinding
 import com.dwgu.linkive.databinding.FragmentLinkInFolderMenuBottomSheetBinding
@@ -13,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
+class LinkInFolderMenuBottomSheetFragment(private val folder: ReadFoldersList.ReadFoldersResponse) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentLinkInFolderMenuBottomSheetBinding? = null
     private val binding get() = _binding!!
@@ -36,7 +37,7 @@ class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         // 폴더 썸네일 변경 버튼 클릭 시 추가 바텀 시트
         binding.layoutFolderThumbnailEdit.setOnClickListener {
-            val bottomSheetFragment = EditFolderCoverFragment()
+            val bottomSheetFragment = EditFolderCoverFragment(folder)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }
@@ -44,7 +45,7 @@ class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
         // 폴더 비밀번호 설정 / 변경 버튼 클릭 시
         // 기존 비밀번호가 없다면 비밀번호 설정으로
         binding.layoutFolderPasswordSettingEdit.setOnClickListener {
-            val bottomSheetFragment = EditFolderPasswordFragment()
+            val bottomSheetFragment = EditFolderPasswordFragment(folder)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }
@@ -57,7 +58,7 @@ class LinkInFolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
         binding.layoutRemoveFolder.setOnClickListener {
 
             // 여기 파라미터 수정해야 함!!!
-            val bottomSheetFragment = RemoveFolderBottomSheetFragment(1)
+            val bottomSheetFragment = RemoveFolderBottomSheetFragment(folder)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }

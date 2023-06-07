@@ -22,7 +22,7 @@ class FolderListAdapter(private val context: Context, private val List: ArrayLis
 
     //커스텀 리스너
     interface OnItemClickListner{
-        fun onItemClick(view: View, position: Int, mode: Int, folderNum: Int)
+        fun onItemClick(view: View, position: Int, mode: Int, folder: ReadFoldersList.ReadFoldersResponse)
     }
 
     //아이템 클릭 리스너
@@ -38,7 +38,7 @@ class FolderListAdapter(private val context: Context, private val List: ArrayLis
             binding.root.setOnClickListener {
                 val pos = adapterPosition
                 if(pos != RecyclerView.NO_POSITION && itemClickListner != null){
-                    itemClickListner.onItemClick(binding.root, pos, mode, List[pos].folderNum)
+                    itemClickListner.onItemClick(binding.root, pos, mode, List[pos])
                 }
             }
         }
