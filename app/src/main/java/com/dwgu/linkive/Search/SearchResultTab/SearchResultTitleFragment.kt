@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.getSourceForLink
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.getThumbnailUrl
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.setlinkItemForms
 import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemo
 import com.dwgu.linkive.LinkView.LinkViewFragment
 import com.dwgu.linkive.R
@@ -98,7 +99,7 @@ class SearchResultTitleFragment : Fragment() {
                         folderName = result.folder_name,
                         thumbnailImage = getThumbnailUrl(result.content!!.arr),
                         linkItemSource = getSourceForLink(result.link),
-                        linkItemForms = null,
+                        linkItemForms = setlinkItemForms(result.content.arr),
                         created_date = result.date_created
                     )
                 )

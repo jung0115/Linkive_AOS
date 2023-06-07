@@ -112,8 +112,13 @@ fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
 
                     // 썸네일 이미지
                     var thumbnailUrl: String? = null
-                    if(linkItem.content != null)
+                    // 포함되는 아이템
+                    var itemForms: MutableSet<String>? = null
+
+                    if(linkItem.content != null) {
                         thumbnailUrl = getThumbnailUrl(linkItem.content.arr)
+                        itemForms = setlinkItemForms(linkItem.content.arr)
+                    }
 
                     addLinkList(
                         LinkListItem(
@@ -122,7 +127,7 @@ fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
                             folderName = linkItem.folder_name,
                             thumbnailImage = thumbnailUrl,
                             linkItemSource = linkItemSource,
-                            linkItemForms = null,
+                            linkItemForms = itemForms,
                             created_date = linkItem.date_created))
                 }
             }
@@ -175,6 +180,22 @@ fun getSourceForLink(linkUrl: String): String? {
 }
 
 // 사용된 링크 아이템 종류 아이콘
+fun setlinkItemForms(arr: MutableList<String>?): MutableSet<String>? {
+    var linkItemForms: MutableSet<String>? = mutableSetOf<String>()
+
+    if(arr != null) {
+        for(item in arr) {
+            // 아이템 내용을 json 형태로 변환
+            var json: JSONObject? = null
+            json = JSONObject(item)
+            linkItemForms!!.add(json.getString("type"))
+        }
+    }
+
+    if(linkItemForms!!.size == 0) linkItemForms = null
+
+    return linkItemForms
+}
 
 // 메모 번호로 링크 내용 조회
 fun apiDetailLinkMemo(
