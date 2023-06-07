@@ -47,33 +47,8 @@ data class newPw(
     @SerializedName("newPassword") var pw: String
 )
 
-data class changeInfoPw(
-    @SerializedName("newNickname") var newNickname: String,
-    @SerializedName("newId") var newId: String,
-    @SerializedName("newPassword") var newPassword: String,
-    @SerializedName("newProfileImg") var newProfileImg: String
-)
-
-data class changeInfo(
-    @SerializedName("newNickname") var newNickname: String,
-    @SerializedName("newId") var newId: String,
-    @SerializedName("newProfileImg") var newProfileImg: String
-)
-
 data class newId(
     @SerializedName("newId") var newId: String
-)
-
-data class currentPw(
-    @SerializedName("currentPassword") var currentPassword: String
-)
-
-data class profileImg(
-    @SerializedName("profileImg") var profileImg: String
-)
-
-data class userInfo(
-    @SerializedName("userInfo") var userInfo: Infos
 )
 
 data class Infos(

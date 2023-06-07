@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.dwgu.linkive.Api.ApiClient
+import com.dwgu.linkive.Login.loginService.LoginInterface
 import com.dwgu.linkive.MyPage.MyPageRecycler.BasicPageSheetAdapter
 import com.dwgu.linkive.MyPage.MyPageRecycler.CustomPageSheetAdapter
 import com.dwgu.linkive.MyPage.MyPageRecycler.PageSheetItem
+import com.dwgu.linkive.MyPage.myPageService.MyPageInterface
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentMyPageBinding
-
+import retrofit2.Retrofit
 
 class  MyPageFragment : Fragment() {
 
@@ -27,6 +30,11 @@ class  MyPageFragment : Fragment() {
     val basicPageSheetList = mutableListOf<PageSheetItem>()
     val customPageSheetList = mutableListOf<PageSheetItem>()
 
+    // ApiClient의 instance 불러오기
+    private val retrofit: Retrofit = ApiClient.getInstance()
+    // Retrofit의 interface 구현
+    private val api: MyPageInterface = retrofit.create(MyPageInterface::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -37,12 +45,16 @@ class  MyPageFragment : Fragment() {
     ): View? {
         binding = FragmentMyPageBinding.inflate(layoutInflater)
 
+        // 사용자 프로필 이미지 가져오기
+        api.getProfileImg()
+
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         // recyclerview 세팅
         initRecycler()
