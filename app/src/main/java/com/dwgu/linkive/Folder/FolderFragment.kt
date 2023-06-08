@@ -71,16 +71,25 @@ class FolderFragment : Fragment(), SetFolderListListener {
             override fun onItemClick(view: View, position: Int, mode: Int, folder: ReadFoldersList.ReadFoldersResponse) {
                 if (mode == 0) {
                     // view 모드
-                    parentFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.nav_host_fragment, LinkInFolderFragment(folder))
-                        .commit()
+                    // password가 있으면 check dialog
+                    if (folder.isLocked){
+                        val checkPasswordFragment = CheckFolderPasswordFragment(folder)
+                        checkPasswordFragment.show(parentFragmentManager, checkPasswordFragment.tag)
+                    }
+                    else {
+                        parentFragmentManager
+                            .beginTransaction()
+                            .add(R.id.nav_host_fragment, LinkInFolderFragment(folder))
+                            .commit()
+                    }
+
 
                 }
                 // 편집 모드 새로 만들기
                 // x 표시 뜨고 클릭하면 삭제 바텀 시트 뜨게 하기
                 else {
-                    val bottomSheetFragment = RemoveFolderBottomSheetFragment(folder)
+                    // mode : "out" -> 폴더 외부에서 remove 호출
+                    val bottomSheetFragment = RemoveFolderBottomSheetFragment(folder, "out")
                     bottomSheetFragment.setListener(this@FolderFragment)
                     bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
                 }
@@ -154,6 +163,8 @@ class FolderFragment : Fragment(), SetFolderListListener {
         }
 
     }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

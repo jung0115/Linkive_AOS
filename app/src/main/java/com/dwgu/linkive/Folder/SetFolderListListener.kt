@@ -5,7 +5,3 @@ interface SetFolderListListener {
 
     fun setRemove()
 }
-//
-//interface RemoveFolderListener {
-//
-//}

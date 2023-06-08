@@ -27,4 +27,20 @@ interface FolderInterface {
         @Body folderRequest: RemoveFolderRequest
     )
     : Call<String>
+
+    @POST("memos/folders")
+    fun readLinkInFolder(
+        @Header("Authorization") accessToken: String?,
+        @Header("refresh-token") refreshToken: String?,
+        @Body readLinkInFolderRequest: ReadLinkInFolderRequest
+    )
+    : Call<ReadLinkInFolderResponse>
+
+    @POST("folders/edit")
+    fun editFolder(
+        @Header("Authorization") accessToken: String?,
+        @Header("refresh-token") refreshToken: String?,
+        @Body editFolderRequest: EditFolderRequest
+    )
+    : Call<String>
 }
