@@ -71,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
         // 이미 로그인된 경우
         if(GloabalApplication.prefs.getString("accessToken", "") != "" &&
             GloabalApplication.prefs.getString("refreshToken", "") != "") {
+            Log.d("login - token", GloabalApplication.prefs.getString("accessToken", ""))
             // 메인 화면으로 이동
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)

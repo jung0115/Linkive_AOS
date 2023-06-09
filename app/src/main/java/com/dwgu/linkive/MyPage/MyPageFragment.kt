@@ -43,6 +43,10 @@ class  MyPageFragment : Fragment() {
     // Retrofit의 interface 구현
     private val api: MyPageInterface = retrofit.create(MyPageInterface::class.java)
 
+    // SharedPreference
+//    val prefs : SharedPreferences = context.getSharedPreferences("Prefs", Context.MODE_PRIVATE)
+//    val editor : SharedPreferences.Editor = GloabalApplication.prefs.edit() // 데이터 기록을 위한 editor
+
     // 토큰 값
     private lateinit var accessToken: String
     private lateinit var refreshToken: String
@@ -110,15 +114,7 @@ class  MyPageFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
 
             //  저장된 토큰 삭제
-            val editor = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)?.edit()
-            editor?.remove("refreshToken")
-            editor?.remove("accessToken")
-            editor?.apply()
-
-
-            // 잘 삭제됐는지 확인
-            GloabalApplication.prefs.getString("refreshToken", "")
-
+            deleteTokens()
 
             // 로그아웃 후, 로그인 화면으로 이동
             Toast.makeText(requireContext(), "로그아웃!", Toast.LENGTH_SHORT).show()
@@ -195,9 +191,22 @@ class  MyPageFragment : Fragment() {
             override fun onResponse(call: Call<profileImg>, response: Response<profileImg>) {
                 var image = response.body()?.profileImg
                 Log.d("my page - success", response.message())
-                // 불러온 이미지를 프로필 이미지로 설정
-                binding.imageProfile.setImageResource(image!!.toInt())
+                // 불러온 이미지를 프로필 이미지로 설정 - 에러
+//                binding.imageProfile.setImageResource(image!!.toInt())
             }
         })
+    }
+
+    fun deleteTokens() {
+        val editor = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)?.edit()
+//        editor?.remove("refreshToken")
+//        editor?.remove("accessToken")
+//        editor?.apply()
+        editor?.clear()
+        editor?.commit()
+
+        // 잘 삭제됐는지 확인
+        var temp = GloabalApplication.prefs.getString("refreshToken", "")
+        Log.d("my page - token delete check", temp )
     }
 }

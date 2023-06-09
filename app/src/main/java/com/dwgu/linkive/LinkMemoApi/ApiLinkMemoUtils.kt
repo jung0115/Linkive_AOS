@@ -83,40 +83,40 @@ fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
 // 링크 메모 전체 조회 -> 메인 페이지 링크 리스트에 추가
 fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
 
-    retrofit.create(ViewLinkMemoService::class.java)
-        .viewLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!)
-        .enqueue(object : Callback<ViewLinkMemoData> {
-            override fun onResponse(call: Call<ViewLinkMemoData>, response: Response<ViewLinkMemoData>) {
-                Log.d(TAG, "링크 메모 조회 결과 -------------------------------------------")
-                Log.d(TAG, "onResponse: ${response.body().toString()}")
-
-                // 조회한 링크 리스트를 화면에 보여주기 위해 데이터 추가
-                val linkLists: MutableList<ViewLinkMemo> = response.body()!!.arr
-                for(linkItem in linkLists) {
-                    var linkItemSource: String? = getSourceForLink(linkItem.link)
-
-                    // 썸네일 이미지
-                    var thumbnailUrl: String? = null
-                    if(linkItem.content != null)
-                        thumbnailUrl = getThumbnailUrl(linkItem.content.arr)
-
-                    addLinkList(
-                        LinkListItem(
-                            memoNum = linkItem.memo_num,
-                            linkTitle = linkItem.title,
-                            folderName = linkItem.folder_name,
-                            thumbnailImage = thumbnailUrl,
-                            linkItemSource = linkItemSource,
-                            linkItemForms = null,
-                            created_date = linkItem.date_created))
-                }
-            }
-
-            override fun onFailure(call: Call<ViewLinkMemoData>, t: Throwable) {
-                Log.d(TAG, "링크 메모 조회 결과 fail -------------------------------------------")
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
+//    retrofit.create(ViewLinkMemoService::class.java)
+//        .viewLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!)
+//        .enqueue(object : Callback<ViewLinkMemoData> {
+//            override fun onResponse(call: Call<ViewLinkMemoData>, response: Response<ViewLinkMemoData>) {
+//                Log.d(TAG, "링크 메모 조회 결과 -------------------------------------------")
+//                Log.d(TAG, "onResponse: ${response.body().toString()}")
+//
+//                // 조회한 링크 리스트를 화면에 보여주기 위해 데이터 추가
+//                val linkLists: MutableList<ViewLinkMemo> = response.body()!!.arr
+//                for(linkItem in linkLists) {
+//                    var linkItemSource: String? = getSourceForLink(linkItem.link)
+//
+//                    // 썸네일 이미지
+//                    var thumbnailUrl: String? = null
+//                    if(linkItem.content != null)
+//                        thumbnailUrl = getThumbnailUrl(linkItem.content.arr)
+//
+//                    addLinkList(
+//                        LinkListItem(
+//                            memoNum = linkItem.memo_num,
+//                            linkTitle = linkItem.title,
+//                            folderName = linkItem.folder_name,
+//                            thumbnailImage = thumbnailUrl,
+//                            linkItemSource = linkItemSource,
+//                            linkItemForms = null,
+//                            created_date = linkItem.date_created))
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ViewLinkMemoData>, t: Throwable) {
+//                Log.d(TAG, "링크 메모 조회 결과 fail -------------------------------------------")
+//                Log.e(TAG, "onFailure: ${t.message}")
+//            }
+//        })
 }
 
 // 썸네일 이미지 url 가져오기

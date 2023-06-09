@@ -368,7 +368,7 @@ class SignUpActivity : AppCompatActivity() {
     // 인증번호 일치 확인 api
     private fun postSendVerifyEmail(num: String) {
         var data = email(num)
-        api.postSendVerifyEmail(data).enqueue(object:Callback<code>{
+        api.postSendVerifyEmail("findPw", data).enqueue(object:Callback<code>{
 
             // 인증번호 전송에 실패하는 경우
             override fun onFailure(call: Call<code>, t: Throwable) {
