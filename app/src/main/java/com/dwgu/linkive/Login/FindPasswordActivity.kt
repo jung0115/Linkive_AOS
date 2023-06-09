@@ -299,7 +299,7 @@ class FindPasswordActivity : AppCompatActivity() {
     private fun postSendVerifyEmailFindPassword(mail: String, id: String){
         var data = findPw(mail, id)
         //  인증번호 전송 실패
-        api.postSendVerifyEmailFindPassword(data).enqueue(object:Callback<code>{
+        api.postSendVerifyEmailFindPassword("find", data).enqueue(object:Callback<code>{
             override fun onFailure(call: Call<code>, t: Throwable) {
 
                 Log.d("find pw", "unvaild email, id")

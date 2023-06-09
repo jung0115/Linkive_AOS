@@ -26,23 +26,23 @@ interface LoginInterface {
     ): Call<result>
 
     //  회원가입 시, 이메일 인증
-    @Headers("email-auth-type: create")
     @POST("users/verifyEmail/send")
     fun postSendVerifyEmail(
+        @Header("email-auth-type") create: String,
         @Body param: email
     ): Call<code>
 
     // 아이디 찾기 시 이메일 인증
-    @Headers("email-auth-type: find")
     @POST("users/verifyEmail/send")
     fun postSendVerifyEmailFindId(
+        @Header("email-auth-type") find: String,
         @Body param: email
     ): Call<code>
 
     // 비밀번호 찾기 시 이메일 인증
-    @Headers("email-auth-type: findPw")
     @POST("users/verifyEmail/send")
     fun postSendVerifyEmailFindPassword(
+        @Header("email-auth-type") findPw: String,
         @Body param: findPw
     ): Call<code>
 

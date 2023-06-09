@@ -44,3 +44,18 @@ data class email(
 data class newId(
     @SerializedName("newId") var newId: String
 )
+
+data class pageSheetCreate(
+    @SerializedName("name") var name: String,
+    @SerializedName("layout") var layout: String
+)
+
+data class pageSheetModify(
+    @SerializedName("pagesheet_num") var num: Int,
+    @SerializedName("name") var name: String,
+    @SerializedName("layout") var layout: String
+)
+
+data class pageSheetNum(
+    @SerializedName("pagesheet_num") var num: Int
+)

@@ -166,7 +166,7 @@ class FindIdActivity : AppCompatActivity() {
     // 인증번호 일치 확인 api
     private fun postSendVerifyEmailFindId(mail: String) {
         var data = email(mail)
-        api.postSendVerifyEmailFindId(data).enqueue(object:Callback<code>{
+        api.postSendVerifyEmailFindId("find", data).enqueue(object:Callback<code>{
 
             // 인증번호 전송에 실패하는 경우
             override fun onFailure(call: Call<code>, t: Throwable) {

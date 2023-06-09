@@ -1,5 +1,7 @@
 package com.dwgu.linkive.MyPage
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,13 +12,19 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Api.ApiClient
+import com.dwgu.linkive.Login.GloabalApplication
 import com.dwgu.linkive.Login.loginService.LoginInterface
 import com.dwgu.linkive.MyPage.MyPageRecycler.BasicPageSheetAdapter
 import com.dwgu.linkive.MyPage.MyPageRecycler.CustomPageSheetAdapter
 import com.dwgu.linkive.MyPage.MyPageRecycler.PageSheetItem
 import com.dwgu.linkive.MyPage.myPageService.MyPageInterface
+import com.dwgu.linkive.MyPage.myPageService.profileImg
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentMyPageBinding
+import okio.ByteString.Companion.decodeHex
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 
 class  MyPageFragment : Fragment() {
@@ -35,8 +43,19 @@ class  MyPageFragment : Fragment() {
     // Retrofit의 interface 구현
     private val api: MyPageInterface = retrofit.create(MyPageInterface::class.java)
 
+    // 토큰 값
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
+
+    // 변수들
+    lateinit var profileImg: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // sharedPreference에 저장되어 있는 토큰값 가져오기
+        accessToken = "JWT ${GloabalApplication.prefs.getString("accessToken", "")}"
+        refreshToken = GloabalApplication.prefs.getString("refreshToken", "")
     }
 
     override fun onCreateView(
@@ -45,8 +64,8 @@ class  MyPageFragment : Fragment() {
     ): View? {
         binding = FragmentMyPageBinding.inflate(layoutInflater)
 
-        // 사용자 프로필 이미지 가져오기
-        api.getProfileImg()
+        // 사용자 프로필 이미지 가져오기 api
+        getProfileImg(accessToken, refreshToken)
 
         return binding.root
     }
@@ -89,12 +108,21 @@ class  MyPageFragment : Fragment() {
 
         // 로그아웃
         binding.btnLogout.setOnClickListener {
-            // 차후 수정 필요
+
+            //  저장된 토큰 삭제
+            val editor = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)?.edit()
+            editor?.remove("refreshToken")
+            editor?.remove("accessToken")
+            editor?.apply()
+
+
+            // 잘 삭제됐는지 확인
+            GloabalApplication.prefs.getString("refreshToken", "")
 
 
             // 로그아웃 후, 로그인 화면으로 이동
             Toast.makeText(requireContext(), "로그아웃!", Toast.LENGTH_SHORT).show()
-            Log.d("msg", "logout")
+            Log.d("my page", "logout")
             view?.findNavController()?.navigate(R.id.action_menu_mypage_to_loginActivity)
         }
 
@@ -154,5 +182,22 @@ class  MyPageFragment : Fragment() {
 //            .beginTransaction()
 //            .add(R.id.nav_host_fragment, ShowPageSheetFragment())
 //            .commit()
+    }
+
+    private fun getProfileImg(access: String, refresh: String){
+        api.getProfileImg(accessToken, refreshToken).enqueue(object :Callback<profileImg>{
+            // 이미지 불러오기 실패
+            override fun onFailure(call: Call<profileImg>, t: Throwable) {
+                Log.d("my page - fail", t.toString())
+            }
+
+            // 이미지 불러오기 성공
+            override fun onResponse(call: Call<profileImg>, response: Response<profileImg>) {
+                var image = response.body()?.profileImg
+                Log.d("my page - success", response.message())
+                // 불러온 이미지를 프로필 이미지로 설정
+                binding.imageProfile.setImageResource(image!!.toInt())
+            }
+        })
     }
 }
