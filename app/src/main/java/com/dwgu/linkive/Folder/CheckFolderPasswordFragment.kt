@@ -91,11 +91,11 @@ class CheckFolderPasswordFragment(private val folder: ReadFoldersList.ReadFolder
         binding.btnConfirm.setOnClickListener {
             val password: String = binding.edittextFolderPassword.text.toString()
 
-            val request = ReadLinkInFolderRequest(folder.folderNum, password)
+            val request = ReadLinkInFolderRequest(password)
             // 폴더 번호와 입력된 비밀번호를 이용해서 폴더 안의 메모들을 가져옴
             // 성공하면 LinkInFolderBottomSheet show
             // 실패하면 실패 아이콘 띄움
-            api.readLinkInFolder(accessToken, refreshToken, request).enqueue(object : Callback<ReadLinkInFolderResponse> {
+            api.readLinkInFolder(folder.folderNum, accessToken, refreshToken, request).enqueue(object : Callback<ReadLinkInFolderResponse> {
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onResponse(call: Call<ReadLinkInFolderResponse>, response: Response<ReadLinkInFolderResponse>
                 ) {
@@ -105,7 +105,6 @@ class CheckFolderPasswordFragment(private val folder: ReadFoldersList.ReadFolder
                             .beginTransaction()
                             .add(R.id.nav_host_fragment, LinkInFolderFragment(folder, password))
                             .commit()
-
                         // dialog 닫기
                         dismiss()
                     }

@@ -4,14 +4,15 @@ import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 data class ReadLinkInFolderRequest(
-    @SerializedName("folder_num")
-    val folderNum: Int,
-
+//    @SerializedName("folder_num")
+//    val folderNum: Int,
     val password: String?
 )
 
 data class ReadLinkInFolderResponse(
-    val memoList: Memo
+    @SerializedName("folder_num")
+    val folderNum: Int,
+    val memoList: List<Memo>
 )
 
 data class Memo(
@@ -22,6 +23,8 @@ data class Memo(
 
     val link: String,
 
+    val title: String,
+
     val content: Content,
 
     @SerializedName("date_created")
@@ -30,16 +33,20 @@ data class Memo(
     @SerializedName("folder_num")
     val folderNum: Int?,
 
-    @SerializedName("folder_name")
-    val folderName: String?
 )
 
 data class Content(
-    val arr: List<Arr>
+    @SerializedName("pagesheet_num")
+    val pagesheetNum: Int,
+
+    val arr: List<String>?
 )
 
-data class Arr(
-    val type: String,
-
-    val value: String
-)
+//data class Arr(
+//    val type: String,
+//
+//    val value: String,
+//
+//    @SerializedName("is_checked")
+//    val isChecked: String?
+//)

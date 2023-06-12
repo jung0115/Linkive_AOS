@@ -66,10 +66,10 @@ class LinkInFolderFragment(private val folder: ReadFoldersList.ReadFoldersRespon
         // 화면 세팅
         initView()
 
-        val request = ReadLinkInFolderRequest(folder.folderNum, password)
+        val request = ReadLinkInFolderRequest(password)
 
         // 폴더 속의 메모들 가져오기
-        api.readLinkInFolder(accessToken, refreshToken, request).enqueue(object :
+        api.readLinkInFolder(folder.folderNum ,accessToken, refreshToken, request).enqueue(object :
             Callback<ReadLinkInFolderResponse> {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<ReadLinkInFolderResponse>, response: Response<ReadLinkInFolderResponse>
