@@ -22,6 +22,7 @@ import com.dwgu.linkive.databinding.DialogCreateLinkToUrlBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 // URL로 링크 추가 Dialog
 class CreateLinkToUrlDialog(
@@ -138,8 +139,12 @@ class CreateLinkToUrlDialog(
 
                         // 썸네일 이미지가 있는 경우, content에 썸네일 이미지 추가
                         var thumbnail = mutableListOf<String>()
-                        if(linkData!!.thumbnailImage != null)
-                            thumbnail = mutableListOf<String>("{ \"type\" : \"image\", \"value\" : \"" + linkData!!.thumbnailImage + "\" }")
+                        if(linkData!!.thumbnailImage != null) {
+                            var image: JSONObject = JSONObject()
+                            image.put("type", "image")
+                            image.put("value", linkData!!.thumbnailImage)
+                            thumbnail.add(image.toString())
+                        }
 
                         // 폴더를 선택한 경우 폴더 번호 정보 추가
                         var selectFolderNum: Int? = null

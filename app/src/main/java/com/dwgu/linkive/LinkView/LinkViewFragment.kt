@@ -1,6 +1,8 @@
 package com.dwgu.linkive.LinkView
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,25 +27,25 @@ class LinkViewFragment : Fragment() {
     private var linkViewItems: MutableList<LinkViewItem>? = null
     private lateinit var linkViewAdapter: LinkViewAdapter
 
+    private final val URL_OF_LINK_MEMO = "url_of_link_memo"
+    private final val NUM_OF_LINK_MEMO = "memo_num"
+    private final val NUM_OF_FOLDER = "folder_num"
+
     // 링크 URL
     private var linkUrl: String? = null
     // 링크 메모 번호
     private var memoNum: Int? = null
+    // 폴더 번호
+    private var folderNum: Int = -1
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentLinkViewBinding.inflate(layoutInflater)
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
 
         // 세부 페이지에 보여줄 링크 메모 번호
-        memoNum = requireArguments().getInt("memo_num")
+        memoNum = requireArguments().getInt(NUM_OF_LINK_MEMO)
+
+        // recyclerview 세팅
+        initRecycler()
 
         // server에서 메모 번호로 내용 조회
         apiDetailLinkMemo(
@@ -55,19 +57,32 @@ class LinkViewFragment : Fragment() {
                 addLinkViewItem(it)
             }
         )
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentLinkViewBinding.inflate(layoutInflater)
 
+        return binding.root
+    }
 
-        // recyclerview 세팅
-        initRecycler()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 세부 페이지에 보여줄 링크 메모 번호
+        memoNum = requireArguments().getInt(NUM_OF_LINK_MEMO)
 
         // 제목 오른쪽 점 3개 버튼 선택 시 BottomSheet 나오게
         binding.btnLinkViewManage.setOnClickListener {
             val bottomSheet = ManageLinkBottomFragment()
 
-            // 해당 링크 페이지의 url 값 전달
+            // 해당 링크 페이지의 url 값, 링크 메모 번호, 폴더 번호 전달
             val bundle = Bundle()
-            bundle.putString("url_of_link_memo", linkUrl)
+            bundle.putString(URL_OF_LINK_MEMO, linkUrl)
+            bundle.putInt(NUM_OF_LINK_MEMO, memoNum!!)
+            bundle.putInt(NUM_OF_FOLDER, folderNum)
             bottomSheet.arguments = bundle
 
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
@@ -76,6 +91,12 @@ class LinkViewFragment : Fragment() {
         // PageSheet 미선택 상태에서 PageSheet 선택 버튼
         binding.btnSelectPagesheet.setOnClickListener {
             val bottomSheet = SelectPagesheetBottomFragment()
+
+            // 해당 링크 페이지의 링크 메모 번호 전달
+            val bundle = Bundle()
+            bundle.putInt(NUM_OF_LINK_MEMO, memoNum!!)
+            bottomSheet.arguments = bundle
+
             bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         }
     }
@@ -98,9 +119,12 @@ class LinkViewFragment : Fragment() {
 
         // 폴더
         // 폴더가 존재하는 경우
-        if(baseInfo.folder != null) {
+        if(baseInfo.folderNum != null) {
             binding.imgLinkViewFolder.setImageResource(R.drawable.ic_folder_exist) // 폴더 존재 아이콘
-            binding.textviewLinkViewFolder.text = baseInfo.folder                           // 폴더명
+            binding.textviewLinkViewFolder.text = baseInfo.folderName              // 폴더명
+
+            // 폴더 번호
+            folderNum = baseInfo.folderNum!!
         }
 
         // PageSheet 미선택 상태이고, 내용이 1개 이하일 때
@@ -130,6 +154,8 @@ class LinkViewFragment : Fragment() {
         }
         linkViewAdapter.notifyDataSetChanged()
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 링크 편집 > 장소 입력 > 장소 선택 리스트 아이템 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:padding="2dp">
+
+    <LinearLayout
+        android:id="@+id/linear_select_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="9dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <!-- 장소명 -->
+        <TextView
+            android:id="@+id/text_select_place_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카카오"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 주소 -->
+        <TextView
+            android:id="@+id/text_select_place_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="경상남도 진주시"
+            android:textColor="@color/dark_gray"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+
+    <!-- 체크 아이콘 -->
+    <ImageButton
+        android:id="@+id/btn_select_place_checkbox"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_link_item_form_checkbox_unchecked"
+        android:scaleType="fitXY"
+        android:background="@android:color/transparent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>

@@ -6,19 +6,24 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.dwgu.linkive.LinkView.LinkViewMenuListener.LinkViewMenuListener
 import com.dwgu.linkive.databinding.ActivityMainBinding
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LinkViewMenuListener {
 
     // ViewBinding Setting
     lateinit var binding: ActivityMainBinding
 
     // NavController 선언
     private lateinit var navController: NavController
+
+    final val NUM_OF_LINK_MEMO = "memo_num"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +54,21 @@ class MainActivity : AppCompatActivity() {
                 binding.navBottom.visibility = View.GONE
             }
         }
+    }
+
+    // 링크 메모 삭제 후 세부 페이지 닫기
+    override fun backStackListener() {
+        navController.popBackStack()
+    }
+
+    // 링크 메모 편집 후에 링크 세부 페이지 다시 접속
+    override fun reopenLinkViewListener(memoNum: Int) {
+        // 현재 세부 페이지 닫기
+        navController.popBackStack()
+
+        // 새롭게 링크 세부 페이지 열기
+        val bundle = bundleOf(NUM_OF_LINK_MEMO to memoNum)
+        navController.navigate(R.id.action_menu_home_to_linkViewFragment, bundle)
     }
 
     // 메인 화면(=하단바로 바로 들어가지는 페이지)들에서 이전 버튼 2번 누르면 앱 종료

@@ -26,6 +26,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    final val NUM_OF_LINK_MEMO = "memo_num"
+
     // 링크 리스트 recyclerview adapter
     private var linkListItems: MutableList<LinkListItem>? = null
     private lateinit var linkListAdapter: LinkListAdapter
@@ -52,14 +54,6 @@ class HomeFragment : Fragment() {
 
         // recyclerview 세팅
         initRecycler()
-
-        // 테스트 데이터
-        /*addLinkListItem(LinkListItem("테스트1", "폴더1",
-            "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
-            "instagram", mutableListOf("text", "image"), ""))*/
-
-        // 주소 검색 테스트
-        //apiGetKakaoAddress("카카오 부산")
 
         // token 세팅
         setTokenForMemo()
@@ -140,7 +134,7 @@ class HomeFragment : Fragment() {
 
     // 링크 세부 페이지 열기
     private fun openLinkViewPage(memoNum: Int) {
-        val bundle = bundleOf("memo_num" to memoNum)
+        val bundle = bundleOf(NUM_OF_LINK_MEMO to memoNum)
         view?.findNavController()?.navigate(R.id.action_menu_home_to_linkViewFragment, bundle)
     }
 
@@ -153,11 +147,14 @@ class HomeFragment : Fragment() {
 
         // 인텐트 정보가 있는 경우 실행
         if (Intent.ACTION_SEND == action && type != null) {
-            if ("text/plain" == type) {
+            if ("text/plain" == type ) {
 
                 // 가져온 인텐트의 텍스트 정보
                 val pageUrl = intent.getStringExtra(Intent.EXTRA_TEXT)
-                openCreateLinkDialog(pageUrl)
+                if(pageUrl != "") {
+                    intent.putExtra(Intent.EXTRA_TEXT, "")
+                    openCreateLinkDialog(pageUrl)
+                }
             }
         }
     }
