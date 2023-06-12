@@ -37,7 +37,7 @@ class DeleteEditItemBottomFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDeleteEditItemBottomBinding.inflate(layoutInflater)
 
         return binding.root

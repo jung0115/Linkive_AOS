@@ -10,9 +10,9 @@ import com.dwgu.linkive.databinding.ItemLinkItemFormBinding
 class LinkItemFormAdapter(private val context: Context) :
     RecyclerView.Adapter<LinkItemFormAdapter.LinkItemFormViewHolder>() {
 
-    var items = mutableListOf<String>()
+    var items = mutableSetOf<String>()
 
-    fun build(itemForms: MutableList<String>?): LinkItemFormAdapter {
+    fun build(itemForms: MutableSet<String>?): LinkItemFormAdapter {
         if(itemForms != null)
             items = itemForms
 
@@ -30,7 +30,7 @@ class LinkItemFormAdapter(private val context: Context) :
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: LinkItemFormViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items.elementAt(position))
     }
 
     inner class LinkItemFormViewHolder(private val binding: ItemLinkItemFormBinding) :

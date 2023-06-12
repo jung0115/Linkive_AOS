@@ -19,10 +19,10 @@ data class CreateLinkMemoData(
 
 data class LinkMemoContent(
     @SerializedName("pagesheet_num") // 페이지 시트
-    val pagesheet_num: Int? = null,
+    var pagesheet_num: Int? = null,
 
     @SerializedName("arr") // 내용
-    val arr: MutableList<String>? = null,
+    var arr: MutableList<String>? = null,
 )
 
 data class CreateLinkMemoResponse(

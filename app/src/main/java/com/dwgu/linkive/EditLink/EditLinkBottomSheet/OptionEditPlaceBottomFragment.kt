@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dwgu.linkive.EditLink.EditLinkOption.SetEditPlaceBottomFragment
 import com.dwgu.linkive.databinding.FragmentOptionEditPlaceBottomBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -37,7 +38,15 @@ class OptionEditPlaceBottomFragment : BottomSheetDialogFragment() {
         binding.relativelayoutSetPlace.setOnClickListener(View.OnClickListener {
             dismiss()
 
-            // 주소 입력 api 열어서 이미지 선택
+            // 주소 선택 BottomSheet 열기
+            val bottomSheet = SetEditPlaceBottomFragment()
+
+            // recycleview에서의 position 값 전달
+            val bundle = Bundle()
+            bundle.putString("position_in_recyclerview", position)
+            bottomSheet.arguments = bundle
+
+            bottomSheet.show(requireActivity().supportFragmentManager, bottomSheet.tag)
         })
 
         // 아이템 삭제 버튼 선택 시 -> 삭제 확인 BottomSheet

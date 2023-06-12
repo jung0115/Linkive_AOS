@@ -1,10 +1,16 @@
 package com.dwgu.linkive.EditLink
 
+import android.Manifest
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -13,16 +19,49 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwgu.linkive.EditLink.DragToMoveItem.ItemTouchCallback
-import com.dwgu.linkive.EditLink.EditLinkBottomSheet.*
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.NoticeNotSaveBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditCheckboxBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditCodeBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditImageBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditLinkBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditPlaceBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkBottomSheet.OptionEditTextBottomFragment
 import com.dwgu.linkive.EditLink.EditLinkOption.EditLinkOptionListener
 import com.dwgu.linkive.EditLink.EditLinkOption.SetEditLinkBottomFragment
-import com.dwgu.linkive.EditLink.EditLinkRecyclerview.*
+import com.dwgu.linkive.EditLink.EditLinkOption.SetEditPlaceBottomFragment
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkAdapter
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkCheckboxItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkCodeItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkImageItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkLinkItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkPlaceItem
+import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkTextItem
+import com.dwgu.linkive.ImageUploadApi.SetImage
+import com.dwgu.linkive.ImageUploadApi.absolutelyPath
+import com.dwgu.linkive.ImageUploadApi.apiImageUpload
+import com.dwgu.linkive.ImageUploadApi.uploadImage
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.LinkMemoContent
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiEditLinkMemoContent
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetAllPageSheet
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetEditLinkMemo
+import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoEditBaseInfo
+import com.dwgu.linkive.LinkMemoApi.GetAllPageSheet.GetPageSheetData
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityEditLinkBinding
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import org.json.JSONObject
+import java.io.File
 
 
 class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
@@ -30,6 +69,10 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     // ViewBinding Setting
     private var _binding: ActivityEditLinkBinding? = null
     private val binding get() = _binding!!
+
+    private val PERMISSIONS_REQUEST = 1
+    private val PERMISSION_READ_STORAGE: String = Manifest.permission.READ_EXTERNAL_STORAGE
+    private val PERMISSION_WRITE_STORAGE: String = Manifest.permission.WRITE_EXTERNAL_STORAGE
 
     // PageSheet 선택 Spinner
     // PageSheet 리스트
@@ -46,8 +89,22 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     // recyclerview 아이템 이동 콜백 변수 : 드래그 시 이동하는 거
     private lateinit var itemTouchHelper: ItemTouchHelper
 
+    // server에서 받아온 PageSheet
+    private var allPagesheet: MutableList<GetPageSheetData>? = null
+
     // 제목 글자수 입력 제한
-    private val titleLimit = 10
+    private val titleLimit = 15
+
+    // 아이템 갯수 제한
+    private val itemLimit = 50
+
+    final val NUM_OF_LINK_MEMO = "memo_num"
+    final val NUM_OF_PAGESHEET = "pagesheet_num"
+
+    // 링크 메모 번호
+    private var memoNum: Int? = null
+    // 선택된 pageSheet 번호
+    private var pagesheet_num: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,30 +113,38 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         _binding = ActivityEditLinkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 메모 번호
+        memoNum = intent.getIntExtra(NUM_OF_LINK_MEMO, 0)
+        // PageSheet layout
+        pagesheet_num = intent.getIntExtra(NUM_OF_PAGESHEET, 0)
+
         // recyclerview 세팅
         initRecycler()
 
-        // PageSheet 선택 안 한 상태로 편집 페이지 들어오면 '자유'로 선택해두기
-
         // PageSheet 선택 Spinner -------------------------------------------------------------------
-        // 기본 PageSheet
-        pagesheetList.add(getString(R.string.pagesheet_free))
-        pagesheetList.add(getString(R.string.pagesheet_trip))
-        pagesheetList.add(getString(R.string.pagesheet_study))
-        pagesheetList.add(getString(R.string.pagesheet_programming))
-        pagesheetList.add(getString(R.string.pagesheet_diary))
-        pagesheetList.add(getString(R.string.pagesheet_checklist))
-        // Custom PageSheet - 샘플 데이터
-        pagesheetList.add("페이지시트1")
-        pagesheetList.add("페이지시트2")
         pagesheetAdapter = ArrayAdapter(this, R.layout.item_spinner_select_pagesheet, pagesheetList)
         binding.spinnerSelectPagesheet.adapter = pagesheetAdapter
+
+        // 페이지시트 전체 조회
+        apiGetAllPageSheet(
+            setAllpageSheet = {
+                setAllPageSheet(it)
+            }
+        )
 
         // PageSheet 선택 Spinner 누르면 PageSheet 선택 리스트 나타남
         binding.spinnerSelectPagesheet.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // 선택된 PageSheet
                 selectPagesheet = binding.spinnerSelectPagesheet.getSelectedItem().toString()
+
+                // 페이지 시트 아이템 추가
+                for(pagesheet in allPagesheet!!) {
+                    if(selectPagesheet == pagesheet.name) {
+                        addPagesheetItems(pagesheet.pagesheet_num)
+                        break
+                    }
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -87,8 +152,16 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             }
         }
 
-        // 제목 샘플 데이터 ----------------------------------------------------------------------------
-        binding.edittextEditLinkTitle.setText("제목 테스트")
+        // 내용 가져와서 세팅
+        apiGetEditLinkMemo(
+            memoNum!!,
+            setLinkEditInfo = {
+                setLinkEditInformation(it)
+            },
+            addLinkEditItem = {
+                addEditLinkItem(it)
+            }
+        )
 
         // 제목 글자수 제한
         binding.edittextEditLinkTitle.addTextChangedListener(object: TextWatcher {
@@ -109,7 +182,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
                     inputMethodManager.hideSoftInputFromWindow(binding.edittextEditLinkTitle.windowToken, 0)
 
                     // 경고
-                    Toast.makeText(this@EditLinkActivity, "제목은 최대 10글자까지 입력 가능합니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditLinkActivity, "제목은 최대 "+ titleLimit + "글자까지 입력 가능합니다.", Toast.LENGTH_SHORT).show()
 
                     // 글자수 넘어간 내용은 지우기
                     val cutTitle = binding.edittextEditLinkTitle.text.substring(0 until titleLimit)
@@ -121,76 +194,82 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             }
         })
 
-        // 샘플 데이터 --------------------------------------------------------------------------------------------
-        addEditLinkItem(EditLinkImageItem(null, null))
-        addEditLinkItem(EditLinkImageItem("https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg", null))
-        addEditLinkItem(EditLinkTextItem(null))
-        addEditLinkItem(EditLinkTextItem("글 입력\n테스트\n테스트"))
-        addEditLinkItem(EditLinkPlaceItem(null, null))
-        addEditLinkItem(EditLinkPlaceItem("서울 송파구 올림픽로 240", "잠실동 40-1"))
-        addEditLinkItem(EditLinkLinkItem(null, null))
-        addEditLinkItem(EditLinkLinkItem("백준 - 토마토(7569)", "https://www.acmicpc.net/problem/7569"))
-        addEditLinkItem(EditLinkCodeItem(null))
-        addEditLinkItem(EditLinkCodeItem("System.out.print(“Hello, World!”);\n\n" +
-                "while(i < 10) {\ni++;\n}\n\nSystem.out.print(“Hello, World!”);\nSystem.out.print(“Hello, World!”);"))
-        addEditLinkItem(EditLinkCheckboxItem(null, false))
-        addEditLinkItem(EditLinkCheckboxItem("할 일 입력 테스트", false))
-        addEditLinkItem(EditLinkCheckboxItem("할 일 입력 테스트", true))
-
         // 저장 버튼 선택 시 --------------------------------------------------------------------------------------
         binding.btnSaveEditLinkPage.setOnClickListener {
-            // 페이지 닫기
-            finish()
+            val editTitle = binding.edittextEditLinkTitle.text.toString()
+            // 제목이 없을 경우 경고
+            if(editTitle == null || editTitle.length == 0) {
+                Toast.makeText(this@EditLinkActivity, getString(R.string.not_null_title), Toast.LENGTH_SHORT).show()
+            }
+            else {
+                // 편집 내용 정리해서 가져오기
+                val editContent: LinkMemoContent = getEditContent()
+
+                // 편집 결과 server에 반영
+                apiEditLinkMemoContent(
+                    memoNum = memoNum!!,
+                    title = editTitle,
+                    content = editContent,
+                    finish = {
+                        finish()
+                    }
+                )
+
+                Toast.makeText(this, getString(R.string.toast_edit_done), Toast.LENGTH_SHORT).show()
+                // 페이지 닫기
+                //finish()
+            }
         }
 
         // 아이템 추가 --------------------------------------------------------------------------------------------
         // 글 아이템 추가
         binding.btnAddItemText.setOnClickListener {
-            // 글 아이템 추가
-            addEditLinkItem(EditLinkTextItem(null))
-
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            addTextItem()
         }
         // 이미지 아이템 추가
         binding.btnAddItemImage.setOnClickListener {
-            // 이미지 아이템 추가
-            addEditLinkItem(EditLinkImageItem(null, null))
-
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            addImageItem()
         }
         // 링크 아이템 추가
         binding.btnAddItemLink.setOnClickListener {
-            // 링크 아이템 추가
-            addEditLinkItem(EditLinkLinkItem(null, null))
-
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            addLinkItem()
         }
         // 장소(위치) 아이템 추가
         binding.btnAddItemPlace.setOnClickListener {
-            // 장소(위치) 아이템 추가
-            addEditLinkItem(EditLinkPlaceItem(null, null))
-
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            addPlaceItem()
         }
         // 체크박스(할 일) 아이템 추가
         binding.btnAddItemCheckbox.setOnClickListener {
-            // 할 일 아이템 추가
-            addEditLinkItem(EditLinkCheckboxItem(null, false))
-
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+            addCheckboxItem()
         }
         // 코드 아이템 추가
         binding.btnAddItemCode.setOnClickListener {
-            // 코드 아이템 추가
-            addEditLinkItem(EditLinkCodeItem(null))
+            addCodeItem()
+        }
+    }
 
-            // 최하단으로 스크롤 이동
-            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+    // 페이지 정보 세팅 - 제목, 폴더, 출처 플랫폼, 선택된 PageSheet
+    private fun setLinkEditInformation(baseInfo: LinkMemoEditBaseInfo) {
+        // 제목
+        binding.edittextEditLinkTitle.setText(baseInfo.title)
+
+        // 출처 플랫폼
+        // 출처 플랫폼이 존재하는 경우
+        if(baseInfo.source != null) {
+            val iconResourceName = "ic_link_list_item_source_" + baseInfo.source
+            val iconResourceId = resources.getIdentifier(iconResourceName, "drawable", packageName)
+            binding.imgEditLinkSource.setImageResource(iconResourceId)
+        }
+
+        // 페이지 시트
+        // PageSheet 선택 안 한 상태로 편집 페이지 들어오면 '자유'로 선택해두기
+        for(i in 0 until allPagesheet!!.size) {
+            // 현재 페이지에 적용된 페이지 시트
+            if(allPagesheet!![i].pagesheet_num == baseInfo.pagesheetNum) {
+                selectPagesheet = allPagesheet!![i].name
+                binding.spinnerSelectPagesheet.setSelection(i)
+                break
+            }
         }
     }
 
@@ -203,7 +282,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
                 openItemOptionBottomSheet(it)
             },
             onClickSelectImage = {
-                navigatePhotos(it)
+                getProFileImage(it)
             }
         )
         // 드래그 이동 adapter
@@ -220,6 +299,121 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
     private fun addEditLinkItem(item: EditLinkItem) {
         editLinkItems!!.add(item)
         editLinkAdapter.notifyDataSetChanged()
+    }
+
+    // 페이지시트 전체 조회 후 Spinner 적용
+    private fun setAllPageSheet(pagesheets: MutableList<GetPageSheetData>) {
+        allPagesheet = pagesheets
+
+        // PageSheet
+        pagesheetList.add(getString(R.string.pagesheet_free))
+
+        for(pageSheet in pagesheets) {
+            pagesheetList.add(pageSheet.name)
+        }
+
+        pagesheetAdapter!!.notifyDataSetChanged()
+
+        // 선택된 페이지 시트가 자유가 아닌 경우
+        if(pagesheet_num != null && pagesheet_num != -1) addPagesheetItems(pagesheet_num!!)
+    }
+
+    // 페이지시트 아이템 추가
+    private fun addPagesheetItems(pagesheetNum: Int) {
+        editLinkItems = mutableListOf<EditLinkItem>()
+        editLinkAdapter.items = editLinkItems!!
+        for(pagesheet in allPagesheet!!) {
+            if(pagesheet.pagesheet_num == pagesheetNum) {
+                for(item in pagesheet.layout) {
+                    if(item == "image") addImageItem()
+                    else if(item == "text") addTextItem()
+                    else if(item == "link") addLinkItem()
+                    else if(item == "code") addCodeItem()
+                    else if(item == "place") addPlaceItem()
+                    else if(item == "checkbox") addCheckboxItem()
+                }
+                break
+            }
+        }
+    }
+
+    // 아이템 추가
+    private fun addImageItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 이미지 아이템 추가
+            addEditLinkItem(EditLinkImageItem(null, null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 글 아이템 추가
+    private fun addTextItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 글 아이템 추가
+            addEditLinkItem(EditLinkTextItem(null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 링크 아이템 추가
+    private fun addLinkItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 링크 아이템 추가
+            addEditLinkItem(EditLinkLinkItem(null, null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 장소 아이템 추가
+    private fun addPlaceItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 장소(위치) 아이템 추가
+            addEditLinkItem(EditLinkPlaceItem(null, null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 코드 아이템 추가
+    private fun addCodeItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 코드 아이템 추가
+            addEditLinkItem(EditLinkCodeItem(null, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
+    }
+    // 체크리스트 아이템 추가
+    private fun addCheckboxItem() {
+        if(editLinkItems!!.size > itemLimit) {
+            Toast.makeText(this, getString(R.string.limit_contents), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 할 일 아이템 추가
+            addEditLinkItem(EditLinkCheckboxItem(null, false, editLinkItems!!.size))
+
+            // 최하단으로 스크롤 이동
+            binding.recyclerviewEditLink.smoothScrollToPosition(editLinkItems!!.size)
+        }
     }
 
     // 아이템 옵션 BottomSheet 열기
@@ -249,6 +443,17 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         // 주소(장소) 아이템 옵션 BottomSheet
         else if(itemInfo[0] == "place") {
             val bottomSheet = OptionEditPlaceBottomFragment()
+
+            // recycleview에서의 position 값 전달
+            val bundle = Bundle()
+            bundle.putString("position_in_recyclerview", itemInfo[1])
+            bottomSheet.arguments = bundle
+
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
+        // 주소(장소) 검색 BottomSheet
+        else if(itemInfo[0] == "place_search") {
+            val bottomSheet = SetEditPlaceBottomFragment()
 
             // recycleview에서의 position 값 전달
             val bundle = Bundle()
@@ -310,39 +515,39 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         editLinkAdapter.notifyDataSetChanged()
     }
 
-    // 갤러리에서 이미지 선택한 거 반영해주기
-    override fun selectImageListener(position: Int, imageUri: Uri) {
-        editLinkItems!![position] = EditLinkImageItem(null, imageUri)
-        editLinkAdapter.notifyDataSetChanged()
-    }
-
     // 링크 편집 페이지 글, 코드, 링크, 할 일 내용 리셋
     override fun resetItemListener(position: Int, itemType: String) {
         // 글 리셋
         if(itemType == "text") {
-            editLinkItems!![position] = EditLinkTextItem(null)
+            editLinkItems!![position] = EditLinkTextItem(null, position)
             editLinkAdapter.notifyDataSetChanged()
         }
         // 코드 리셋
         else if(itemType == "code") {
-            editLinkItems!![position] = EditLinkCodeItem(null)
+            editLinkItems!![position] = EditLinkCodeItem(null, position)
             editLinkAdapter.notifyDataSetChanged()
         }
         // 링크 리셋
         else if(itemType == "link") {
-            editLinkItems!![position] = EditLinkLinkItem(null, null)
+            editLinkItems!![position] = EditLinkLinkItem(null, null, position)
             editLinkAdapter.notifyDataSetChanged()
         }
         // 할 일 리셋
         else if(itemType == "checkbox") {
-            editLinkItems!![position] = EditLinkCheckboxItem(null, false)
+            editLinkItems!![position] = EditLinkCheckboxItem(null, false, position)
             editLinkAdapter.notifyDataSetChanged()
         }
     }
 
     // 링크 편집 페이지 > 링크 아이템 내용 적용 (url에서 가져온 내용)
     override fun setLinkItemListener(position: Int, linkTile: String?, linkUrl: String?) {
-        editLinkItems!![position] = EditLinkLinkItem(linkTile, linkUrl)
+        editLinkItems!![position] = EditLinkLinkItem(linkTile, linkUrl, position)
+        editLinkAdapter.notifyDataSetChanged()
+    }
+
+    // 링크 편집 페이지 > 장소 아이템 내용 적용 (카카오 api에서 가져온 내용)
+    override fun setPlaceItemListener(placeItem: EditLinkPlaceItem) {
+        editLinkItems!![placeItem.position] = placeItem
         editLinkAdapter.notifyDataSetChanged()
     }
 
@@ -354,38 +559,132 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
-    private var selectImagePosition: Int? = null
-    // 갤러리 오픈
-    private fun navigatePhotos(position: Int) {
-        selectImagePosition = position
-
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        startActivityForResult(intent, 2000)
+    // 갤러리에서 이미지 선택한 거 반영해주기
+    override fun selectImageListener(position: Int, imageUri: Uri) {
+        editLinkItems!![position] = EditLinkImageItem(null, imageUri, position)
+        editLinkAdapter.notifyDataSetChanged()
     }
 
-    // 갤러리에서 호출한 액티비티 결과 반환
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            Log.d("msg", "gallery error")
-            return
-        }
-        when (requestCode) {
-            2000 -> {
-                val selectedImageURI: Uri? = data?.data
-                if (selectedImageURI != null) {
-                    // 선택한 이미지 전달
-                    selectImageListener(selectImagePosition!!.toInt(), selectedImageURI)
+    private var selectImagePosition: Int? = null
+    fun getProFileImage(position: Int){
+        selectImagePosition = position
 
-                } else {
-                    Log.d("msg", "gallery error")
+        Log.d(TAG,"사진변경 호출")
+        val chooserIntent = Intent(Intent.ACTION_CHOOSER)
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        chooserIntent.putExtra(Intent.EXTRA_INTENT, intent)
+        chooserIntent.putExtra(Intent.EXTRA_TITLE,"사용할 앱을 선택해주세요.")
+        launcher.launch(chooserIntent)
+    }
+    // 절대경로 변환
+    fun absolutelyPath(path: Uri?, context : Context): String {
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
+        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
+
+        var result = c?.getString(index!!)
+
+        return result!!
+    }
+    var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val imagePath = result.data!!.data
+
+            val file = File(absolutelyPath(imagePath, this))
+            val requestFile = file.asRequestBody("image/*".toMediaType())
+            val body: MultipartBody.Part = MultipartBody.Part.createFormData("img", file.name, requestFile)
+
+            Log.d(TAG, "------------------------------")
+            Log.d(TAG,file.name)
+            Log.d(TAG,body.body.toString())
+
+            //sendImage(body)
+            apiImageUpload(
+                selectImagePosition!!.toInt(),
+                body,
+                responseImageUrl = {
+                    responseImageUrl(it)
+                }
+            )
+        }
+    }
+
+    // 갤러리에서 선택한 이미지 서버에 올리고 반영
+    fun responseImageUrl(image: SetImage) {
+        editLinkItems!![image.position] = EditLinkImageItem(image.imageUrl, null, image.position)
+        editLinkAdapter.notifyDataSetChanged()
+    }
+
+    // 편집 content 내용
+    fun getEditContent() : LinkMemoContent {
+        val editContent: LinkMemoContent = LinkMemoContent()
+
+        // PageSheet
+        // 선택된 페이지 시트가 "자유"가 아닌 경우
+        if(selectPagesheet != getString(R.string.pagesheet_free)) {
+            for(pageSheet in allPagesheet!!) {
+                // 현재 페이지에 적용된 페이지 시트
+                if(pageSheet.name == selectPagesheet) {
+                    editContent.pagesheet_num = pageSheet.pagesheet_num
+                    break
                 }
             }
-            else -> {
-                Log.d("msg", "gallery error")
-            }
         }
+
+        // 내용
+        var arr: MutableList<String> = mutableListOf<String>()
+        for (content in editLinkAdapter.items) {
+            var item: JSONObject = JSONObject()
+            // 이미지
+            if(content is EditLinkImageItem) {
+                if(content.editLinkImage == null) content.editLinkImage = ""
+                item.put("type", "image")
+                item.put("value", content.editLinkImage)
+            }
+            // 글
+            else if(content is EditLinkTextItem) {
+                if(content.editLinkText == null) content.editLinkText = ""
+                item.put("type", "text")
+                item.put("value", content.editLinkText)
+            }
+            // 링크
+            else if(content is EditLinkLinkItem) {
+                if(content.editLinkLinkTitle == null) content.editLinkLinkTitle = ""
+                if(content.editLinkLinkUrl == null) content.editLinkLinkUrl = ""
+                item.put("type", "link")
+                item.put("title", content.editLinkLinkTitle)
+                item.put("url", content.editLinkLinkUrl)
+            }
+            // 장소
+            else if(content is EditLinkPlaceItem) {
+                if(content.editLinkPlace1 == null) content.editLinkPlace1 = ""
+                if(content.editLinkPlace2 == null) content.editLinkPlace2 = ""
+                item.put("type", "place")
+                item.put("road_address", content.editLinkPlace1)
+                item.put("land_address", content.editLinkPlace2)
+            }
+            // 코드
+            else if(content is EditLinkCodeItem) {
+                if(content.editLinkCode == null) content.editLinkCode = ""
+                item.put("type", "code")
+                item.put("value", content.editLinkCode)
+            }
+            // 체크리스트
+            else if(content is EditLinkCheckboxItem) {
+                if(content.editLinkCheckboxText == null) content.editLinkCheckboxText = ""
+                var isChecked: String = "N"
+                if(content.editLinkCheckboxChecked) isChecked = "Y"
+                item.put("type", "checkbox")
+                item.put("value", content.editLinkCheckboxText)
+                item.put("is_checked", isChecked)
+            }
+            arr.add(item.toString())
+        }
+        editContent.arr = arr
+
+        return editContent
     }
 
     override fun onDestroy() {
