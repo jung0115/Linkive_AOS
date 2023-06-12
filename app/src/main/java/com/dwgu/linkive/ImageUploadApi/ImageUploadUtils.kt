@@ -67,46 +67,29 @@ fun apiImageUpload(
 }
 
 // 이미지를 form-data 형식으로 바꿔줌
-fun uploadImage(path: Uri?, context : Context) : MultipartBody.Part? {
-    Log.d("Test Uri", "-----------------------------------------")
-    Log.d("Test Uri", path.toString())
-    // 이미지의 절대경로를 가져옴
-    // 그 절대 경로를 통해 File() 함수로 이미지 파일을 얻고, file 변수에 저장
-    val file = File(absolutelyPath(path, context))
-
-    //Log.d("Test Image", "file -----------------------------------------")
-    //Log.d("Test Image", file.toString())
-
+fun uploadImage(imageFile: File) : MultipartBody.Part {
     // Request 형식으로 바꿈
-    //val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+    val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
 
-    //Log.d("Test Image", "requestFile -----------------------------------------")
-    //Log.d("Test Image", requestFile.toString())
+    Log.d("Test Image", "requestFile -----------------------------------------")
+    Log.d("Test Image", requestFile.toString())
 
     // form-data 형식으로 바꿈
-    //val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+    val body = MultipartBody.Part.createFormData("img", imageFile.name, requestFile)
 
-    //Log.d("Test Image", "-----------------------------------------")
-    //Log.d("Test Image", body.toString())
+    Log.d("Test Image", "-----------------------------------------")
+    Log.d("Test Image", body.toString())
 
-    return null
+    return body
 }
 
 // 갤러리에서 가져온 이미지의 uri를 넣고, 이미지의 절대경로를 가져옴
 fun absolutelyPath(path: Uri?, context : Context): String {
     var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-    Log.d("Test Image", "proj -----------------------------------------")
-    Log.d("Test Image", proj.toString())
     var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
-    Log.d("Test Image", "Cursor -----------------------------------------")
-    Log.d("Test Image", c.toString())
     var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
     c?.moveToFirst()
-    Log.d("Test Image", "index -----------------------------------------")
-    Log.d("Test Image", index.toString())
     var result = c?.getString(index!!)
-    Log.d("Test Image", "result -----------------------------------------")
-    Log.d("Test Image", result.toString())
 
     return "test"
 }

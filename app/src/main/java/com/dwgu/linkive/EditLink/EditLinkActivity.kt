@@ -2,12 +2,15 @@ package com.dwgu.linkive.EditLink
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -16,6 +19,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +44,8 @@ import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkPlaceItem
 import com.dwgu.linkive.EditLink.EditLinkRecyclerview.EditLinkTextItem
 import com.dwgu.linkive.ImageUploadApi.SetImage
 import com.dwgu.linkive.ImageUploadApi.absolutelyPath
+import com.dwgu.linkive.ImageUploadApi.apiImageUpload
+import com.dwgu.linkive.ImageUploadApi.uploadImage
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.LinkMemoContent
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiEditLinkMemoContent
 import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.apiGetAllPageSheet
@@ -48,6 +54,12 @@ import com.dwgu.linkive.LinkMemoApi.DetailLinkMemo.LinkMemoEditBaseInfo
 import com.dwgu.linkive.LinkMemoApi.GetAllPageSheet.GetPageSheetData
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityEditLinkBinding
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONObject
 import java.io.File
 
@@ -113,6 +125,13 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         pagesheetAdapter = ArrayAdapter(this, R.layout.item_spinner_select_pagesheet, pagesheetList)
         binding.spinnerSelectPagesheet.adapter = pagesheetAdapter
 
+        // 페이지시트 전체 조회
+        apiGetAllPageSheet(
+            setAllpageSheet = {
+                setAllPageSheet(it)
+            }
+        )
+
         // PageSheet 선택 Spinner 누르면 PageSheet 선택 리스트 나타남
         binding.spinnerSelectPagesheet.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -132,14 +151,6 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
             }
         }
-
-
-        // 페이지시트 전체 조회
-        apiGetAllPageSheet(
-            setAllpageSheet = {
-                setAllPageSheet(it)
-            }
-        )
 
         // 내용 가져와서 세팅
         apiGetEditLinkMemo(
@@ -271,7 +282,7 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
                 openItemOptionBottomSheet(it)
             },
             onClickSelectImage = {
-                openGallery(it)
+                getProFileImage(it)
             }
         )
         // 드래그 이동 adapter
@@ -554,86 +565,48 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
         editLinkAdapter.notifyDataSetChanged()
     }
 
-    private fun openGallery(position: Int) {
-        if (hasPermission()) {
-            navigatePhotos(position)
-        } else {
-            requestPermission()
-        }
-    }
-
     private var selectImagePosition: Int? = null
-    // 갤러리 오픈
-    private fun navigatePhotos(position: Int) {
+    fun getProFileImage(position: Int){
         selectImagePosition = position
 
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        Log.d(TAG,"사진변경 호출")
+        val chooserIntent = Intent(Intent.ACTION_CHOOSER)
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/*"
-        setResult(9999999, intent);
-        startActivityForResult(intent, 2000)
+        chooserIntent.putExtra(Intent.EXTRA_INTENT, intent)
+        chooserIntent.putExtra(Intent.EXTRA_TITLE,"사용할 앱을 선택해주세요.")
+        launcher.launch(chooserIntent)
     }
+    // 절대경로 변환
+    fun absolutelyPath(path: Uri?, context : Context): String {
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
+        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
 
-    // 갤러리에서 호출한 액티비티 결과 반환
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            Log.d("msg", "gallery error")
-            return
-        }
-        when (requestCode) {
-            2000 -> {
-                val selectedImageURI: Uri? = data?.data
-                if (selectedImageURI != null) {
+        var result = c?.getString(index!!)
 
+        return result!!
+    }
+    var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val imagePath = result.data!!.data
 
-                    val file = File(absolutelyPath(selectedImageURI, this))
-                    // 선택한 이미지 전달
-                    selectImageListener(selectImagePosition!!.toInt(), selectedImageURI)
+            val file = File(absolutelyPath(imagePath, this))
+            val requestFile = file.asRequestBody("image/*".toMediaType())
+            val body: MultipartBody.Part = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
-                    //val imgBody = uploadImage(selectedImageURI, this)
+            Log.d(TAG, "------------------------------")
+            Log.d(TAG,file.name)
+            Log.d(TAG,body.body.toString())
 
-                    /*apiImageUpload(
-                        selectImagePosition!!.toInt(),
-                        imgBody,
-                        responseImageUrl = {
-                            responseImageUrl(it)
-                        }
-                    )*/
-
-                } else {
-                    Log.d("msg", "gallery error")
+            //sendImage(body)
+            apiImageUpload(
+                selectImagePosition!!.toInt(),
+                body,
+                responseImageUrl = {
+                    responseImageUrl(it)
                 }
-            }
-            else -> {
-                Log.d("msg", "gallery error")
-            }
-        }
-    }
-
-    private fun hasPermission(): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return checkSelfPermission(PERMISSION_READ_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(PERMISSION_WRITE_STORAGE) == PackageManager.PERMISSION_GRANTED
-        } else {
-            return true
-        }
-    }
-
-    private fun requestPermission() {
-        Log.d("Test", "권한 요청 ----------------------------------------------------")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Log.d("Test", "권한 요청2 ----------------------------------------------------")
-            if (shouldShowRequestPermissionRationale(PERMISSION_READ_STORAGE) ||
-                shouldShowRequestPermissionRationale(PERMISSION_WRITE_STORAGE)
-            ) {
-                Toast.makeText(
-                    this,
-                    "갤러리 접근 권한이 필요합니다", Toast.LENGTH_LONG
-                ).show()
-            }
-            requestPermissions(
-                arrayOf<String>(PERMISSION_READ_STORAGE, PERMISSION_WRITE_STORAGE),
-                PERMISSIONS_REQUEST
             )
         }
     }

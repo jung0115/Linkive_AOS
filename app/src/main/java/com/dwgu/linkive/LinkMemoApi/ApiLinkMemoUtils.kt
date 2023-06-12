@@ -57,6 +57,7 @@ fun setTokenForMemo() {
 
 // 링크 url 내용 조회한 걸로 링크 메모 생성
 fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData, refreshHomeListener: CreateLinkToUrlDialog.RefreshHomeListener) {
+    setTokenForMemo()
     retrofit.create(CreateLinkMemoService::class.java)
         .addLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, linkMemo)
         .enqueue(object : Callback<CreateLinkMemoResponse> {
@@ -77,7 +78,7 @@ fun apiCreateLinkMemo(linkMemo: CreateLinkMemoData, refreshHomeListener: CreateL
 
 // 폴더 전체 조회
 fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
-
+    setTokenForMemo()
     retrofit.create(GetAllFolderService::class.java)
         .getAllFolders(authorization = authorization!!, refreshToken = refreshToken!!)
         .enqueue(object : Callback<GetAllFolderData> {
@@ -98,6 +99,7 @@ fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
 
 // 링크 메모 전체 조회 -> 메인 페이지 링크 리스트에 추가
 fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
+    setTokenForMemo()
     retrofit.create(ViewLinkMemoService::class.java)
         .viewLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!)
         .enqueue(object : Callback<ViewLinkMemoData> {
@@ -319,6 +321,7 @@ fun apiDetailLinkMemo(
 
 // 메모 번호로 링크 메모 삭제
 fun apiDeleteLinkMemo(memoNum: Int) {
+    setTokenForMemo()
     val deleteMemo = DeleteLinkMemoRequest(memoNum)
     retrofit.create(DeleteLinkMemoService::class.java)
         .deleteLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, params = deleteMemo)
@@ -340,6 +343,8 @@ fun apiMoveFolder(
     memoNum: Int,
     folderNum: Int,
     reopenLinkViewListener: LinkViewMenuListener?) {
+
+    setTokenForMemo()
     // 링크 메모 내용 조회
     retrofit.create(DetailLinkMemoService::class.java)
         .detailLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, memosNum = memoNum)
@@ -377,6 +382,8 @@ fun apiEditLinkMemoContent(
     title: String,
     content: LinkMemoContent,
     finish: () -> Unit) {
+
+    setTokenForMemo()
     // 링크 메모 내용 조회
     retrofit.create(DetailLinkMemoService::class.java)
         .detailLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, memosNum = memoNum)
@@ -413,6 +420,9 @@ fun apiEditLinkMemo(
     editLinkMemo: EditLinkMemoData,
     reopenLinkViewListener: LinkViewMenuListener?,
     finish: (() -> Unit)?) {
+
+    setTokenForMemo()
+
     retrofit.create(EditLinkMemoService::class.java)
         .editLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, editLinkMemo)
         .enqueue(object : Callback<String> {
@@ -439,6 +449,9 @@ fun apiEditLinkMemo(
 
 // PageSheet 전체 조회
 fun apiGetAllPageSheet(setAllpageSheet: (pagesheets: MutableList<GetPageSheetData>) -> Unit) {
+
+    setTokenForMemo()
+
     retrofit.create(GetAllPageSheetService::class.java)
         .getAllPageSheet(authorization = authorization!!, refreshToken = refreshToken!!)
         .enqueue(object : Callback<GetPageSheetListData> {
@@ -462,6 +475,8 @@ fun apiGetEditLinkMemo(
     setLinkEditInfo: (baseInfo: LinkMemoEditBaseInfo) -> Unit,
     addLinkEditItem: (detailItem: EditLinkItem) -> Unit,
 ) {
+
+    setTokenForMemo()
 
     retrofit.create(DetailLinkMemoService::class.java)
         .detailLinkMemo(authorization = authorization!!, refreshToken = refreshToken!!, memosNum = memoNum)
