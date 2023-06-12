@@ -37,7 +37,7 @@ data class code(
     @SerializedName("verificationCode") var code: Int
 )
 
-data class findPw(
+data class emailId(
     @SerializedName("email") var email: String,
     @SerializedName("id") var id: String
 )

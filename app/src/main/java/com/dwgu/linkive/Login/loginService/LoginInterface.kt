@@ -35,7 +35,7 @@ interface LoginInterface {
     // 아이디 찾기 시 이메일 인증
     @POST("users/verifyEmail/send")
     fun postSendVerifyEmailFindId(
-        @Header("email-auth-type") find: String,
+        @Header("email-auth-type") findId: String,
         @Body param: email
     ): Call<code>
 
@@ -43,7 +43,7 @@ interface LoginInterface {
     @POST("users/verifyEmail/send")
     fun postSendVerifyEmailFindPassword(
         @Header("email-auth-type") findPw: String,
-        @Body param: findPw
+        @Body param: emailId
     ): Call<code>
 
     //  이메일 인증 성공 후, 이메일로 유저의 id 전송
@@ -53,7 +53,7 @@ interface LoginInterface {
     ): Call<result>
 
     //  비밀번호 찾기 시 비밀번호 변경
-    @POST("users/changePassword")
+    @POST("users/findPassword")
     fun postFindPassword(
         @Body param: newPw
     ): Call<result>
@@ -68,5 +68,11 @@ interface LoginInterface {
     @POST("users/checkIsEmail")
     fun postCheckIsEmail(
         @Body param: email
+    ): Call<result>
+
+    // 아이디와 이메일이 일치하는지 검사
+    @POST("users/checkIdwithEmail")
+    fun postCheckIdWithEmail(
+        @Body param: emailId
     ): Call<result>
 }

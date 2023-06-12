@@ -43,9 +43,6 @@ class  MyPageFragment : Fragment() {
     // Retrofit의 interface 구현
     private val api: MyPageInterface = retrofit.create(MyPageInterface::class.java)
 
-    // SharedPreference
-//    val prefs : SharedPreferences = context.getSharedPreferences("Prefs", Context.MODE_PRIVATE)
-//    val editor : SharedPreferences.Editor = GloabalApplication.prefs.edit() // 데이터 기록을 위한 editor
 
     // 토큰 값
     private lateinit var accessToken: String
@@ -172,12 +169,12 @@ class  MyPageFragment : Fragment() {
 
     private fun moveToPageSheet() {
         Log.d("msg", "moveToPageSheet")
-        view?.findNavController()?.navigate(R.id.action_menu_mypage_to_showPageSheetFragment)
-//        requireActivity()
-//            .supportFragmentManager
-//            .beginTransaction()
-//            .add(R.id.nav_host_fragment, ShowPageSheetFragment())
-//            .commit()
+//        view?.findNavController()?.navigate(R.id.action_menu_mypage_to_showPageSheetFragment)
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .add(R.id.nav_host_fragment, ShowPageSheetFragment())
+            .commit()
     }
 
     private fun getProfileImg(access: String, refresh: String){
@@ -198,12 +195,9 @@ class  MyPageFragment : Fragment() {
     }
 
     fun deleteTokens() {
-        val editor = context?.getSharedPreferences("prefs", Context.MODE_PRIVATE)?.edit()
-//        editor?.remove("refreshToken")
-//        editor?.remove("accessToken")
-//        editor?.apply()
-        editor?.clear()
-        editor?.commit()
+
+        // 토큰 삭제
+        GloabalApplication.prefs.clearString()
 
         // 잘 삭제됐는지 확인
         var temp = GloabalApplication.prefs.getString("refreshToken", "")

@@ -3,17 +3,24 @@ package com.dwgu.linkive.Login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.dwgu.linkive.Api.ApiClient
-import com.dwgu.linkive.Login.loginService.LoginInterface
+import com.dwgu.linkive.Login.loginRepository.Companion.api
+import com.dwgu.linkive.Login.loginRepository.Companion.emailFlag
+import com.dwgu.linkive.Login.loginRepository.Companion.id
+import com.dwgu.linkive.Login.loginRepository.Companion.idFlag
+import com.dwgu.linkive.Login.loginRepository.Companion.mail
+import com.dwgu.linkive.Login.loginRepository.Companion.passwordFlag
+import com.dwgu.linkive.Login.loginRepository.Companion.serverVerifyNumber
+import com.dwgu.linkive.Login.loginRepository.Companion.totalTime
+import com.dwgu.linkive.Login.loginRepository.Companion.verifyNumber
 import com.dwgu.linkive.Login.loginService.code
-import com.dwgu.linkive.Login.loginService.email
-import com.dwgu.linkive.Login.loginService.findPw
+import com.dwgu.linkive.Login.loginService.emailId
 import com.dwgu.linkive.Login.loginService.newId
 import com.dwgu.linkive.Login.loginService.newPw
 import com.dwgu.linkive.Login.loginService.result
@@ -22,36 +29,11 @@ import com.dwgu.linkive.databinding.ActivityFindPasswordBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import kotlin.concurrent.timer
 
 class FindPasswordActivity : AppCompatActivity() {
 
     // viewBinding 선언
     lateinit var binding: ActivityFindPasswordBinding
-
-    // 타이머 변수
-    private var min = 3
-    private var sec = 60
-
-    // 데이터 저장
-    lateinit var email: String
-    lateinit var id: String
-    lateinit var verifyNum: String
-    lateinit var serverVerifyNum: String
-    lateinit var pw: String
-    lateinit var repw: String
-
-    // flag
-    private var idFlag = false
-    private var emailFlag = false
-    private var passwordFlag = false
-
-    // ApiClient의 instance 불러오기
-    private val retrofit: Retrofit = ApiClient.getInstance()
-    // Retrofit의 interface 구현
-    private val api: LoginInterface = retrofit.create(LoginInterface::class.java)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,29 +56,39 @@ class FindPasswordActivity : AppCompatActivity() {
     private fun setOnClickListener() {
 
         // 아이디 확인 버튼
-        binding.btnIdVerify.setOnClickListener {
-
-            // 아이디 중복 확인 api
-            id = binding.inputId.text.toString()
-            postCheckNewId(id)
-
-        }
+//        binding.btnIdVerify.setOnClickListener {
+//
+//            // 아이디 중복 확인 api
+//            id = binding.inputId.text.toString()
+//            postCheckNewId(id)
+//
+//        }
 
         // 인증 요청 버튼
         binding.btnRequestVerify.setOnClickListener {
 
-            // 이메일 중복 확인 api
-            email = binding.inputEmail.text.toString()
-            postCheckIsEmail(email)
+            // 아이디와 이메일 일치 확인 api
+            id = binding.inputId.text.toString()
+            mail = binding.inputEmail.text.toString()
+            postCheckIdWithEmail(id, mail)
+
         }
 
         // 인증하기 버튼
         binding.btnVerify.setOnClickListener {
 
+
+            verifyNumber = binding.inputVerifyNumber.text.toString()
+            Log.d("find pw", verifyNumber)
+
             if(emailFlag) {
-                if(verifyNum == serverVerifyNum) {
+                if(verifyNumber == serverVerifyNumber) {
                     // 이메일 인증 성공
                     Log.d("find pw", "email verify match")
+
+                    // 타이머 멈추기
+                    stopTimer()
+
                     Toast.makeText(this@FindPasswordActivity, "인증이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     binding.btnErrorEmail.visibility = View.GONE
                 } else {
@@ -110,7 +102,7 @@ class FindPasswordActivity : AppCompatActivity() {
         }
 
         // 비밀번호 정규식 확인 - passwordListener 호출
-        binding.inputPassword.addTextChangedListener(passwordListener)
+//        binding.inputPassword.addTextChangedListener(passwordListener)
 
         // 비밀번호 보여주기, 숨기기 버튼
         binding.btnViewHide.setOnCheckedChangeListener {_, isChecked ->
@@ -141,44 +133,25 @@ class FindPasswordActivity : AppCompatActivity() {
         }
 
         // 비밀번호 일치 확인 - passwordMatchListener 호출
-        binding.inputCheckPassword.addTextChangedListener(passwordMatchListener)
+//        binding.inputCheckPassword.addTextChangedListener(passwordMatchListener)
 
         // 취소 버튼
         binding.btnCheckFindPassword.setOnClickListener {
             // 로그인 화면으로 이동
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         // 확인 버튼
         binding.btnCheckFindPassword.setOnClickListener {
             // 모든 항목을 올바르게 작성한 경우
             if(idFlag  &&  passwordFlag && emailFlag) {
+                Log.d("find pw - check", "success")
                 // 비밀번호 변경 api
+                id = binding.inputId.text.toString()
+                var pw = binding.inputPassword.text.toString()
                 postFindPassword(id, pw)
-            }
-        }
-    }
-
-    // 3분 타이머 시작
-    private fun startTimer() {
-        min--
-        sec--
-        // 1000 = 1초
-        timer(period = 1000,) {
-            runOnUiThread {
-                if(sec<10) {
-                    binding.textTime.text = "0$min:0$sec"
-                } else {
-                    binding.textTime.text = "0$min:$sec"
-                }
-                // 3분 후에, 타이머 중지
-                if(sec==0 && min==0) cancel()
-                else if(sec == 0) {
-                    min--
-                    sec = 59
-                }
-                sec--
             }
         }
     }
@@ -260,46 +233,37 @@ class FindPasswordActivity : AppCompatActivity() {
         })
     }
 
-    // 이메일 중복 확인 api
-    private fun postCheckIsEmail(mail: String){
-        var data = email(mail)
-        api.postCheckIsEmail(data).enqueue(object :Callback<result>{
-            override fun onFailure(call: Call<result>, t: Throwable) {}
+    // 아이디와 이메일 일치 확인 api
+    private fun postCheckIdWithEmail(id: String, mail: String) {
+        var data = emailId(mail, id)
+        api.postCheckIdWithEmail(data).enqueue(object  : Callback<result>{
+            override fun onFailure(call: Call<result>, t: Throwable) {
+                Log.d("find pw - fail", t.toString())
+            }
 
             override fun onResponse(call: Call<result>, response: Response<result>) {
+                // 이메일과 아이디가 일치하는 경우
+                Log.d("find pw - success", response.code().toString())
+                Log.d("find pw - success", response.body()!!.result)
 
-                var code = response.code()
+                Toast.makeText(this@FindPasswordActivity, "인증번호가 발송되었습니다.", Toast.LENGTH_SHORT).show()
 
-                // 서버에 존재하는 이메일
-                if(code == 200) {
-                    Toast.makeText(this@FindPasswordActivity, "인증번호가 발송되었습니다..", Toast.LENGTH_SHORT).show()
-                    binding.btnErrorEmail.visibility = View.GONE
+                // flog 변경
+                idFlag = true
+                passwordFlag = true
+                emailFlag = true
 
-                    // 올바른 이메일 표시
-                    emailFlag = true
-
-                    // 3분 타이머 시작
-                    startTimer()
-
-                    //  이메일 인증 api 호출
-                    verifyNum = binding.inputVerifyNumber.text.toString()
-                    postSendVerifyEmailFindPassword(mail, id)
-                }
-                // 서버에 존재하지 않는 이메일
-                else if(code == 400) {
-                    Toast.makeText(this@FindPasswordActivity, "존재하지 않는 이메일입니다.", Toast.LENGTH_SHORT).show()
-                    binding.btnErrorEmail.visibility = View.VISIBLE
-                }
-
+                // 인증번호 보내기 api
+                postSendVerifyEmailFindPassword(mail, id)
             }
         })
     }
 
     //  인증번호 보내기 api
     private fun postSendVerifyEmailFindPassword(mail: String, id: String){
-        var data = findPw(mail, id)
+        var data = emailId(mail, id)
         //  인증번호 전송 실패
-        api.postSendVerifyEmailFindPassword("find", data).enqueue(object:Callback<code>{
+        api.postSendVerifyEmailFindPassword("findPw", data).enqueue(object:Callback<code>{
             override fun onFailure(call: Call<code>, t: Throwable) {
 
                 Log.d("find pw", "unvaild email, id")
@@ -309,12 +273,20 @@ class FindPasswordActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<code>, response: Response<code>) {
 
-                Log.d("find pw", "vaild email, id")
-                serverVerifyNum = response.code().toString()
-                Log.d("find pw", serverVerifyNum)
+                // 3분 타이머 시작
+                startTimer()
+                // request code  저장
+                var code = response.body()?.code
 
-                verifyNum = binding.inputVerifyNumber.text.toString()
-                Log.d("find pw", verifyNum)
+                if(code == 401) {
+                    Toast.makeText(this@FindPasswordActivity, "해당 id의 user가 존재하지 않습니다.", Toast.LENGTH_SHORT).show()
+                } else if(code == 409) {
+                    Toast.makeText(this@FindPasswordActivity, "아이디와 이메일이 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                }
+
+                Log.d("find pw", "vaild email, id")
+                serverVerifyNumber = code.toString()
+                Log.d("find pw", serverVerifyNumber)
 
             }
         })
@@ -334,11 +306,43 @@ class FindPasswordActivity : AppCompatActivity() {
                 if(code == 200) {
                     Log.d("find pw", "success")
                     Toast.makeText(this@FindPasswordActivity, "비밀번호가 변경되었습니다.", Toast.LENGTH_SHORT).show()
+
+                    // 로그인 화면으로 이동
+                    val intent = Intent(this@FindPasswordActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
                 } else if(code == 401) {
                     Log.d("find pw", "error")
                     Toast.makeText(this@FindPasswordActivity, "해당 id의 사용자가 없습니다. 아이디를 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
         })
+    }
+
+    // 3분 타이머
+    private fun startTimer() {
+        loginRepository.timer = object : CountDownTimer(totalTime, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = (millisUntilFinished / 1000).toInt()
+                val minutes = seconds / 60
+                val remainingSeconds = seconds % 60
+                val timeString = String.format("%02d:%02d", minutes, remainingSeconds)
+                binding.textTime.text = timeString
+            }
+
+            override fun onFinish() {
+                stopTimer()
+            }
+        }
+
+        loginRepository.timer.start()
+    }
+
+    // 타이머 멈추기
+    private fun stopTimer() {
+        loginRepository.timer.cancel()
+        binding.textTime.visibility = View.GONE
+        binding.btnRequestVerify.isEnabled = true
     }
 }
