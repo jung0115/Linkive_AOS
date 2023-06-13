@@ -41,7 +41,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="닉네임"
+                        android:text="dowon"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"/>
@@ -49,7 +49,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="gms08057"
+                        android:text="asdf"
                         android:textSize="14sp"
                         android:textColor="@color/dark_gray"/>
 
@@ -105,16 +105,78 @@
                     android:textColor="@color/black"
                     />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/basic_btn_recycler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="3"
-                    tools:listitem="@layout/page_sheet_item"
-                    >
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/basic_btn_recycler"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+<!--                    app:spanCount="3"-->
+<!--                    tools:listitem="@layout/page_sheet_item"-->
+<!--                    />-->
 
-                </androidx.recyclerview.widget.RecyclerView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_pagesheet_travel"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/button_outline_sky_10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="여행"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_pagesheet_study"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/button_outline_sky_10dp"
+                            android:layout_marginLeft="20dp"
+                            android:text="공부"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_pagesheet_dev"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/button_outline_sky_10dp"
+                            android:layout_marginLeft="20dp"
+                            android:text="개발"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_pagesheet_diary"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/button_outline_sky_10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="일기"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_pagesheet_check"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/button_outline_sky_10dp"
+                            android:layout_marginLeft="20dp"
+                            android:text="체크\n리스트"/>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -123,7 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
+                android:layout_marginVertical="20dp">
 
                 <TextView
                     android:layout_width="60dp"
@@ -131,19 +193,34 @@
                     android:text="@string/custom"
                     android:textSize="15sp"
                     android:gravity="center"
+                    android:layout_marginRight="10dp"
                     android:textColor="@color/black"
                     />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/custom_btn_recycler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="3"
-                    tools:listitem="@layout/page_sheet_item"
-                    >
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/custom_btn_recycler"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+<!--                    app:spanCount="3"-->
+<!--                    tools:listitem="@layout/page_sheet_item"-->
+<!--                    />-->
 
-                </androidx.recyclerview.widget.RecyclerView>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_pagesheet_jeju"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button_outline_sky_10dp"
+                    android:layout_marginRight="20dp"
+                    android:text="제주도"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_pagesheet_add"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button_outline_sky_10dp"
+                    android:text="+" />
+
 
             </LinearLayout>
 

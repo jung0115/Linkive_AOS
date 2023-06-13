@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwgu.linkive.MyPage.MyPageRecycler.PageSheetItem
 import com.dwgu.linkive.MyPage.PageSheetRecycler.PageSheetAdapter
 import com.dwgu.linkive.MyPage.PageSheetRecycler.PageSheetContentItem
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentPageSheetBinding
+
 
 class PageSheetFragment : Fragment() {
 
@@ -36,14 +39,19 @@ class PageSheetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.addAddress.visibility  = View.GONE
+        binding.addText.visibility  = View.GONE
+        binding.addLink.visibility  = View.GONE
+        binding.addPhoto.visibility  = View.GONE
+
         // recyclerView 세팅
         initRecycler()
 
-        addLayoutItem(PageSheetContentItem(1))
-        addLayoutItem(PageSheetContentItem(2))
-        addLayoutItem(PageSheetContentItem(3))
-        addLayoutItem(PageSheetContentItem(4))
-        addLayoutItem(PageSheetContentItem(5))
+//        addLayoutItem(PageSheetContentItem(1))
+//        addLayoutItem(PageSheetContentItem(2))
+//        addLayoutItem(PageSheetContentItem(3))
+//        addLayoutItem(PageSheetContentItem(4))
+//        addLayoutItem(PageSheetContentItem(5))
 
         setOnClickListener()
     }
@@ -51,36 +59,46 @@ class PageSheetFragment : Fragment() {
     private fun setOnClickListener() {
         // text 버튼
         binding.btnAddText.setOnClickListener {
-            addLayoutItem(PageSheetContentItem(1))
+            binding.addText.visibility = View.VISIBLE
+//            addLayoutItem(PageSheetContentItem(1))
         }
         // image 버튼
         binding.btnAddImage.setOnClickListener {
-            addLayoutItem(PageSheetContentItem(2))
+            binding.addPhoto.visibility = View.VISIBLE
+//            addLayoutItem(PageSheetContentItem(2))
         }
         // link 버튼
         binding.btnAddLink.setOnClickListener {
-            addLayoutItem(PageSheetContentItem(3))
+            binding.addLink.visibility = View.VISIBLE
+//            addLayoutItem(PageSheetContentItem(3))
         }
         // location 버튼
         binding.btnAddLocation.setOnClickListener {
-            addLayoutItem(PageSheetContentItem(4))
+            binding.addAddress.visibility = View.VISIBLE
+//            addLayoutItem(PageSheetContentItem(4))
         }
-        // check 버튼
-        binding.btnAddCheckbox.setOnClickListener {
-            addLayoutItem(PageSheetContentItem(5))
+
+        // 저장
+        binding.btnSave.setOnClickListener {
+//            view?.findNavController()?.navigate(R.id.action_showPageSheetFragment_to_menu_mypage)
+            findNavController().popBackStack()
         }
-        // code 버튼
-        binding.btnAddCode.setOnClickListener {
-            addLayoutItem(PageSheetContentItem(6))
-        }
+//        // check 버튼
+//        binding.btnAddCheckbox.setOnClickListener {
+//            addLayoutItem(PageSheetContentItem(5))
+//        }
+//        // code 버튼
+//        binding.btnAddCode.setOnClickListener {
+//            addLayoutItem(PageSheetContentItem(6))
+//        }
     }
 
     private fun initRecycler() {
         pageSheetAdapter = PageSheetAdapter(requireContext())
 
-        binding.recyclerviewCustomPagesheetContent.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerviewCustomPagesheetContent.adapter = pageSheetAdapter
-        binding.recyclerviewCustomPagesheetContent.isNestedScrollingEnabled = false
+//        binding.recyclerviewCustomPagesheetContent.layoutManager = LinearLayoutManager(requireContext())
+//        binding.recyclerviewCustomPagesheetContent.adapter = pageSheetAdapter
+//        binding.recyclerviewCustomPagesheetContent.isNestedScrollingEnabled = false
     }
 
     private fun addLayoutItem(item: PageSheetContentItem) {

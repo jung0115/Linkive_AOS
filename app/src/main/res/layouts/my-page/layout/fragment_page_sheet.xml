@@ -9,8 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:paddingTop="20dp"
         android:paddingHorizontal="20dp"
         android:orientation="vertical">
@@ -45,14 +44,99 @@
 
         </FrameLayout>
 
-        <!-- 추가하는 아이템 -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_custom_pagesheet_content"
+<!--        &lt;!&ndash; 추가하는 아이템 &ndash;&gt;-->
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recyclerview_custom_pagesheet_content"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1"/>-->
+
+        <!-- 주소 -->
+        <LinearLayout
+            android:id="@+id/add_address"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@drawable/button_outline_dotted"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_place_gray"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/place"/>
+
+        </LinearLayout>
+
+        <!-- 글 -->
+        <TextView
+            android:id="@+id/add_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/write"
+            android:textSize="14sp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- 링크 -->
+        <LinearLayout
+            android:id="@+id/add_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@drawable/button_outline_dotted">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_link"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/link"/>
+
+        </LinearLayout>
+
+        <!-- 사진 -->
+        <LinearLayout
+            android:id="@+id/add_photo"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:background="@drawable/button_outline_gray_10dp"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_photo_gray"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/photo"
+                android:textSize="14sp"
+                android:textColor="@color/dark_gray"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
 
 
     <View

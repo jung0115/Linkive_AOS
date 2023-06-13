@@ -10,22 +10,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.dwgu.linkive.Api.ApiClient
 import com.dwgu.linkive.Login.GloabalApplication
-import com.dwgu.linkive.Login.loginService.LoginInterface
+import com.dwgu.linkive.MyPage.myPageRepository.Companion.api
 import com.dwgu.linkive.MyPage.MyPageRecycler.BasicPageSheetAdapter
 import com.dwgu.linkive.MyPage.MyPageRecycler.CustomPageSheetAdapter
 import com.dwgu.linkive.MyPage.MyPageRecycler.PageSheetItem
-import com.dwgu.linkive.MyPage.myPageService.MyPageInterface
+import com.dwgu.linkive.MyPage.myPageRepository.Companion.accessToken
+import com.dwgu.linkive.MyPage.myPageRepository.Companion.refreshToken
 import com.dwgu.linkive.MyPage.myPageService.profileImg
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentMyPageBinding
-import okio.ByteString.Companion.decodeHex
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class  MyPageFragment : Fragment() {
 
@@ -37,19 +36,6 @@ class  MyPageFragment : Fragment() {
     private lateinit var customPageSheetAdapter: CustomPageSheetAdapter
     val basicPageSheetList = mutableListOf<PageSheetItem>()
     val customPageSheetList = mutableListOf<PageSheetItem>()
-
-    // ApiClient의 instance 불러오기
-    private val retrofit: Retrofit = ApiClient.getInstance()
-    // Retrofit의 interface 구현
-    private val api: MyPageInterface = retrofit.create(MyPageInterface::class.java)
-
-
-    // 토큰 값
-    private lateinit var accessToken: String
-    private lateinit var refreshToken: String
-
-    // 변수들
-    lateinit var profileImg: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +54,9 @@ class  MyPageFragment : Fragment() {
         // 사용자 프로필 이미지 가져오기 api
         getProfileImg(accessToken, refreshToken)
 
+        // 제주도 버튼 숨기기
+        binding.btnPagesheetJeju.visibility = View.GONE
+
         return binding.root
     }
 
@@ -77,18 +66,18 @@ class  MyPageFragment : Fragment() {
 
 
         // recyclerview 세팅
-        initRecycler()
+//        initRecycler()
 
-        addBasicPageSheetItem(PageSheetItem(1, "여행"))
-        addBasicPageSheetItem(PageSheetItem(2, "공부"))
-        addBasicPageSheetItem(PageSheetItem(3, "개발"))
-        addBasicPageSheetItem(PageSheetItem(4, "일기"))
-        addBasicPageSheetItem(PageSheetItem(5, "체크\n리스트"))
+//        addBasicPageSheetItem(PageSheetItem(1, "여행"))
+//        addBasicPageSheetItem(PageSheetItem(2, "공부"))
+//        addBasicPageSheetItem(PageSheetItem(3, "개발"))
+//        addBasicPageSheetItem(PageSheetItem(4, "일기"))
+//        addBasicPageSheetItem(PageSheetItem(5, "체크\n리스트"))
 
-        addCustomPageSheetItem(PageSheetItem(1, "애니"))
-        addCustomPageSheetItem(PageSheetItem(2, "맛집"))
-        addCustomPageSheetItem(PageSheetItem(3, "숙소"))
-        addCustomPageSheetItem(PageSheetItem(4, "+"))
+//        addCustomPageSheetItem(PageSheetItem(1, "애니"))
+//        addCustomPageSheetItem(PageSheetItem(2, "맛집"))
+//        addCustomPageSheetItem(PageSheetItem(3, "숙소"))
+//        addCustomPageSheetItem(PageSheetItem(4, "+"))
 
         setOnClickListener()
     }
@@ -98,6 +87,17 @@ class  MyPageFragment : Fragment() {
         binding.btnEditProfile.setOnClickListener{
             Log.d("msg", "회원 정보 수정 화면으로 이동")
             view?.findNavController()?.navigate(R.id.action_menu_mypage_to_editProfileFragment)
+        }
+
+        // 개발 버튼 클릭 시, 해당 화면으로 이동
+        binding.btnPagesheetDev.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_menu_mypage_to_showPageSheetFragment)
+        }
+
+        // 추가하기 버튼 클릭 시, pagesheet 추가
+        binding.btnPagesheetAdd.setOnClickListener {
+            binding.btnPagesheetJeju.visibility = View.VISIBLE
+            view?.findNavController()?.navigate(R.id.action_menu_mypage_to_pageSheetFragment)
         }
 
         // 문의하기
@@ -127,31 +127,31 @@ class  MyPageFragment : Fragment() {
     }
 
     // 리사이클러 초기화
-    private fun initRecycler() {
-        basicPageSheetAdapter = BasicPageSheetAdapter(
-            requireContext(),
-            sheetClick = {
-                moveToPageSheet()
-            }
-        )
-
-        binding.basicBtnRecycler.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.basicBtnRecycler.adapter = basicPageSheetAdapter
-        binding.basicBtnRecycler.isNestedScrollingEnabled = false
-        basicPageSheetAdapter.data = basicPageSheetList
-
-        customPageSheetAdapter = CustomPageSheetAdapter(
-            requireContext(),
-            sheetClick = {
-                moveToPageSheet()
-            }
-        )
-
-        binding.customBtnRecycler.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.customBtnRecycler.adapter = customPageSheetAdapter
-        binding.customBtnRecycler.isNestedScrollingEnabled = false
-        customPageSheetAdapter.data = customPageSheetList
-    }
+//    private fun initRecycler() {
+//        basicPageSheetAdapter = BasicPageSheetAdapter(
+//            requireContext(),
+//            sheetClick = {
+//                moveToPageSheet()
+//            }
+//        )
+//
+//        binding.basicBtnRecycler.layoutManager = GridLayoutManager(requireContext(), 3)
+//        binding.basicBtnRecycler.adapter = basicPageSheetAdapter
+//        binding.basicBtnRecycler.isNestedScrollingEnabled = false
+//        basicPageSheetAdapter.data = basicPageSheetList
+//
+//        customPageSheetAdapter = CustomPageSheetAdapter(
+//            requireContext(),
+//            sheetClick = {
+//                moveToPageSheet()
+//            }
+//        )
+//
+//        binding.customBtnRecycler.layoutManager = GridLayoutManager(requireContext(), 3)
+//        binding.customBtnRecycler.adapter = customPageSheetAdapter
+//        binding.customBtnRecycler.isNestedScrollingEnabled = false
+//        customPageSheetAdapter.data = customPageSheetList
+//    }
 
     private fun addBasicPageSheetItem(item: PageSheetItem) {
         basicPageSheetList.apply {
@@ -194,6 +194,7 @@ class  MyPageFragment : Fragment() {
         })
     }
 
+    // 로그아웃 시, 토큰 삭제
     fun deleteTokens() {
 
         // 토큰 삭제
