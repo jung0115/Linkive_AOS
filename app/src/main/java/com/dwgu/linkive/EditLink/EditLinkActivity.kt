@@ -152,17 +152,6 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
             }
         }
 
-        // 내용 가져와서 세팅
-        apiGetEditLinkMemo(
-            memoNum!!,
-            setLinkEditInfo = {
-                setLinkEditInformation(it)
-            },
-            addLinkEditItem = {
-                addEditLinkItem(it)
-            }
-        )
-
         // 제목 글자수 제한
         binding.edittextEditLinkTitle.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -316,6 +305,17 @@ class EditLinkActivity : AppCompatActivity(), EditLinkOptionListener {
 
         // 선택된 페이지 시트가 자유가 아닌 경우
         if(pagesheet_num != null && pagesheet_num != -1) addPagesheetItems(pagesheet_num!!)
+
+        // 내용 가져와서 세팅
+        apiGetEditLinkMemo(
+            memoNum!!,
+            setLinkEditInfo = {
+                setLinkEditInformation(it)
+            },
+            addLinkEditItem = {
+                addEditLinkItem(it)
+            }
+        )
     }
 
     // 페이지시트 아이템 추가

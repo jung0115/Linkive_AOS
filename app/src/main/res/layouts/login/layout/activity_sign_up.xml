@@ -117,7 +117,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/text_verify_time"
+                android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -181,6 +181,7 @@
             android:background="@drawable/button_outline_purple_30dp"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
+            android:maxLength="16"
             android:paddingLeft="10dp" />
 
         <CheckBox
@@ -216,6 +217,7 @@
             android:background="@drawable/button_outline_purple_30dp"
             android:hint="@string/password_check_hint"
             android:inputType="textPassword"
+            android:maxLength="16"
             android:paddingLeft="10dp" />
 
         <CheckBox
