@@ -7,19 +7,17 @@ import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.dwgu.linkive.Api.ApiClient
-import com.dwgu.linkive.Login.loginService.LoginInterface
-import com.dwgu.linkive.Login.loginService.PreferenceUtil
+import com.dwgu.linkive.Login.loginRepository.Companion.api
+import com.dwgu.linkive.Login.loginRepository.Companion.id
+import com.dwgu.linkive.Login.loginRepository.Companion.password
 import com.dwgu.linkive.Login.loginService.login
 import com.dwgu.linkive.Login.loginService.loginTokens
 import com.dwgu.linkive.MainActivity
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.kakao.sdk.auth.model.OAuthToken
@@ -31,23 +29,12 @@ import com.navercorp.nid.oauth.OAuthLoginCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class LoginActivity : AppCompatActivity() {
 
     // ViewBinding
     private var mbinding: ActivityLoginBinding ?= null
     private val binding get() = mbinding!!
-
-    // ApiClient의 instance 불러오기
-    private val retrofit: Retrofit = ApiClient.getInstance()
-    // Retrofit의 interface 구현
-    private val api: LoginInterface = retrofit.create(LoginInterface::class.java)
-
-    // 변수들
-    lateinit var inputId: String
-    lateinit var inputPassword: String
-    private var vaildLogin = true
 
     // Kakao Login
     lateinit var kakaoCallback: (OAuthToken?, Throwable?) -> Unit
@@ -58,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
     var GOOGLE_LOGIN_CODE = 9001
 
     // Naver Login
+    // 현재 에러나기 때문에 꼭 주석처리하고 실행할 것
 //    val NAVER_CLIENT_ID = getString(R.string.NAVER_CLIENT_ID)
 //    val NAVER_CLIENT_SECRET = getString(R.string.NAVER_CLIENT_SECRET)
 
@@ -71,6 +59,8 @@ class LoginActivity : AppCompatActivity() {
         // 이미 로그인된 경우
         if(GloabalApplication.prefs.getString("accessToken", "") != "" &&
             GloabalApplication.prefs.getString("refreshToken", "") != "") {
+            Log.d("login - token", GloabalApplication.prefs.getString("accessToken", ""))
+            Log.d("login-token", GloabalApplication.prefs.getString("refreshToken", ""))
             // 메인 화면으로 이동
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)
@@ -78,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Google Login
-        auth = FirebaseAuth.getInstance()
+//        auth = FirebaseAuth.getInstance()
 
 //        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //            .requestIdToken(R.string.default_web_client_id)
@@ -118,24 +108,24 @@ class LoginActivity : AppCompatActivity() {
 
         // 로그인 버튼 클릭 시
         binding.btnLogin.setOnClickListener {
-            // 아이디, 비밀번호 입력받기
-            inputId = binding.inputId.text.toString()
-            inputPassword = binding.inputPassword.text.toString()
 
+            // 아이디, 비밀번호 값 가져오기
+            id = binding.inputId.text.toString()
+            password = binding.inputPassword.text.toString()
 
             // login api 호출
-            postLogin(inputId, inputPassword)
+            postLogin(id, password)
         }
 
         // 아이디/비밀번호 찾기 버튼 클릭 시, 해당 화면으로 이동
         binding.btnFindId.setOnClickListener {
-            Log.d("msg", "find id work")
+            Log.d("login", "move to find id")
             val intent = Intent(this@LoginActivity, FindIdActivity::class.java)
             startActivity(intent)
             finish()
         }
         binding.btnFindPassword.setOnClickListener {
-            Log.d("msg", "find password work")
+            Log.d("login", "move to find password")
             val intent = Intent(this@LoginActivity, FindPasswordActivity::class.java)
             startActivity(intent)
             finish()
@@ -143,7 +133,7 @@ class LoginActivity : AppCompatActivity() {
 
         // 회원 가입 버튼 클릭 시, 회원 가입 화면으로 이동
         binding.btnSignUp.setOnClickListener {
-            Log.d("msg", "sign up work")
+            Log.d("login", "move to sign up")
             val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
             startActivity(intent)
             finish()
@@ -152,7 +142,7 @@ class LoginActivity : AppCompatActivity() {
         // 소셜 로그인
         // 카카오 로그인
         binding.btnKakaoLogin.setOnClickListener {
-            Log.d("msg", "kakao login work")
+            Log.d("login", "kakao login")
 
             // hash 값 받아오기, kakao login 정보 확인
             checkKaKaoLogin()
@@ -166,13 +156,16 @@ class LoginActivity : AppCompatActivity() {
                 UserApiClient.instance.loginWithKakaoAccount(this@LoginActivity, callback = kakaoCallback)
             }
         }
+
         // 네이버 로그인
         binding.btnNaverLogin.setOnClickListener {
-            Log.d("msg", "naver login work")
+            Log.d("login", "naver login")
             naverLogin()
         }
+
         // 구글 로그인
         binding.btnGoogleLogin.setOnClickListener {
+            Log.d("login", "google login")
 //            var signInIntent = googleSignInClient?.signInIntent
 //            if (signInIntent != null) {
 //                startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
@@ -184,7 +177,7 @@ class LoginActivity : AppCompatActivity() {
     fun checkKaKaoLogin() {
         // Kakao Login Hash 값 받아오기
         var keyHash = Utility.getKeyHash(this)
-        Log.d("keyHash", keyHash)
+        Log.d("login - kakao keyHash", keyHash)
 
         // Kakao Login 정보 확인
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
@@ -205,6 +198,7 @@ class LoginActivity : AppCompatActivity() {
 
     fun setKakaoCallback() {
         kakaoCallback = { token, error ->
+            // 에러가 발생하는 경우
             if (error != null) {
                 when {
                     error.toString() == AuthErrorCause.AccessDenied.toString() -> {
@@ -236,8 +230,11 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
+            // 로그인에 성공한 경우
             else if (token != null) {
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+
+                // 메인 페이지로 이동
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
@@ -265,6 +262,7 @@ class LoginActivity : AppCompatActivity() {
 
         NaverIdLoginSDK.authenticate(this, oauthLoginCallback)
     }
+
     // Google Login
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -308,49 +306,44 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    // Login api
+    // 로그인 api
     private fun postLogin(id: String, password: String) {
         var data = login(id, password)
-
         api.postLogin(data).enqueue(object:Callback<loginTokens>{
-            override fun onFailure(call: Call<loginTokens>, t: Throwable) {
-                Log.d("login fail", t.toString())
-                if(id != inputId) {
-                    // 아이디 불일치
-                    binding.btnErrorId.visibility = View.VISIBLE
-                } else if(password != inputPassword) {
-                    // 비밀번호 불일치
-                    binding.btnErrorPassword.visibility = View.VISIBLE
-                    binding.btnViewHide.visibility = View.GONE
-                } else if((id != inputId) && (password != inputPassword)){
-                    // 둘 다 불일치
-                    binding.btnErrorId.visibility = View.VISIBLE
-                    binding.btnErrorPassword.visibility = View.VISIBLE
-                    binding.btnViewHide.visibility = View.GONE
-                }
-            }
+            override fun onFailure(call: Call<loginTokens>, t: Throwable) {}
 
             override fun onResponse(call: Call<loginTokens>, response: Response<loginTokens>) {
-                Log.d("login success", "login success")
-                var accessToken = response.body()?.accessToken.toString()
-                var refreshToken = response.body()?.accessToken.toString()
 
-                // token을 sharedPreference에 저장
-                GloabalApplication.prefs.setString("accessToken", accessToken)
-                GloabalApplication.prefs.setString("refreshToken", refreshToken)
+                Log.d("login - success", response.code().toString())
+                var code  = response.code()
 
-                println("pref get 확인")
-                println(GloabalApplication.prefs.getString("accessToken", ""))
-                println(GloabalApplication.prefs.getString("accessToken", ""))
+                if(code == 401) {
+                    // 로그인에 실패하는 경우
+                    Toast.makeText(this@LoginActivity, "아이디 및 비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
+                    binding.btnErrorId.visibility = View.VISIBLE
+                    binding.btnErrorPassword.visibility = View.VISIBLE
+                } else {
+                    // 로그인에 성공하는 경우
+                    Log.d("login ", "success")
+                    // 발급된 토큰 기기 내부에 저장
+                    var accessToken = response.body()?.accessToken.toString()
+                    var refreshToken = response.body()?.accessToken.toString()
 
+                    GloabalApplication.prefs.setString("accessToken", accessToken)
+                    GloabalApplication.prefs.setString("refreshToken", refreshToken)
 
-                binding.btnErrorId.visibility = View.GONE
-                binding.btnErrorPassword.visibility = View.GONE
+                    Log.d("login - accessToken", accessToken)
+                    Log.d("login-refreshToken", refreshToken)
 
-                // 메인 화면으로 이동
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                    // 에러 아이콘 숨기기
+                    binding.btnErrorId.visibility = View.GONE
+                    binding.btnErrorPassword.visibility = View.GONE
+
+                    // 메인 페이지으로 이동
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
         })
     }

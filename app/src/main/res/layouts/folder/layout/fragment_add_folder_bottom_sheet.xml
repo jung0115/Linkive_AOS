@@ -145,6 +145,7 @@
                 android:layout_marginRight="19dp"
                 android:background="@drawable/selector_eye"
                 android:button="@null"
+                android:checked="true"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -180,6 +181,7 @@
                 android:layout_marginRight="19dp"
                 android:background="@drawable/selector_eye"
                 android:button="@null"
+                android:checked="true"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.appcompat.widget.LinearLayoutCompat

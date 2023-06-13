@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.Toast
+import com.dwgu.linkive.Folder.FolderApi.ReadFoldersList
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentLinkInFolderMenuBottomSheetBinding
 import com.dwgu.linkive.databinding.FragmentSelectFolderCoverBinding
@@ -19,7 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SelectFolderCoverFragment : BottomSheetDialogFragment() {
+class SelectFolderCoverFragment(private val folder: ReadFoldersList.ReadFoldersResponse) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentSelectFolderCoverBinding? = null
     private val binding get() = _binding!!
@@ -53,7 +54,7 @@ class SelectFolderCoverFragment : BottomSheetDialogFragment() {
 
         // 취소 버튼
         binding.btnCancel.setOnClickListener {
-            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment()
+            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment(folder)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }

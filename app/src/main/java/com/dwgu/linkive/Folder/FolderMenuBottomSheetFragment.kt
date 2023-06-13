@@ -2,13 +2,9 @@ package com.dwgu.linkive.Folder
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.dwgu.linkive.R
-import com.dwgu.linkive.databinding.FragmentFolderBinding
 import com.dwgu.linkive.databinding.FragmentFolderMenuBottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -19,6 +15,15 @@ class FolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentFolderMenuBottomSheetBinding? = null
     private val binding get() = _binding!!
+
+    // 폴더리스트 불러오는 리스너
+    private lateinit var setFolderListListener: SetFolderListListener
+
+    // 폴더 리스트 리스너 초기화
+    fun setListener(listener: SetFolderListListener) {
+        setFolderListListener = listener
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +53,15 @@ class FolderMenuBottomSheetFragment : BottomSheetDialogFragment() {
         // 추가하기 버튼 클릭 시 추가 바텀 시트
         binding.layoutAddFolder.setOnClickListener {
             val bottomSheetFragment = AddFolderBottomSheetFragment()
+            bottomSheetFragment.setListener(setFolderListListener)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }
 
         // 삭제하기 버튼 클릭 시 삭제 바텀 시트
         binding.layoutRemoveFolder.setOnClickListener {
-            val bottomSheetFragment = RemoveFolderBottomSheetFragment()
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+            // FolderFragment로 돌아가서 삭제 모드 실행
+            setFolderListListener.setRemove()
             dismiss()
         }
 
