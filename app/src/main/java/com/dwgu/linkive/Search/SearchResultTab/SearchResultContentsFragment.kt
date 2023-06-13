@@ -8,9 +8,15 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.getSourceForLink
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.getThumbnailUrl
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.setlinkItemForms
+import com.dwgu.linkive.LinkMemoApi.ViewLinkMemo.ViewLinkMemo
 import com.dwgu.linkive.LinkView.LinkViewFragment
 import com.dwgu.linkive.R
 import com.dwgu.linkive.Search.SearchResultRecycler.SearchResultAdapter
+import com.dwgu.linkive.SearchApi.SearchRequest
+import com.dwgu.linkive.SearchApi.apiSearch
 import com.dwgu.linkive.databinding.FragmentSearchResultContentsBinding
 
 // 검색 결과 - 본문
@@ -45,9 +51,13 @@ class SearchResultContentsFragment : Fragment() {
         // recyclerview 세팅
         initRecycler()
 
-        // 테스트 데이터
-        addSearchResultContentsItem(LinkListItem(1, "제목입니다", "검색", null, "twitter", mutableListOf("link", "place"), ""))
-        addSearchResultContentsItem(LinkListItem(1, "테스트 검색제목", "검색", null, null, null, ""))
+        // api에서 검색 결과 데이터 받아오기
+        apiSearch(
+            SearchRequest(searchWord!!, "content"),
+            setSearchResult = {
+                setSearchResult(it)
+            }
+        )
     }
 
     // recyclerview 세팅
@@ -74,6 +84,25 @@ class SearchResultContentsFragment : Fragment() {
             add(searchResultContentsItem)
         }
         searchResultContentsAdapter.notifyDataSetChanged()
+    }
+
+    // 검색 결과 세팅
+    private fun setSearchResult(searchResult: MutableList<ViewLinkMemo>?) {
+        if(searchResult != null) {
+            for (result in searchResult) {
+                addSearchResultContentsItem(
+                    LinkListItem(
+                        memoNum = result.memo_num,
+                        linkTitle = result.title,
+                        folderName = result.folder_name,
+                        thumbnailImage = getThumbnailUrl(result.content!!.arr),
+                        linkItemSource = getSourceForLink(result.link),
+                        linkItemForms = setlinkItemForms(result.content.arr),
+                        created_date = result.date_created
+                    )
+                )
+            }
+        }
     }
 
     // 링크 세부 페이지 열기

@@ -77,7 +77,8 @@ suspend fun GetInfoForUrl(url: String): LinkListData? {
                     }
 
                     // 이미지 url - ogMap.get("image").toString()
-                    var thumbnailImage = ogMap.get("image").toString()
+                    var thumbnailImage: String? = ogMap.get("image").toString()
+                    if(thumbnailImage == "null") thumbnailImage = null
 
                     // 내용 - ogMap.get("description").toString()
 

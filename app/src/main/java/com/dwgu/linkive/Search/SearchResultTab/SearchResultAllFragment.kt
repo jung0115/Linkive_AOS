@@ -1,20 +1,21 @@
 package com.dwgu.linkive.Search.SearchResultTab
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListAdapter
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListItem
-import com.dwgu.linkive.LinkView.LinkViewFragment
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.getSourceForLink
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.getThumbnailUrl
+import com.dwgu.linkive.LinkMemoApi.CreateLinkMemo.setlinkItemForms
 import com.dwgu.linkive.R
-import com.dwgu.linkive.Search.SearchFragment
 import com.dwgu.linkive.Search.SearchResultRecycler.SearchResultAdapter
+import com.dwgu.linkive.SearchApi.SearchAllData
+import com.dwgu.linkive.SearchApi.SearchRequest
+import com.dwgu.linkive.SearchApi.apiSearchAll
 import com.dwgu.linkive.databinding.FragmentSearchResultAllBinding
 
 // 검색 결과 - 전체
@@ -49,13 +50,13 @@ class SearchResultAllFragment : Fragment() {
         // recyclerview 세팅
         initRecycler()
 
-        // 테스트 데이터
-        addSearchResultAllItem(LinkListItem(1, "검색 테스트", "폴더1",
-            "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
-            "instagram", mutableListOf("text", "image"), ""))
-        addSearchResultAllItem(LinkListItem(1, "제목입니다", "검색", null, "twitter", mutableListOf("link", "place"), ""))
-        addSearchResultAllItem(LinkListItem(1, "제목입니다2", "폴더검색", null, "naver_blog", mutableListOf("link", "place"), ""))
-        addSearchResultAllItem(LinkListItem(1, "테스트 검색제목", "검색", null, null, null, ""))
+        // api에서 검색 결과 데이터 받아오기
+        apiSearchAll(
+            SearchRequest(searchWord!!, null),
+            setSearchResult = {
+                setSearchResult(it)
+            }
+        )
     }
 
     // recyclerview 세팅
@@ -82,6 +83,57 @@ class SearchResultAllFragment : Fragment() {
             add(searchResultAllItem)
         }
         searchResultAllAdapter.notifyDataSetChanged()
+    }
+
+    // 검색 결과 세팅
+    private fun setSearchResult(searchResult: SearchAllData?) {
+        if(searchResult != null) {
+            if(searchResult.title != null) {
+                for (result in searchResult.title) {
+                    addSearchResultAllItem(
+                        LinkListItem(
+                            memoNum = result.memo_num,
+                            linkTitle = result.title,
+                            folderName = result.folder_name,
+                            thumbnailImage = getThumbnailUrl(result.content!!.arr),
+                            linkItemSource = getSourceForLink(result.link),
+                            linkItemForms = setlinkItemForms(result.content.arr),
+                            created_date = result.date_created
+                        )
+                    )
+                }
+            }
+            if(searchResult.folder != null) {
+                for (result in searchResult.folder) {
+                    addSearchResultAllItem(
+                        LinkListItem(
+                            memoNum = result.memo_num,
+                            linkTitle = result.title,
+                            folderName = result.folder_name,
+                            thumbnailImage = getThumbnailUrl(result.content!!.arr),
+                            linkItemSource = getSourceForLink(result.link),
+                            linkItemForms = setlinkItemForms(result.content.arr),
+                            created_date = result.date_created
+                        )
+                    )
+                }
+            }
+            if(searchResult.content != null) {
+                for (result in searchResult.content) {
+                    addSearchResultAllItem(
+                        LinkListItem(
+                            memoNum = result.memo_num,
+                            linkTitle = result.title,
+                            folderName = result.folder_name,
+                            thumbnailImage = getThumbnailUrl(result.content!!.arr),
+                            linkItemSource = getSourceForLink(result.link),
+                            linkItemForms = setlinkItemForms(result.content.arr),
+                            created_date = result.date_created
+                        )
+                    )
+                }
+            }
+        }
     }
 
     // 링크 세부 페이지 열기

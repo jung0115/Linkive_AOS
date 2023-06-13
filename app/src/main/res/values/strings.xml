@@ -126,6 +126,11 @@
     <string name="add_checkbox">할 일을 입력하세요.</string>
     <string name="notice_not_save">저장하지 않고 나가면 변경사항을 잃게 됩니다.\n페이지를 벗어나시겠습니까?</string>
     <string name="notice_delete_edit_item">선택한 아이템을 삭제하시겠습니까?</string>
+    <string name="toast_edit_done">변경한 내용이 저장되었습니다.</string>
+    <string name="search_place_keyword">장소 검색 키워드를 입력하세요.</string>
+    <string name="search_link_url">URL를 입력해주세요.</string>
+    <string name="limit_contents">메모 아이템은 50개까지만 사용 가능합니다.</string>
+    <string name="not_null_title">제목을 입력해주세요.</string>
     <string name="option_text">글 관리</string>
     <string name="option_image">이미지 관리</string>
     <string name="option_place">주소 관리</string>

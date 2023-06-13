@@ -44,14 +44,6 @@ class SearchResultPlaceFragment : Fragment() {
 
         // recyclerview 세팅
         initRecycler()
-
-        // 테스트 데이터
-        addSearchResultPlaceItem(LinkListItem(1, "검색 테스트", "폴더1",
-            "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
-            "instagram", mutableListOf("text", "image"), ""))
-        addSearchResultPlaceItem(LinkListItem(1, "제목입니다", "검색", null, "twitter", mutableListOf("link", "place"), ""))
-        addSearchResultPlaceItem(LinkListItem(1, "제목입니다2", "폴더검색", null, "naver_blog", mutableListOf("link", "place"), ""))
-        addSearchResultPlaceItem(LinkListItem(1, "테스트 검색제목", "검색", null, null, null, ""))
     }
 
     // recyclerview 세팅

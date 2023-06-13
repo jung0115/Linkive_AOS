@@ -10,6 +10,7 @@ interface KakaoMapService {
     @GET("v2/local/search/keyword.json")
     fun getKakaoAddress(
         @Header("Authorization") apiKey: String,
-        @Query("query") keyword: String
+        @Query("query") keyword: String, // 검색 키워드
+        @Query("size") size: Int = 3     // 검색 결과 갯수
     ): Call<KakaoMapData>
 }

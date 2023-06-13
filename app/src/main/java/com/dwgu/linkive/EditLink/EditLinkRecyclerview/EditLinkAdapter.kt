@@ -3,6 +3,8 @@ package com.dwgu.linkive.EditLink.EditLinkRecyclerview
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Paint
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +46,8 @@ class EditLinkAdapter (
         val dragItem: EditLinkItem = items[from]
         items.removeAt(from)      // 드래그 되고 있는 아이템 제거
         items.add(to, dragItem)   // 드래그 끝나는 지점에 추가
+        items[from].position = to - 1
+        items[to].position = from - 1
         notifyItemMoved(from, to)
     }
 
@@ -99,27 +103,27 @@ class EditLinkAdapter (
         when (holder) {
             // 이미지
             is ImageHolder -> {
-                holder.bind(items[position] as EditLinkImageItem, position)
+                holder.bind(items[position] as EditLinkImageItem)
             }
             // 글
             is TextHolder -> {
-                holder.bind(items[position] as EditLinkTextItem, position)
+                holder.bind(items[position] as EditLinkTextItem)
             }
             // 주소(장소)
             is PlaceHolder -> {
-                holder.bind(items[position] as EditLinkPlaceItem, position)
+                holder.bind(items[position] as EditLinkPlaceItem)
             }
             // 링크
             is LinkHolder -> {
-                holder.bind(items[position] as EditLinkLinkItem, position)
+                holder.bind(items[position] as EditLinkLinkItem)
             }
             // 코드
             is CodeHolder -> {
-                holder.bind(items[position] as EditLinkCodeItem, position)
+                holder.bind(items[position] as EditLinkCodeItem)
             }
             // 할 일(체크박스)
             is CheckboxHolder -> {
-                holder.bind(items[position] as EditLinkCheckboxItem, position)
+                holder.bind(items[position] as EditLinkCheckboxItem)
             }
         }
     }
@@ -167,7 +171,7 @@ class EditLinkAdapter (
 
     // 이미지
     inner class ImageHolder(private val binding: ItemEditLinkImageBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkImageItem, position: Int) {
+        fun bind(item: EditLinkImageItem) {
             // 이미지가 입력된 경우 - 이전에 선택된 이미지
             if(item.editLinkImage != null) {
                 // 이미지 url로 이미지 로드
@@ -199,20 +203,20 @@ class EditLinkAdapter (
             // 옵션 버튼 눌렀을 때
             binding.btnOptionEditLinkImage.setOnClickListener {
                 // 이미지 아이템 옵션 BottomSheet 열기
-                onClickItemOption(mutableListOf("image", position.toString()))
+                onClickItemOption(mutableListOf("image", item.position.toString()))
             }
 
             // 이미지 추가 버튼 눌렀을 때
             binding.btnInputEditLinkImage.setOnClickListener {
                 // 갤러리 열기
-                onClickSelectImage(position)
+                onClickSelectImage(item.position)
             }
         }
     }
 
     // 글
     inner class TextHolder(private val binding: ItemEditLinkTextBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkTextItem, position: Int) {
+        fun bind(item: EditLinkTextItem) {
             // 글 내용이 입력된 경우
             if(item.editLinkText != null) {
                 // 글 내용 세팅
@@ -226,21 +230,34 @@ class EditLinkAdapter (
             // 옵션 버튼 눌렀을 때
             binding.btnOptionEditLinkText.setOnClickListener {
                 // 글 아이템 옵션 BottomSheet 열기
-                onClickItemOption(mutableListOf("text", position.toString()))
+                onClickItemOption(mutableListOf("text", item.position.toString()))
             }
+
+            // 텍스트 입력
+            binding.edittextEditLinkText.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    item.editLinkText = binding.edittextEditLinkText.text.toString()
+                }
+            })
         }
     }
 
     // 주소(장소)
     inner class PlaceHolder(private val binding: ItemEditLinkPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkPlaceItem, position: Int) {
+        fun bind(item: EditLinkPlaceItem) {
             // 주소가 입력된 경우
             if(item.editLinkPlace1 != null) {
                 // 주소 입력
                 // 도로명 주소
                 binding.textEditLinkPlace1View.text = item.editLinkPlace1
                 // 지번 주소
-                binding.textEditLinkPlace1View.text = "지번: " + item.editLinkPlace2
+                binding.textEditLinkPlace2View.text = "지번: " + item.editLinkPlace2
 
                 // Edit 모드 가리고, View 모드 보여주기
                 binding.relativelayoutEditLinkPlace.visibility = View.GONE
@@ -251,7 +268,7 @@ class EditLinkAdapter (
                 // 도로명 주소
                 binding.textEditLinkPlace1View.text = null
                 // 지번 주소
-                binding.textEditLinkPlace1View.text = null
+                binding.textEditLinkPlace2View.text = null
 
                 // Edit 모드 보여주고, View 모드 가리기
                 binding.relativelayoutEditLinkPlace.visibility = View.VISIBLE
@@ -261,16 +278,20 @@ class EditLinkAdapter (
             // 옵션 버튼 선택 시
             binding.btnOptionEditLinkPlace.setOnClickListener {
                 // 주소 아이템 옵션 BottomSheet 열기
-                onClickItemOption(mutableListOf("place", position.toString()))
+                onClickItemOption(mutableListOf("place", item.position.toString()))
             }
 
             // 주소 입력 버튼 선택 시
+            binding.btnInputEditLinkPlace.setOnClickListener {
+                // 주소 검색 BottomSheet 열기
+                onClickItemOption(mutableListOf("place_search", item.position.toString()))
+            }
         }
     }
 
     // 링크
     inner class LinkHolder(private val binding: ItemEditLinkLinkBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkLinkItem, position: Int) {
+        fun bind(item: EditLinkLinkItem) {
             // 링크가 입력된 경우
             if(item.editLinkLinkTitle != null) {
                 // 링크 제목
@@ -299,20 +320,20 @@ class EditLinkAdapter (
             // 옵션 버튼 선택 시
             binding.btnOptionEditLinkLink.setOnClickListener {
                 // 링크 아이템 옵션 BottomSheet 열기
-                onClickItemOption(mutableListOf("link", position.toString()))
+                onClickItemOption(mutableListOf("link", item.position.toString()))
             }
 
             // 링크 추가 버튼 (=url 입력 버튼) 선택 시
             binding.btnInputEditLinkLink.setOnClickListener {
                 // 링크 url 입력 BottomSheet 열기
-                onClickItemOption(mutableListOf("link_url", position.toString()))
+                onClickItemOption(mutableListOf("link_url", item.position.toString()))
             }
         }
     }
 
     // 코드
     inner class CodeHolder(private val binding: ItemEditLinkCodeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkCodeItem, position: Int) {
+        fun bind(item: EditLinkCodeItem) {
             // 코드 내용이 입력된 경우
             if(item.editLinkCode != null) {
                 // 코드 내용
@@ -327,14 +348,27 @@ class EditLinkAdapter (
             // 옵션 버튼 선택 시
             binding.btnOptionEditLinkCode.setOnClickListener {
                 // 코드 아이템 옵션 BottomSheet 열기
-                onClickItemOption(mutableListOf("code", position.toString()))
+                onClickItemOption(mutableListOf("code", item.position.toString()))
             }
+
+            // 코드 입력 시
+            binding.edittextEditLinkCode.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    item.editLinkCode = binding.edittextEditLinkCode.text.toString()
+                }
+            })
         }
     }
 
     // 할 일(체크박스)
     inner class CheckboxHolder(private val binding: ItemEditLinkCheckboxBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: EditLinkCheckboxItem, position: Int) {
+        fun bind(item: EditLinkCheckboxItem) {
             // 할 일 내용이 입력된 경우
             if(item.editLinkCheckboxText != null) {
                 // 할 일 내용
@@ -391,8 +425,21 @@ class EditLinkAdapter (
             // 옵션 버튼 선택
             binding.btnOptionEditLinkCheckbox.setOnClickListener {
                 // 할 일 아이템 옵션 BottomSheet 열기
-                onClickItemOption(mutableListOf("checkbox", position.toString()))
+                onClickItemOption(mutableListOf("checkbox", item.position.toString()))
             }
+
+            // 할 일 입력 시
+            binding.edittextEditLinkCheckbox.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    item.editLinkCheckboxText = binding.edittextEditLinkCheckbox.text.toString()
+                }
+            })
         }
     }
 }

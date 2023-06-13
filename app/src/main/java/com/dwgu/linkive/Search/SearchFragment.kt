@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager.widget.ViewPager
 import com.dwgu.linkive.Search.SearchResultTab.*
+import com.dwgu.linkive.SearchApi.setTokenForSearch
 import com.dwgu.linkive.databinding.FragmentSearchBinding
 import com.google.android.material.tabs.TabLayout
 
@@ -52,6 +53,9 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 토큰 세팅
+        setTokenForSearch()
 
         // 검색어 입력 확인
         binding.edittextSearchInput.setOnKeyListener { _, keyCode, event ->
