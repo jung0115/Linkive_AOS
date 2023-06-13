@@ -211,7 +211,11 @@
         android:id="@+id/showPageSheetFragment"
         android:name="com.dwgu.linkive.MyPage.ShowPageSheetFragment"
         android:label="ShowPageSheetFragment"
-        tools:layout="@layout/fragment_show_page_sheet"/>
+        tools:layout="@layout/fragment_show_page_sheet">
+        <action
+            android:id="@+id/action_showPageSheetFragment_to_menu_mypage"
+            app:destination="@id/menu_mypage" />
+    </fragment>
     <fragment
         android:id="@+id/pageSheetFragment"
         android:name="com.dwgu.linkive.MyPage.PageSheetFragment"

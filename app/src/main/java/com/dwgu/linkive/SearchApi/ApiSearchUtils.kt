@@ -35,9 +35,12 @@ fun apiSearch(
                 Log.d(TAG, "검색 결과 -------------------------------------------")
                 Log.d(TAG, "onResponse: ${response.body().toString()}")
 
-                var body: SearchResponse = response.body()!!
+                var body: SearchResponse? = response.body()
+                var result: MutableList<ViewLinkMemo>? = null
+                if(body != null)
+                    result = body.searchResult
                 // 검색 결과 전달
-                setSearchResult(body.searchResult)
+                setSearchResult(result)
             }
 
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {

@@ -87,8 +87,13 @@ fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
                 Log.d(TAG, "폴더 전체 조회 결과 -------------------------------------------")
                 Log.d(TAG, "onResponse: ${response.body().toString()}")
 
+                val body: GetAllFolderData? = response.body()
+                var allFolders: MutableList<FolderList>? = null
+                if(body != null)
+                    allFolders = body.folderList
+
                 // 조회한 폴더 데이터 보내기
-                setFolders(response.body()!!.folderList)
+                setFolders(allFolders)
             }
 
             override fun onFailure(call: Call<GetAllFolderData>, t: Throwable) {
@@ -108,30 +113,34 @@ fun apiViewLinkMemo(addLinkList: (linkListItem: LinkListItem) -> Unit) {
                 Log.d(TAG, "링크 메모 조회 결과 -------------------------------------------")
                 Log.d(TAG, "onResponse: ${response.body().toString()}")
 
-                // 조회한 링크 리스트를 화면에 보여주기 위해 데이터 추가
-                val linkLists: MutableList<ViewLinkMemo> = response.body()!!.memoList
-                for(linkItem in linkLists) {
-                    var linkItemSource: String? = getSourceForLink(linkItem.link)
+                if(response.body() != null) {
+                    // 조회한 링크 리스트를 화면에 보여주기 위해 데이터 추가
+                    val linkLists: MutableList<ViewLinkMemo> = response.body()!!.memoList
+                    for (linkItem in linkLists) {
+                        var linkItemSource: String? = getSourceForLink(linkItem.link)
 
-                    // 썸네일 이미지
-                    var thumbnailUrl: String? = null
-                    // 포함되는 아이템
-                    var itemForms: MutableSet<String>? = null
+                        // 썸네일 이미지
+                        var thumbnailUrl: String? = null
+                        // 포함되는 아이템
+                        var itemForms: MutableSet<String>? = null
 
-                    if(linkItem.content != null) {
-                        thumbnailUrl = getThumbnailUrl(linkItem.content.arr)
-                        itemForms = setlinkItemForms(linkItem.content.arr)
+                        if (linkItem.content != null) {
+                            thumbnailUrl = getThumbnailUrl(linkItem.content.arr)
+                            itemForms = setlinkItemForms(linkItem.content.arr)
+                        }
+
+                        addLinkList(
+                            LinkListItem(
+                                memoNum = linkItem.memo_num,
+                                linkTitle = linkItem.title,
+                                folderName = linkItem.folder_name,
+                                thumbnailImage = thumbnailUrl,
+                                linkItemSource = linkItemSource,
+                                linkItemForms = itemForms,
+                                created_date = linkItem.date_created
+                            )
+                        )
                     }
-
-                    addLinkList(
-                        LinkListItem(
-                            memoNum = linkItem.memo_num,
-                            linkTitle = linkItem.title,
-                            folderName = linkItem.folder_name,
-                            thumbnailImage = thumbnailUrl,
-                            linkItemSource = linkItemSource,
-                            linkItemForms = itemForms,
-                            created_date = linkItem.date_created))
                 }
             }
 
