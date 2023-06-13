@@ -25,7 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFoldersResponse) : BottomSheetDialogFragment() {
+class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFoldersResponse, private val mode: String) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentRemoveFolderBottomSheetBinding? = null
     private val binding get() = _binding!!
@@ -36,6 +36,7 @@ class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFo
 
     // 폴더리스트 interface
     private lateinit var setFolderListListener: SetFolderListListener
+
 
     // 토큰 값
     private lateinit var accessToken: String
@@ -75,17 +76,28 @@ class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFo
         binding.textviewFolderName.text = folder.name
 
 
+
         // 취소 버튼
         binding.btnCancel.setOnClickListener {
-            val bottomSheetFragment = FolderMenuBottomSheetFragment()
-
-            // 삭제 모드에서 view 모드로 전환
-            setFolderListListener.setFolderList()
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
-            dismiss()
+            // out : 폴더 외부 메뉴에서 호출당함
+            if (mode == "out"){
+                Log.d("폴더 외부에서 취소 버튼 누르기", "시도")
+                val bottomSheetFragment = FolderMenuBottomSheetFragment()
+                // 삭제 모드에서 view 모드로 전환
+                setFolderListListener.setFolderList()
+                bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+                Log.d("폴더 외부에서 취소 버튼 누르기", "성공")
+                dismiss()
+            }
+            // in : 폴더 내부 메뉴에서 호출당함
+            else if (mode == "in"){
+                Log.d("폴더 내부에서 취소 버튼 누르기", "시도")
+                dismiss()
+            }
         }
         // 확인 버튼
         binding.btnConfirm.setOnClickListener {
+
 
             val removeFolderRequest = RemoveFolderRequest(folder.folderNum)
 
@@ -100,9 +112,22 @@ class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFo
                     Log.d("폴더 삭제 성공", response.body().toString())
                     // 삭제 모드에서 view 모드로 전환
                     // 해당 폴더가 삭제된 상태로 List 초기화
-                    setFolderListListener.setFolderList()
+                    if (mode == "out"){
+                        setFolderListListener.setFolderList()
+                    }
+
                 }
             })
+
+            if (mode == "in"){
+                Log.d("폴더 내부에서 확인 버튼 누르기", "시도")
+                parentFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, FolderFragment())
+                    .commit()
+                Log.d("폴더 내부에서 확인 버튼 누르기", "성공")
+            }
+
             dismiss()
         }
 

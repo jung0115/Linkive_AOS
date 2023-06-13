@@ -57,8 +57,8 @@ class LinkInFolderMenuBottomSheetFragment(private val folder: ReadFoldersList.Re
         // 삭제하기 버튼 클릭 시
         binding.layoutRemoveFolder.setOnClickListener {
 
-            // 여기 파라미터 수정해야 함!!!
-            val bottomSheetFragment = RemoveFolderBottomSheetFragment(folder)
+            // 모드 : in -> 폴더 내부에서 remove를 호출
+            val bottomSheetFragment = RemoveFolderBottomSheetFragment(folder, "in")
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }

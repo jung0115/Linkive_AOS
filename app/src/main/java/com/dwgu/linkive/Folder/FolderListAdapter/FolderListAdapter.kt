@@ -53,7 +53,15 @@ class FolderListAdapter(private val context: Context, private val List: ArrayLis
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {//view->viewholder로
 
         viewHolder.binding.textviewFolderName.text = List[position].name
-        viewHolder.binding.textviewCountLink.text = List[position].memoCount.toString()
+
+        if(List[position].memoCount == null){
+            viewHolder.binding.textviewCountLink.text = "0"
+        }
+        else {
+            viewHolder.binding.textviewCountLink.text = List[position].memoCount.toString()
+        }
+
+
 
         val thumbnailName = List[position].thumbnail.split(".")[0] // 확장자 제외한 파일 이름 추출
         val resourceId = context.resources.getIdentifier(thumbnailName, "drawable", context.packageName)
