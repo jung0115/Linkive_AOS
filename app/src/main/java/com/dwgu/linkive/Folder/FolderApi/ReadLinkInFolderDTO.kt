@@ -28,7 +28,7 @@ data class Memo(
     val content: Content,
 
     @SerializedName("date_created")
-    val dateCreated: Date,
+    val dateCreated: String,
 
     @SerializedName("folder_num")
     val folderNum: Int?,
@@ -38,15 +38,17 @@ data class Memo(
 data class Content(
     @SerializedName("pagesheet_num")
     val pagesheetNum: Int,
-
-    val arr: List<String>?
+    val arr: List<Item>
 )
 
-//data class Arr(
-//    val type: String,
-//
-//    val value: String,
-//
-//    @SerializedName("is_checked")
-//    val isChecked: String?
-//)
+data class Item(
+    val type: String,
+    val value: String,
+    @SerializedName("is_checked")
+    val isChecked: String? = null,
+    @SerializedName("road_address")
+    val roadAddress: String? = null,
+    @SerializedName("land_address")
+    val landAddress: String? = null,
+    val url: String? = null
+)

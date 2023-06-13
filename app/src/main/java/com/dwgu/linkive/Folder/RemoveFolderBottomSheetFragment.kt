@@ -98,6 +98,7 @@ class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFo
         // 확인 버튼
         binding.btnConfirm.setOnClickListener {
 
+
             val removeFolderRequest = RemoveFolderRequest(folder.folderNum)
 
             api.removeFolder(accessToken, refreshToken, removeFolderRequest).enqueue(object:
