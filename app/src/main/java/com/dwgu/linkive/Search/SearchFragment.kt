@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager.widget.ViewPager
 import com.dwgu.linkive.Search.SearchResultTab.*
+import com.dwgu.linkive.SearchApi.setTokenForSearch
 import com.dwgu.linkive.databinding.FragmentSearchBinding
 import com.google.android.material.tabs.TabLayout
 
@@ -17,7 +18,8 @@ import com.google.android.material.tabs.TabLayout
 class SearchFragment : Fragment() {
 
     // ViewBinding Setting
-    lateinit var binding: FragmentSearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     // viewPager
     lateinit var viewPagers: ViewPager
@@ -44,13 +46,16 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchBinding.inflate(layoutInflater)
+        _binding = FragmentSearchBinding.inflate(layoutInflater)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 토큰 세팅
+        setTokenForSearch()
 
         // 검색어 입력 확인
         binding.edittextSearchInput.setOnKeyListener { _, keyCode, event ->
@@ -120,5 +125,10 @@ class SearchFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

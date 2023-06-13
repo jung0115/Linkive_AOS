@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dwgu.linkive.Folder.FolderApi.ReadFoldersList
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentEditFolderPasswordBinding
 import com.dwgu.linkive.databinding.FragmentSettingFolderPasswordBinding
@@ -13,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SettingFolderPasswordFragment : BottomSheetDialogFragment() {
+class SettingFolderPasswordFragment(private val folder: ReadFoldersList.ReadFoldersResponse) : BottomSheetDialogFragment() {
 
     private var _binding: FragmentSettingFolderPasswordBinding? = null
     private val binding get() = _binding!!
@@ -37,7 +38,7 @@ class SettingFolderPasswordFragment : BottomSheetDialogFragment() {
 
         // 취소 버튼
         binding.btnCancel.setOnClickListener {
-            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment()
+            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment(folder)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }

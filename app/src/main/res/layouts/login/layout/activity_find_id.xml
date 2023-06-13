@@ -36,16 +36,32 @@
             android:weightSum="3"
             android:layout_marginBottom="10dp">
 
-            <EditText
-                android:id="@+id/input_id"
+            <FrameLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_weight="2"
-                android:background="@drawable/button_outline_purple_30dp"
-                android:hint="@string/email_hint"
-                android:paddingLeft="10dp"
-                android:textSize="15sp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginBottom="10dp">
+
+                <EditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/button_outline_purple_30dp"
+                    android:hint="@string/email_hint"
+                    android:paddingLeft="10dp"
+                    android:textSize="15sp"
+                    android:layout_marginRight="10dp"/>
+
+                <ImageView
+                    android:id="@+id/btn_error_email"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="right|center"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/ic_warning"
+                    />
+
+            </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_request_verify"

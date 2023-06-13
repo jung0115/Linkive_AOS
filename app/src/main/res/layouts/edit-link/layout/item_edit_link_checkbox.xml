@@ -27,6 +27,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="9dp"
         android:hint="@string/add_checkbox"
+        android:privateImeOptions="defaultInputmode=korean"
         android:textColorHint="@color/dark_gray"
         android:background="@android:color/transparent"
         android:textColor="@color/black"

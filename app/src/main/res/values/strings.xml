@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Linkive</string>
 
+    <!-- 메인 -->
+    <string name="toast_back_main_page">뒤로가기를 한 번 더 누르시면 앱이 종료됩니다.</string>
+
     <!-- Login -->
     <string name="id_hint">아이디를 입력해주세요.</string>
     <string name="password_hint">비밀번호를 입력해주세요.</string>
@@ -27,6 +30,9 @@
     <string name="kakaotalk_login">카카오로 로그인</string>
     <string name="naver_login">네이버로 로그인</string>
     <string name="google_login">구글로 로그인</string>
+    <string name="NAVER_CLIENT_ID">zC68uefjzaWg9If8Uupu</string>
+    <string name="NAVER_CLIENT_SECRET">mqBRym4ONK</string>
+    <string name="social_login_info_naver_client_name">네이버 아이디 로그인</string>
 
     <!-- Home -->
     <string name="home_title">홈</string>
@@ -120,6 +126,11 @@
     <string name="add_checkbox">할 일을 입력하세요.</string>
     <string name="notice_not_save">저장하지 않고 나가면 변경사항을 잃게 됩니다.\n페이지를 벗어나시겠습니까?</string>
     <string name="notice_delete_edit_item">선택한 아이템을 삭제하시겠습니까?</string>
+    <string name="toast_edit_done">변경한 내용이 저장되었습니다.</string>
+    <string name="search_place_keyword">장소 검색 키워드를 입력하세요.</string>
+    <string name="search_link_url">URL를 입력해주세요.</string>
+    <string name="limit_contents">메모 아이템은 50개까지만 사용 가능합니다.</string>
+    <string name="not_null_title">제목을 입력해주세요.</string>
     <string name="option_text">글 관리</string>
     <string name="option_image">이미지 관리</string>
     <string name="option_place">주소 관리</string>
@@ -166,9 +177,7 @@
     <string name="folder_password_setting_hint">비밀번호를 입력해주세요.</string>
     <string name="folder_password_edit_now_hint">현재 비밀번호를 입력해주세요.</string>
     <string name="folder_password_edit_new_hint">변경할 비밀번호를 입력해주세요.</string>
+    <string name="check_folder_password">비밀번호 입력</string>
 
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

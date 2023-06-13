@@ -1,16 +1,17 @@
 package com.dwgu.linkive.Login
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
-import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import com.dwgu.linkive.Home.HomeFragment
+import com.dwgu.linkive.Api.ApiClient
+import com.dwgu.linkive.Login.loginService.LoginInterface
+import com.dwgu.linkive.Login.loginService.PreferenceUtil
+import com.dwgu.linkive.Login.loginService.login
+import com.dwgu.linkive.Login.loginService.loginTokens
 import com.dwgu.linkive.MainActivity
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.ActivityLoginBinding
@@ -25,6 +26,12 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.OAuthLoginCallback
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,9 +39,12 @@ class LoginActivity : AppCompatActivity() {
     private var mbinding: ActivityLoginBinding ?= null
     private val binding get() = mbinding!!
 
+    // ApiClient의 instance 불러오기
+    private val retrofit: Retrofit = ApiClient.getInstance()
+    // Retrofit의 interface 구현
+    private val api: LoginInterface = retrofit.create(LoginInterface::class.java)
+
     // 변수들
-    private var id = "11"
-    private var password = "12"
     lateinit var inputId: String
     lateinit var inputPassword: String
     private var vaildLogin = true
@@ -47,6 +57,10 @@ class LoginActivity : AppCompatActivity() {
     var googleSignInClient : GoogleSignInClient? = null
     var GOOGLE_LOGIN_CODE = 9001
 
+    // Naver Login
+//    val NAVER_CLIENT_ID = getString(R.string.NAVER_CLIENT_ID)
+//    val NAVER_CLIENT_SECRET = getString(R.string.NAVER_CLIENT_SECRET)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,15 +68,26 @@ class LoginActivity : AppCompatActivity() {
         mbinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 이미 로그인된 경우
+        if(GloabalApplication.prefs.getString("accessToken", "") != "" &&
+            GloabalApplication.prefs.getString("refreshToken", "") != "") {
+            // 메인 화면으로 이동
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         // Google Login
         auth = FirebaseAuth.getInstance()
 
+//        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestIdToken(R.string.default_web_client_id)
+//            .requestEmail()
+//            .build()
+//        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("getString(R.string.default_web_client_id)")
-            .requestEmail()
-            .build()
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+        // 네이버 SDK 초기화
+//        NaverIdLoginSDK.initialize(this, NAVER_CLIENT_ID, NAVER_CLIENT_SECRET,"LoginTest")
     }
 
     override fun onResume() {
@@ -97,32 +122,9 @@ class LoginActivity : AppCompatActivity() {
             inputId = binding.inputId.text.toString()
             inputPassword = binding.inputPassword.text.toString()
 
-            // 아이디, 비밀번호가 일치하는 경우
-            if (id == inputId && password == inputPassword){
-                Log.d("msg", "login success")
-                binding.btnErrorId.visibility = View.GONE
-                binding.btnErrorPassword.visibility = View.GONE
 
-                // 메인 화면으로 이동
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            } else {
-                // 일치하지 않는 경우
-                Log.d("msg", "login fail")
-                if(id != inputId) {
-                    // 아이디 불일치
-                    binding.btnErrorId.visibility = View.VISIBLE
-                } else if(password != inputPassword) {
-                    // 비밀번호 불일치
-                    binding.btnErrorPassword.visibility = View.VISIBLE
-                    binding.btnViewHide.visibility = View.GONE
-                } else if(id != inputId && password != inputPassword){
-                    // 둘 다 불일치
-                    binding.btnErrorId.visibility = View.VISIBLE
-                    binding.btnErrorPassword.visibility = View.VISIBLE
-                    binding.btnViewHide.visibility = View.GONE
-                }
-            }
+            // login api 호출
+            postLogin(inputId, inputPassword)
         }
 
         // 아이디/비밀번호 찾기 버튼 클릭 시, 해당 화면으로 이동
@@ -147,18 +149,6 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        // 로그인 버튼 클릭 시,
-        // 유효한 로그인이면, 메인 화면으로 이동
-        binding.btnLogin.setOnClickListener {
-            if(vaildLogin) {
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, "아이디나 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         // 소셜 로그인
         // 카카오 로그인
         binding.btnKakaoLogin.setOnClickListener {
@@ -179,14 +169,15 @@ class LoginActivity : AppCompatActivity() {
         // 네이버 로그인
         binding.btnNaverLogin.setOnClickListener {
             Log.d("msg", "naver login work")
+            naverLogin()
         }
         // 구글 로그인
         binding.btnGoogleLogin.setOnClickListener {
-            var signInIntent = googleSignInClient?.signInIntent
-            if (signInIntent != null) {
-                startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
-                Log.d("msg", "sign in intent null?")
-            }
+//            var signInIntent = googleSignInClient?.signInIntent
+//            if (signInIntent != null) {
+//                startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
+//                Log.d("msg", "sign in intent null?")
+//            }
         }
     }
 
@@ -254,6 +245,27 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // NaverLogin
+    private fun naverLogin() {
+        // oauthLoginCallback: OAuth 인증 요청이 종료됐음을 알려주는 콜백 인터페이스
+        val oauthLoginCallback = object : OAuthLoginCallback {
+            override fun onSuccess() {
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            }
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                Toast.makeText(this@LoginActivity, "errorCode: $errorCode, errorDesc: $errorDescription", Toast.LENGTH_SHORT).show()
+            }
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
+            }
+        }
+
+        NaverIdLoginSDK.authenticate(this, oauthLoginCallback)
+    }
+    // Google Login
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == GOOGLE_LOGIN_CODE) {
@@ -293,6 +305,54 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "아이디나 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+
+    // Login api
+    private fun postLogin(id: String, password: String) {
+        var data = login(id, password)
+
+        api.postLogin(data).enqueue(object:Callback<loginTokens>{
+            override fun onFailure(call: Call<loginTokens>, t: Throwable) {
+                Log.d("login fail", t.toString())
+                if(id != inputId) {
+                    // 아이디 불일치
+                    binding.btnErrorId.visibility = View.VISIBLE
+                } else if(password != inputPassword) {
+                    // 비밀번호 불일치
+                    binding.btnErrorPassword.visibility = View.VISIBLE
+                    binding.btnViewHide.visibility = View.GONE
+                } else if((id != inputId) && (password != inputPassword)){
+                    // 둘 다 불일치
+                    binding.btnErrorId.visibility = View.VISIBLE
+                    binding.btnErrorPassword.visibility = View.VISIBLE
+                    binding.btnViewHide.visibility = View.GONE
+                }
+            }
+
+            override fun onResponse(call: Call<loginTokens>, response: Response<loginTokens>) {
+                Log.d("login success", "login success")
+                var accessToken = response.body()?.accessToken.toString()
+                var refreshToken = response.body()?.accessToken.toString()
+
+                // token을 sharedPreference에 저장
+                GloabalApplication.prefs.setString("accessToken", accessToken)
+                GloabalApplication.prefs.setString("refreshToken", refreshToken)
+
+                println("pref get 확인")
+                println(GloabalApplication.prefs.getString("accessToken", ""))
+                println(GloabalApplication.prefs.getString("accessToken", ""))
+
+
+                binding.btnErrorId.visibility = View.GONE
+                binding.btnErrorPassword.visibility = View.GONE
+
+                // 메인 화면으로 이동
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        })
     }
 
     override fun onDestroy() {

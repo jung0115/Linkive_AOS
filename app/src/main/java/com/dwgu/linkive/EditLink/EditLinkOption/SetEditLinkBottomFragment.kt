@@ -1,12 +1,10 @@
 package com.dwgu.linkive.EditLink.EditLinkOption
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +12,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.dwgu.linkive.Home.CreateLinkToUrl.GetInfoForUrl
 import com.dwgu.linkive.Home.HomeLinkListRecycler.LinkListData
+import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentSetEditLinkBottomBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 // 링크 편집 > 링크 item > URL로 링크 추가 Dialog
@@ -76,70 +74,46 @@ class SetEditLinkBottomFragment : BottomSheetDialogFragment() {
         // url 입력창에서 엔터
         binding.edittextInputUrl.setOnEditorActionListener{v, id, event ->
             if(id == EditorInfo.IME_ACTION_GO){
-                val linkUrl = binding.edittextInputUrl.text.toString()
-
-                // url을 입력하지 않은 경우
-                if(linkUrl == null || linkUrl.equals("")) {
-                    Toast.makeText(context, "URL을 입력해주세요.", Toast.LENGTH_SHORT).show()
-                }
-                // url을 입력한 경우
-                else {
-                    // 링크 url로 페이지 정보 가져오기: 제목, 썸네일 이미지, 출처 플랫폼 등
-                    var linkData: LinkListData? = null
-                    GlobalScope.launch(Dispatchers.IO) {
-                        linkData = GetInfoForUrl(linkUrl, null)
-
-                        if(linkData != null && linkData!!.linkTitle == "null") {
-                            linkData!!.linkUrl = linkUrl
-                            linkData!!.linkTitle = linkUrl.substring(0 until 20) + "..."
-                        }
-
-                        // MainThread가 아닌 다른 Thread에서는 UI 변경이 불가능하기 때문에 handler를 이용해서 변경
-                        val handler: Handler = object: Handler(Looper.getMainLooper()){
-                            override fun handleMessage(msg: Message) {
-                                // recyclerview에 값 전달해서 적용
-                                setLinkItemListener.setLinkItemListener(position!!.toInt(), linkData!!.linkTitle, linkData!!.linkUrl)
-                            }
-                        }
-                        handler.obtainMessage().sendToTarget()
-                    }
-
-                    dismiss() // BottomSheet 닫기
-                }
+                inputLinkUrl()
             }
             true
         }
 
         // 확인 버튼
         binding.btnConfirmToCreateLink.setOnClickListener {
-            val linkUrl = binding.edittextInputUrl.text.toString()
+            inputLinkUrl()
+        }
+    }
 
-            // url을 입력하지 않은 경우
-            if(linkUrl == null || linkUrl.equals("")) {
-                Toast.makeText(context, "URL을 입력해주세요.", Toast.LENGTH_SHORT).show()
-            }
-            // url을 입력한 경우
-            else {
-                // 링크 url로 페이지 정보 가져오기: 제목, 썸네일 이미지, 출처 플랫폼 등
-                GlobalScope.launch(Dispatchers.IO) {
-                    linkData = GetInfoForUrl(linkUrl, null)
+    // 링크 url 입력 시
+    private fun inputLinkUrl() {
+        val linkUrl = binding.edittextInputUrl.text.toString()
 
-                    if(linkData != null && linkData!!.linkTitle == "null") {
-                        linkData!!.linkUrl = linkUrl
-                        linkData!!.linkTitle = linkUrl.substring(0 until 20) + "..."
-                    }
+        // url을 입력하지 않은 경우
+        if(linkUrl == null || linkUrl.equals("")) {
+            Toast.makeText(context, getString(R.string.search_link_url), Toast.LENGTH_SHORT).show()
+        }
+        // url을 입력한 경우
+        else {
+            // 링크 url로 페이지 정보 가져오기: 제목, 썸네일 이미지, 출처 플랫폼 등
+            GlobalScope.launch(Dispatchers.IO) {
+                linkData = GetInfoForUrl(linkUrl)
 
-                    // MainThread가 아닌 다른 Thread에서는 UI 변경이 불가능하기 때문에 handler를 이용해서 변경
-                    val handler: Handler = object: Handler(Looper.getMainLooper()){
-                        override fun handleMessage(msg: Message) {
-                            // recyclerview에 값 전달해서 적용
-                            setLinkItemListener.setLinkItemListener(position!!.toInt(), linkData!!.linkTitle, linkData!!.linkUrl)
-                        }
-                    }
-                    handler.obtainMessage().sendToTarget()
+                if(linkData != null && linkData!!.linkTitle == "null") {
+                    linkData!!.linkUrl = linkUrl
+                    linkData!!.linkTitle = linkUrl.substring(0 until 20) + "..."
                 }
-                dismiss() // BottomSheet 닫기
+
+                // MainThread가 아닌 다른 Thread에서는 UI 변경이 불가능하기 때문에 handler를 이용해서 변경
+                val handler: Handler = object: Handler(Looper.getMainLooper()){
+                    override fun handleMessage(msg: Message) {
+                        // recyclerview에 값 전달해서 적용
+                        setLinkItemListener.setLinkItemListener(position!!.toInt(), linkData!!.linkTitle, linkData!!.linkUrl)
+                    }
+                }
+                handler.obtainMessage().sendToTarget()
             }
+            dismiss() // BottomSheet 닫기
         }
     }
 }

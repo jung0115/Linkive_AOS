@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MyPage.PageSheetActivity">
+    tools:context=".MyPage.PageSheetFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,6 +22,7 @@
             android:layout_marginBottom="20dp">
 
             <EditText
+                android:id="@+id/input_pagesheet_name"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/page_sheet_name_hint"
@@ -32,6 +33,7 @@
                 android:textSize="14sp"/>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_save"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="@string/save"
@@ -45,6 +47,7 @@
 
         <!-- 추가하는 아이템 -->
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_custom_pagesheet_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
@@ -64,6 +67,7 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/btn_add_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -72,6 +76,7 @@
             android:src="@drawable/ic_write"/>
 
         <ImageButton
+            android:id="@+id/btn_add_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -80,6 +85,7 @@
             android:src="@drawable/ic_photo_purple"/>
 
         <ImageButton
+            android:id="@+id/btn_add_link"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -88,6 +94,7 @@
             android:src="@drawable/ic_link"/>
 
         <ImageButton
+            android:id="@+id/btn_add_location"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -96,6 +103,7 @@
             android:src="@drawable/ic_place_purple"/>
 
         <ImageButton
+            android:id="@+id/btn_add_checkbox"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -104,6 +112,7 @@
             android:src="@drawable/ic_checkbox"/>
 
         <ImageButton
+            android:id="@+id/btn_add_code"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

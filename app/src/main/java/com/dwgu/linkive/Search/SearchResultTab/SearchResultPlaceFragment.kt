@@ -17,20 +17,21 @@ import com.dwgu.linkive.databinding.FragmentSearchResultPlaceBinding
 class SearchResultPlaceFragment : Fragment() {
 
     // ViewBinding Setting
-    lateinit var binding: FragmentSearchResultPlaceBinding
+    private var _binding: FragmentSearchResultPlaceBinding? = null
+    private val binding get() = _binding!!
 
     // 검색어
     private var searchWord: String? = null
 
     // 검색 결과 리스트 recyclerview adapter
-    private var searchResultPlaceItems = mutableListOf<LinkListItem>()
+    private var searchResultPlaceItems: MutableList<LinkListItem>? = null
     private lateinit var searchResultPlaceAdapter: SearchResultAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchResultPlaceBinding.inflate(layoutInflater)
+        _binding = FragmentSearchResultPlaceBinding.inflate(layoutInflater)
 
         return binding.root
     }
@@ -43,18 +44,11 @@ class SearchResultPlaceFragment : Fragment() {
 
         // recyclerview 세팅
         initRecycler()
-
-        // 테스트 데이터
-        addSearchResultPlaceItem(LinkListItem("검색 테스트", "폴더1",
-            "https:/img.youtube.com/vi/UYGud3qJeFI/default.jpg",
-            "instagram", mutableListOf("text", "image")))
-        addSearchResultPlaceItem(LinkListItem("제목입니다", "검색", null, "twitter", mutableListOf("link", "place")))
-        addSearchResultPlaceItem(LinkListItem("제목입니다2", "폴더검색", null, "naver_blog", mutableListOf("link", "place")))
-        addSearchResultPlaceItem(LinkListItem("테스트 검색제목", "검색", null, null, null))
     }
 
     // recyclerview 세팅
     private fun initRecycler() {
+        searchResultPlaceItems = mutableListOf<LinkListItem>()
         // 링크 리스트 recyclerview 세팅
         searchResultPlaceAdapter = SearchResultAdapter(
             requireContext(),
@@ -67,12 +61,12 @@ class SearchResultPlaceFragment : Fragment() {
         binding.recyclerviewSearchResultPlace.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerviewSearchResultPlace.adapter = searchResultPlaceAdapter
         binding.recyclerviewSearchResultPlace.isNestedScrollingEnabled = false // 스크롤을 매끄럽게 해줌
-        searchResultPlaceAdapter.items = searchResultPlaceItems
+        searchResultPlaceAdapter.items = searchResultPlaceItems!!
     }
 
     // 검색 결과 리스트 아이템 추가
     private fun addSearchResultPlaceItem(searchResultPlaceItem: LinkListItem) {
-        searchResultPlaceItems.apply {
+        searchResultPlaceItems!!.apply {
             add(searchResultPlaceItem)
         }
         searchResultPlaceAdapter.notifyDataSetChanged()
@@ -81,5 +75,10 @@ class SearchResultPlaceFragment : Fragment() {
     // 링크 세부 페이지 열기
     private fun openLinkViewPage() {
         view?.findNavController()?.navigate(R.id.action_menu_search_to_linkViewFragment)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

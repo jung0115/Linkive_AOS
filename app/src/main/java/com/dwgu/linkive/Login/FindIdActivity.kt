@@ -19,6 +19,11 @@ class FindIdActivity : AppCompatActivity() {
     private var min = 3
     private var sec = 60
 
+    // flag
+    var vaildEmail = true
+    var vaildNumer = true
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFindIdBinding.inflate(layoutInflater)
@@ -30,6 +35,9 @@ class FindIdActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        // 이메일 에러 이미지 숨기기
+        binding.btnErrorEmail.visibility = View.GONE
 
         setOnClickListener()
     }
@@ -51,17 +59,29 @@ class FindIdActivity : AppCompatActivity() {
             // 이메일 전송 메시지 보내기
             binding.textSend.visibility = View.VISIBLE
 
-            // 3분 타이머 시작
-            startTimer()
+            // 존재하는 이메일이면, 해당 이메일로 아이디 전송
+            if(vaildEmail) {
+                // 서버 통신
+                // 3분 타이머 시작
+                startTimer()
+            } else {
+                binding.btnErrorEmail.visibility = View.VISIBLE
+            }
         }
 
         // 인증하기
         binding.btnVerify.setOnClickListener {
             // 서버에 확인
-            // 알림
-            Toast.makeText(this, "인증되었습니다.", Toast.LENGTH_SHORT).show()
+            if(vaildNumer) {
+                // 유효한 인증번호인 경우
+                // 알림
+                Toast.makeText(this, "인증되었습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                // 인증번호를 다시 확인해주세요.
+                Toast.makeText(this, "인증번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show()
+            }
 
-            // 존재하는 이메일이면, 해당 이메일로 아이디 전송
+
         }
 
     }
@@ -86,6 +106,10 @@ class FindIdActivity : AppCompatActivity() {
                 }
                 sec--
             }
+        }
+        if(binding.inputVerifyNumber.text == null) {
+            binding.btnErrorEmail.visibility = View.VISIBLE
+            Toast.makeText(this, "입력 시간이 초과되었습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
 }
