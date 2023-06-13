@@ -87,8 +87,13 @@ fun apiGetAllFolders(setFolders: (folders: MutableList<FolderList>?) -> Unit) {
                 Log.d(TAG, "폴더 전체 조회 결과 -------------------------------------------")
                 Log.d(TAG, "onResponse: ${response.body().toString()}")
 
+                val body: GetAllFolderData? = response.body()
+                var allFolders: MutableList<FolderList>? = null
+                if(body != null)
+                    allFolders = body.folderList
+
                 // 조회한 폴더 데이터 보내기
-                setFolders(response.body()!!.folderList)
+                setFolders(allFolders)
             }
 
             override fun onFailure(call: Call<GetAllFolderData>, t: Throwable) {
