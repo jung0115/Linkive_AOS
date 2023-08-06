@@ -15,9 +15,17 @@
 <p align="left">웹과 모바일 앱에서 자유롭게 사용 가능한 링크 저장 메모 플랫폼<br/><br/></p>
   
 ## 🖥️ Github Repo
-**Android** https://github.com/jung0115/Linkive_AOS  
-**Web Frontend** https://github.com/charBS0701/linkive-react  
-**Server** https://github.com/AFloppy/Linkive_Backend  
+<a href="https://github.com/jung0115/Linkive_AOS">
+  <img src="https://github.com/jung0115/Linkive_AOS/assets/76805879/4b453a52-b50a-4cf3-80f1-1af8904a5f26" width="150px"/>
+</a>
+<a href="https://github.com/charBS0701/linkive-react">
+  <img src="https://github.com/jung0115/Linkive_AOS/assets/76805879/cc794102-2e97-44e2-80f1-4447998aeaaf" width="150px"/>
+</a>
+<a href="https://github.com/AFloppy/Linkive_Backend">
+  <img src="https://github.com/jung0115/Linkive_AOS/assets/76805879/18de544c-d8b0-4730-a052-5b916e506c01" width="150px"/>
+</a>
+
+<br/>
 <br/>
   
 ## 🧑‍💻 Member of 도원결의
