@@ -79,6 +79,7 @@ class CheckFolderPasswordFragment(private val folder: ReadFoldersList.ReadFolder
         binding.edittextFolderPassword.onFocusChangeListener = View.OnFocusChangeListener{ view, hasFocus ->
             if (hasFocus) {
                 binding.icPasswordError.visibility = View.GONE
+                binding.edittextFolderPassword.text = null
             }
         }
 
@@ -103,7 +104,7 @@ class CheckFolderPasswordFragment(private val folder: ReadFoldersList.ReadFolder
                     if (response.body() != null){
                         parentFragmentManager
                             .beginTransaction()
-                            .add(R.id.nav_host_fragment, LinkInFolderFragment(folder, password))
+                            .replace(R.id.nav_host_fragment, LinkInFolderFragment(folder, password))
                             .commit()
                         // dialog 닫기
                         dismiss()

@@ -8,6 +8,9 @@ data class EditFolderRequest (
 
     val name: String,
 
+    @SerializedName("prev_password")
+    val prevPassword: String?,
+
     val password: String?,
 
     val thumbnail: String

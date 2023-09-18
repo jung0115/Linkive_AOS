@@ -52,8 +52,10 @@ class FolderListAdapter(private val context: Context, private val List: ArrayLis
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {//view->viewholder로
 
+        //폴더 이름
         viewHolder.binding.textviewFolderName.text = List[position].name
 
+        //메모 개수
         if(List[position].memoCount == null){
             viewHolder.binding.textviewCountLink.text = "0"
         }
@@ -62,19 +64,25 @@ class FolderListAdapter(private val context: Context, private val List: ArrayLis
         }
 
 
-
+        //썸네일
         val thumbnailName = List[position].thumbnail.split(".")[0] // 확장자 제외한 파일 이름 추출
         val resourceId = context.resources.getIdentifier(thumbnailName, "drawable", context.packageName)
-        Log.d("bgcolor", resourceId.toString())
+
         if (resourceId != 0) {
             viewHolder.binding.imgFolderCover.setImageResource(resourceId)
         } else {
             // 리소스를 찾을 수 없는 경우 대체 작업 수행
         }
         viewHolder.binding.imgFolderCover.setImageResource(resourceId)
+
+        // 폴더가 잠금일 경우
         if (List[position].isLocked){
             viewHolder.binding.imgLockFolder.visibility = View.VISIBLE
         }
+        else {
+            viewHolder.binding.imgLockFolder.visibility = View.GONE
+        }
+
 
         if (mode == 1){
             viewHolder.binding.imgRemoveFolder.visibility = View.VISIBLE

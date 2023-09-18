@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dwgu.linkive.Api.ApiClient
@@ -123,6 +125,7 @@ class LinkInFolderFragment(private val folder: ReadFoldersList.ReadFoldersRespon
 
         }
 
+        //  이름 편집 완료 버튼 클릭
         binding.btnDoneEditFolderName.setOnClickListener {
 
             val editName : String = binding.edittextFolderName.text.toString()
@@ -132,8 +135,9 @@ class LinkInFolderFragment(private val folder: ReadFoldersList.ReadFoldersRespon
                 Toast.makeText(requireContext(), R.string.folder_name_hint, Toast.LENGTH_SHORT).show()
             }
             else {
-                val request = EditFolderRequest(folder.folderNum, editName, password, folder.thumbnail)
+                val request = EditFolderRequest(folder.folderNum, editName, password, password, folder.thumbnail)
 
+                Log.d("이름 편집", request.toString())
                 // 이름 편집 api
                 api.editFolder(accessToken, refreshToken, request).enqueue(object : Callback<String>{
                     override fun onResponse(call: Call<String>, response: Response<String>) {
@@ -164,9 +168,16 @@ class LinkInFolderFragment(private val folder: ReadFoldersList.ReadFoldersRespon
         //메뉴 버튼 클릭 시
         binding.btnMenu.setOnClickListener {
             // 폴더 관리 바텀 시트
-            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment(folder)
+            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment(folder, password)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
         }
+
+
+//        // back 버튼 클릭 시 이전 프래그먼트로 이동
+//        parentFragmentManager.commit {
+//            parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+//            hide(LinkInFolderFragment())
+//        }
     }
     fun getThumbnailUrl(arr: List<Item>?): String? {
         if(arr != null) {

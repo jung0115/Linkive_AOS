@@ -79,8 +79,9 @@ class FolderFragment : Fragment(), SetFolderListListener {
                     else {
                         parentFragmentManager
                             .beginTransaction()
-                            .add(R.id.nav_host_fragment, LinkInFolderFragment(folder))
+                            .replace(R.id.nav_host_fragment, LinkInFolderFragment(folder))
                             .commit()
+
                     }
 
 
@@ -98,6 +99,8 @@ class FolderFragment : Fragment(), SetFolderListListener {
     }
 
     private fun loadData() {
+        Log.d("folder", "load data")
+
         // 폴더 리스트 가져오기 api 연동
         api.readFolder(accessToken, refreshToken)
             .enqueue(object: Callback<ReadFoldersList> {
@@ -109,6 +112,7 @@ class FolderFragment : Fragment(), SetFolderListListener {
                         ?.body()
                         ?.let { it ->
                             folderOfList = it.folderList as ArrayList<ReadFoldersList.ReadFoldersResponse>
+                            folderOfList.sortBy { it.folderNum }
                             setFolderAdapter(folderOfList)
                         }
                 }
@@ -164,6 +168,10 @@ class FolderFragment : Fragment(), SetFolderListListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadData()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

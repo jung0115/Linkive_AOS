@@ -82,10 +82,10 @@ class RemoveFolderBottomSheetFragment(private val folder: ReadFoldersList.ReadFo
             // out : 폴더 외부 메뉴에서 호출당함
             if (mode == "out"){
                 Log.d("폴더 외부에서 취소 버튼 누르기", "시도")
-                val bottomSheetFragment = FolderMenuBottomSheetFragment()
+//                val bottomSheetFragment = FolderMenuBottomSheetFragment()
                 // 삭제 모드에서 view 모드로 전환
                 setFolderListListener.setFolderList()
-                bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+//                bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
                 Log.d("폴더 외부에서 취소 버튼 누르기", "성공")
                 dismiss()
             }

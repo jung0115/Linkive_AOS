@@ -14,8 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class LinkInFolderMenuBottomSheetFragment(private val folder: ReadFoldersList.ReadFoldersResponse) : BottomSheetDialogFragment() {
-
+class LinkInFolderMenuBottomSheetFragment(private val folder: ReadFoldersList.ReadFoldersResponse, private val password: String? = null) : BottomSheetDialogFragment() {
     private var _binding: FragmentLinkInFolderMenuBottomSheetBinding? = null
     private val binding get() = _binding!!
 
@@ -35,22 +34,32 @@ class LinkInFolderMenuBottomSheetFragment(private val folder: ReadFoldersList.Re
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 폴더 썸네일 변경 버튼 클릭 시 추가 바텀 시트
+
+        // 폴더 썸네일 변경 버튼 클릭 시
         binding.layoutFolderThumbnailEdit.setOnClickListener {
-            val bottomSheetFragment = EditFolderCoverFragment(folder)
+            val bottomSheetFragment = EditFolderCoverFragment(folder, password)
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }
 
         // 폴더 비밀번호 설정 / 변경 버튼 클릭 시
         // 기존 비밀번호가 없다면 비밀번호 설정으로
+        // 비밀번호가 있다면 비밀번호 변경으로
         binding.layoutFolderPasswordSettingEdit.setOnClickListener {
-            val bottomSheetFragment = EditFolderPasswordFragment(folder)
+
+            lateinit var bottomSheetFragment: BottomSheetDialogFragment
+            if (password != null){
+                bottomSheetFragment = EditFolderPasswordFragment(folder, password)
+            }
+            else{
+                bottomSheetFragment = SettingFolderPasswordFragment(folder)
+            }
+
             bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }
 
-        // 비밀번호가 있다면 비밀번호 변경으로
+
 
 
 

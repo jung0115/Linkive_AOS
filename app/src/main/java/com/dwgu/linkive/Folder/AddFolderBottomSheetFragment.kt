@@ -124,8 +124,8 @@ class AddFolderBottomSheetFragment : BottomSheetDialogFragment() {
 
         // 취소 버튼
         binding.btnCancel.setOnClickListener {
-            val bottomSheetFragment = FolderMenuBottomSheetFragment()
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+//            val bottomSheetFragment = FolderMenuBottomSheetFragment()
+//            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }
         // 확인 버튼

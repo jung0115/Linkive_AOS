@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.Toast
+import com.dwgu.linkive.Api.ApiClient
+import com.dwgu.linkive.Folder.FolderApi.FolderInterface
 import com.dwgu.linkive.Folder.FolderApi.ReadFoldersList
 import com.dwgu.linkive.R
 import com.dwgu.linkive.databinding.FragmentLinkInFolderMenuBottomSheetBinding
@@ -24,6 +26,14 @@ class SelectFolderCoverFragment(private val folder: ReadFoldersList.ReadFoldersR
 
     private var _binding: FragmentSelectFolderCoverBinding? = null
     private val binding get() = _binding!!
+
+    // 토큰 값
+    private lateinit var accessToken: String
+    private lateinit var refreshToken: String
+
+    //retrofit builder 선언
+    private val retrofit = ApiClient.getInstance()
+    private val api: FolderInterface = retrofit.create(FolderInterface::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +64,8 @@ class SelectFolderCoverFragment(private val folder: ReadFoldersList.ReadFoldersR
 
         // 취소 버튼
         binding.btnCancel.setOnClickListener {
-            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment(folder)
-            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+//            val bottomSheetFragment = LinkInFolderMenuBottomSheetFragment(folder)
+//            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
             dismiss()
         }
         // 확인 버튼
