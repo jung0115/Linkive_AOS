@@ -1,9 +1,12 @@
 <img alt="Linkive logo" src="https://github.com/jung0115/Linkive_AOS/assets/76805879/72fd9aeb-5547-4bd7-8143-c0a647feee43" />
 
 ## Linkive AOS
-<p align="left">✅ 나만의 링크 저장 플랫폼<br/>
-🏢 경상대학교 컴퓨터과학부 종합설계PBL<br/>
-📅 개발기간: 2023.01 ~ 2023.06<br/><br/></p>
+```
+✅ 나만의 링크 저장 플랫폼
+🏢 경상대학교 컴퓨터과학부 종합설계PBL
+📅 개발기간: 2023.01 ~ 2023.06
+🌟 제3회 경남 소프트웨어 경진대회 입선
+```
 
 <div align="center">
 <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fjung0115%2FLinkive_AOS&count_bg=%23A49CFF&title_bg=%236368E3&icon=androidstudio.svg&icon_color=%23E7E7E7&title=Linkive+AOS&edge_flat=false"/></a>
